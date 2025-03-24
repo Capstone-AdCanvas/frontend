@@ -1,0 +1,19 @@
+services:
+  frontend:
+    build:
+      context: .
+    ports:
+      - "5173:5173"
+    container_name: adcanvas_frontend
+    networks:
+      - adcanvas_network
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: ["npm", "run", "dev"]
+
+networks:     
+  adcanvas_network:
+    driver: bridge
