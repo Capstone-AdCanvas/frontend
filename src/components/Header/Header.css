@@ -1,0 +1,27 @@
+/* frontend/src/components/Header.css */
+.header {
+    width: 1920px;
+    height: 90px;
+    background-color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo img {
+    height: 70px;
+  }
+  
+  .site-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .profile img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+  }
+  
