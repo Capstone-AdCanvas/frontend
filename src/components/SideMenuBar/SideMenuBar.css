@@ -1,29 +1,28 @@
-/* frontend/src/components/SideMenubar.css */
 .sideMenubar {
-    width: 363px;
-    height: 990px;
-    background-color: #eaeaea;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .sideMenubar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sideMenubar li {
-    margin-bottom: 15px;
-  }
-  
-  .sideMenubar a {
-    text-decoration: none;
-    color: #333;
-    font-size: 18px;
-  }
-  
-  .sideMenubar a:hover {
-    color: #007bff;
-  }
-  
+  width: 363px;
+  height: 954px; /* 원하는 높이 */
+  background-color: #0D1116;
+  padding: 20px;
+  box-sizing: border-box;
+  /* margin-top 제거 */
+}
+
+.sideMenubar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sideMenubar li {
+  margin-bottom: 15px;
+}
+
+.sideMenubar a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+.sideMenubar a:hover {
+  color: #007bff;
+}

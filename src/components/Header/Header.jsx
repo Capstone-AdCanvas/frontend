@@ -2,16 +2,20 @@
 import React from "react";
 import "./Header.css";
 
+import logoImg from "../../assets/react.svg";
+import profileImg from "../../assets/프로필이미지.png";
+
 function Header() {
   return (
     <header className="header">
-      <div className="logo">
-        <img src="/images/logo.png" alt="Logo" />
+      <div className="brand">
+        <div className="logo">
+          <img src={logoImg} alt="Logo" />
+        </div>
+        <div className="siteName">AdCanvas</div>
       </div>
-      <div className="site-name">사이트 이름</div>
       <div className="profile">
-        {/* 사용자 프로필 이미지 경로를 실제 경로로 변경 */}
-        <img src="/images/profile.png" alt="Profile" />
+        <img src={profileImg} alt="Profile" />
       </div>
     </header>
   );
