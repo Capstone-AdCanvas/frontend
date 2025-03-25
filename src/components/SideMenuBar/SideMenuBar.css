@@ -1,10 +1,11 @@
+/* 기존 스타일 유지 */
 .sideMenubar {
   width: 363px;
-  height: 954px; /* 원하는 높이 */
+  height: 954px;
   background-color: #0D1116;
   padding: 20px;
   box-sizing: border-box;
-  /* margin-top 제거 */
+  margin-left: 10px;
 }
 
 .sideMenubar ul {
@@ -13,16 +14,94 @@
   margin: 0;
 }
 
-.sideMenubar li {
+.menu-item {
+  width: 333px;
+  height: 73px;
   margin-bottom: 15px;
 }
 
-.sideMenubar a {
+.menu-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
   text-decoration: none;
-  color: #333;
-  font-size: 18px;
+  color: white;
+  padding: 0 10px;
+  box-sizing: border-box;
+  transition: background 0.3s;
+  position: relative;
 }
 
-.sideMenubar a:hover {
-  color: #007bff;
+/* 호버 및 활성 시 배경 효과 유지 */
+.menu-link:hover,
+.menu-link.active {
+  background-color: #191D21;
+  border-radius: 15px;
+}
+
+/* 메뉴 인디케이터를 절대 위치로 배치하여 독립적으로 이동 */
+.menu-indicator {
+  position: absolute;
+  left: -20px;       /* 부모 기준 왼쪽으로 이동 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 52px;
+  background-color: transparent;
+  border-radius: 15px;
+  transition: background 0.3s;
+}
+
+/* 호버/활성 시 gradient 적용 */
+.menu-link:hover .menu-indicator,
+.menu-link.active .menu-indicator {
+  background: var(--gradient-text);
+}
+
+/* 아이콘 스타일 */
+.menu-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+/* 기본 텍스트 스타일 */
+.menu-text {
+  font-size: 24px;
+  line-height: 73px;
+  margin-left: 3px;
+  color: white; /* 기본은 흰색 */
+  transition: background 0.3s;
+}
+
+/* 호버/활성 시 텍스트에 gradient 적용 */
+.menu-link:hover .menu-text,
+.menu-link.active .menu-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Separator 스타일 */
+.separator {
+  margin: 15px 0;
+  text-align: left;
+  margin-left: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.separator-line {
+  width: 305px;
+  height: 1px;
+  background-color: #24282C;
+  margin: 0 auto;
+}
+
+.separator-text {
+  font-size: 14px;
+  color: #727485;
+  margin-top: 8px;
+  /* Separator 텍스트는 기본 색상 유지 */
 }
