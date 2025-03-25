@@ -1,4 +1,3 @@
-// frontend/src/components/SideMenubar.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./SideMenubar.css";
@@ -8,6 +7,7 @@ import communityImg from "../../assets/Community.png";
 import aiImagesImg from "../../assets/AI Images.png";
 import aiVideosImg from "../../assets/AI Videos.png";
 import myCreativesImg from "../../assets/My Creatives.png";
+import profileImg from "../../assets/Profile.png";
 
 function SideMenubar() {
   return (
@@ -75,6 +75,17 @@ function SideMenubar() {
             <div className="menu-indicator"></div>
             <img src={myCreativesImg} alt="My Creatives" className="menu-icon" />
             <span className="menu-text">My Creatives</span>
+          </NavLink>
+        </li>
+
+        <li className="menu-item">
+          <NavLink 
+            to="/profile" 
+            className={({ isActive }) => "menu-link" + (isActive ? " active" : "")}
+          >
+            <div className="menu-indicator"></div>
+            <img src={profileImg} alt="profileImg" className="menu-icon" />
+            <span className="menu-text">Profile</span>
           </NavLink>
         </li>
       </ul>

@@ -1,4 +1,3 @@
-// frontend/src/pages/AiVideos.jsx
 import React from "react";
 
 function AiVideos() {

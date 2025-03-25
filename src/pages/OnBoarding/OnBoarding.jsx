@@ -1,4 +1,3 @@
-// frontend/src/pages/OnBoarding/OnBoarding.jsx
 import React from "react";
 
 const OnBoarding = () => {

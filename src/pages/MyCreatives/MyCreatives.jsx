@@ -1,4 +1,3 @@
-// frontend/src/pages/MyCreatives.jsx
 import React from "react";
 
 function MyCreatives() {

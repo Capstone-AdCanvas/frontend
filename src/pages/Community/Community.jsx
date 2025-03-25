@@ -1,4 +1,3 @@
-// frontend/src/pages/Community.jsx
 import React from "react";
 
 function Community() {

@@ -1,4 +1,3 @@
-// frontend/src/pages/AiImages.jsx
 import React from "react";
 
 function AiImages() {
