@@ -7,10 +7,9 @@ import AiImages from "./pages/AiImages/AiImages.jsx";
 import AiVideos from "./pages/AiVideos/AiVideos.jsx";
 import MyCreatives from "./pages/MyCreatives/MyCreatives.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
-import onBoarding from "./pages/OnBoarding/OnBoarding.jsx"; // 추후 활용
 import Header from "./components/Header/Header.jsx";
 import SideMenubar from "./components/SideMenubar/SideMenubar.jsx";
-
+// ㅎㅇ용
 import "./App.css";
 
 function App() {
