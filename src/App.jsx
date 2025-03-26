@@ -1,34 +1,38 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Home from "./pages/Home/Home.jsx";
+import Community from "./pages/Community/Community.jsx";
+import AiImages from "./pages/AiImages/AiImages.jsx";
+import AiVideos from "./pages/AiVideos/AiVideos.jsx";
+import MyCreatives from "./pages/MyCreatives/MyCreatives.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import onBoarding from "./pages/OnBoarding/OnBoarding.jsx"; // 추후 활용
+import Header from "./components/Header/Header.jsx";
+import SideMenubar from "./components/SideMenubar/SideMenubar.jsx";
+
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="app">
+        <Header />
+        <div className="main">
+          <SideMenubar />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/Community" element={<Community />} />
+              <Route path="/AiImages" element={<AiImages />} />
+              <Route path="/AiVideos" element={<AiVideos />} />
+              <Route path="/MyCreatives" element={<MyCreatives />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React!!!</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Router>
   );
 }
 
