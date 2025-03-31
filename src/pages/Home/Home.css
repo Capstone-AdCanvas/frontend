@@ -1,0 +1,94 @@
+.homePage {
+    /* 전체 페이지 스타일이 필요하면 여기에 작성 */
+  }
+  
+  .homePage__title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 100px;
+    gap: 0px; 
+  }
+  
+  .home-subtitle {
+    color: #FFF;
+    font-size: 40px;
+    font-family: "Apple Lisung", sans-serif;
+    margin: 0;
+  }
+  
+  .home-title {
+    font-size: 80px;
+    font-weight: bold;
+    font-family: "Apple SD Gothic Neo", sans-serif;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+  }
+  
+  .AI_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 250px;
+    margin-top: 20px;
+  }
+
+  .AI_buttons__image {
+    position: relative;
+    padding: 1px; /* border 역할 */
+    border-radius: 17px;
+    background: var(--gradient-text);
+    width: fit-content;
+    height: fit-content;
+  }
+  
+  .AI_buttons__image--inner {
+    width: 530px;
+    height: 186px;
+    background: #0d1116;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding: 17px;
+    gap: 0px;
+  }
+
+  .AI_buttons h3 {
+    color: white;
+    font-size: 22px;
+    font-family: "Apple SD Gothic Neo", sans-serif;
+    margin: 0;
+  }
+
+  .AI_buttons p {
+    color: white;
+    font-size: 14px;
+    font-family: "PingFangSC", sans-serif;;
+  }
+
+  
+  .AI_buttons__video {
+    width: 530px;
+    height: 186px;
+    background: linear-gradient(
+      90deg,
+      rgba(82, 255, 186, 0.04) 0%,
+      rgba(82, 255, 186, 0.04) 9%,
+      rgba(35, 250, 236, 0.04) 47%,
+      rgba(0, 170, 255, 0.04) 88%
+    );
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding: 17px;
+    gap: 0px;
+    border: 1px solid rgba(27, 229, 236, 0.12);
+}
