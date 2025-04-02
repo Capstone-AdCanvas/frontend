@@ -1,5 +1,6 @@
 import React from "react";
 import "./Home.css";
+import Box from "../../components/Box/Box";
 
 function Home() {
   return (
@@ -21,8 +22,74 @@ function Home() {
           </button>
       </div>
       <div className="others">
-        
+        <div className="others__image">
+          <p>Images from Others</p>
+          <div className="others__box">
+            <Box
+              width={310}
+              height={204}
+              title="Image 1"
+              userImage="https://via.placeholder.com/50"
+              username="User1"
+            />  
+            <Box
+              width={310}
+              height={204}
+              title="Image 2"
+              userImage="https://via.placeholder.com/50"
+              username="User2"
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Image 3"
+              userImage="https://via.placeholder.com/50"
+              username="User3"
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Image 4"
+              userImage="https://via.placeholder.com/50"
+              username="User4"
+            />
+            </div>
+          </div>
+        <div className="others__video">
+          <p>Videos from others</p>
+          <div className="others__box">
+            <Box
+              width={310}
+              height={204}
+              title="Video 1"
+              userImage="https://via.placeholder.com/50"
+              username="User1"
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Video 2"
+              userImage="https://via.placeholder.com/50"
+              username="User2"
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Video 3"
+              userImage="https://via.placeholder.com/50"
+              username="User3"
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Video 4"
+              userImage="https://via.placeholder.com/50"
+              username="User4"
+            />
+            </div>
+          </div>
       </div>
+
     </div>
   );
 }
