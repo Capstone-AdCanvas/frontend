@@ -1,14 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import editIcon from "../../assets/profile-edit-btn-1.png";
 import profileIcon from "../../assets/profile-icon.png";
 import instaIcon from "../../assets/profile-insta-icon.png";
 
 function Profile() {
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate("/profile/edit");
+  };
+
   return (
     <section className="profilePage">
       <h2 className="profilePage__title">My Profile</h2>
       <article className="profilePage__content">
-        <div className="profilePage__content__btn">
+        <div className="profilePage__content__btn" onClick={handleEditClick}>
           <img src={editIcon} alt="프로필 수정 버튼" />
         </div>
         <div className="profilePage__content__image">
@@ -23,10 +30,10 @@ function Profile() {
           </div>
           <div className="profilePage__content__info__btn">
             <button className="profilePage__content__info__btn__image">
-              Image 3
+              Image <span>3</span>
             </button>
             <button className="profilePage__content__info__btn__video">
-              Video 2
+              Video <span>2</span>
             </button>
           </div>
           <div className="profilePage__content__info__insta">

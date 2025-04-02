@@ -1,0 +1,140 @@
+.profileEditPage {
+  width: 100%;
+  height: 100%;
+}
+.profileEditPage__title {
+  color: white;
+  font-weight: bold;
+  font-size: 45px;
+  margin-left: 150px;
+}
+.profileEditPage__content {
+  width: 1170px;
+  height: 500px;
+  background-color: #1f2429;
+  border-radius: 15px;
+  position: relative;
+  margin-left: 150px;
+  margin-top: 50px;
+}
+.profileEditPage__content__btn {
+  width: 50px;
+  height: 50px;
+  border: 3px solid white;
+  border-radius: 9999px;
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.profileEditPage__content__btn:hover {
+  transform: scale(1.05);
+}
+.profileEditPage__content__image {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  top: 125px;
+  left: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 32.5px;
+}
+.profileEditPage__content__imageEdit {
+  width: 250px;
+  height: 60px;
+  position: absolute;
+  left: 150px;
+  bottom: 32.5px;
+  font-size: 25px;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  background: var(--gradient-text);
+  padding: 0px;
+  transition: all 0.5s;
+}
+.profileEditPage__content__imageEdit:hover {
+  transform: scale(1.05);
+}
+.profileEditPage__content__info {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 125px;
+  left: 560px;
+}
+.profileEditPage__content__info__name {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+}
+.profileEditPage__content__info__name__nickname {
+  margin-left: 30px;
+}
+.profileEditPage__content__info__btn {
+  margin-top: 30px;
+}
+.profileEditPage__content__info__btn__image {
+  border: none;
+  background-color: #727485;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+  padding: 10px 20px;
+}
+.profileEditPage__content__info__btn__image:hover {
+  transform: scale(1.05);
+}
+.profileEditPage__content__info__btn__image > span {
+  color: #93a5cf;
+}
+.profileEditPage__content__info__btn__video {
+  border: none;
+  background-color: #727485;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+  margin-left: 10px;
+  padding: 10px 20px;
+}
+.profileEditPage__content__info__btn__video:hover {
+  transform: scale(1.05);
+}
+.profileEditPage__content__info__btn__video > span {
+  color: #f794a4;
+}
+.profileEditPage__content__info__insta {
+  margin-top: 85px;
+  display: flex;
+  align-items: center;
+}
+.profileEditPage__content__info__insta > img {
+  width: 40px;
+  height: 40px;
+}
+.profileEditPage__content__info__insta__login {
+  width: 210px;
+  height: 40px;
+  margin-left: 20px;
+  padding: 0px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(90deg, #fe5196 0%, #98305a 100%);
+  transition: all 0.5s;
+}
+.profileEditPage__content__info__insta__login:hover {
+  transform: scale(1.05);
+}
