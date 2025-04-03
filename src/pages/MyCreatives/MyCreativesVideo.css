@@ -1,16 +1,17 @@
-.mycreativesPage {
+.mycreativesVideoPage {
   width: 100%;
   height: 100%;
 }
-.mycreativesPage__header {
+.mycreativesVideoPage__header {
   display: flex;
+  width: 100%;
 }
 
-.mycreativesPage__image {
-  width: 380px;
-  height: 360px;
-  margin-left: 250px;
-  margin-top: 250px;
+.mycreativesVideoPage__image {
+  width: 480px;
+  height: 185px;
+  margin-left: 130px;
+  margin-top: 50px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,40 +27,40 @@
   cursor: pointer;
   transition: all 0.5s;
 }
-.mycreativesPage__image:hover {
+.mycreativesVideoPage__image:hover {
   transform: scale(1.05);
 }
-.mycreativesPage__image > h2 {
-  font-size: 25px;
+.mycreativesVideoPage__image > h2 {
+  font-size: 22px;
   font-weight: bold;
   background: linear-gradient(90deg, #93a5cf 0%, #e4efe9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text; /* 일부 브라우저 호환용 */
   color: transparent; /* 혹시 모를 fallback */
-  padding: 0px 0px 0px 25px;
+  padding: 0px 0px 0px 15px;
 }
-.mycreativesPage__image > span {
-  font-size: 18px;
+.mycreativesVideoPage__image > span {
+  font-size: 16px;
   color: #e5e6ee;
-  padding: 0px 0px 0px 25px;
+  padding: 0px 0px 0px 15px;
 }
-.mycreativesPage__image__image {
-  width: 380px;
-  height: 230px;
+.mycreativesVideoPage__image__image {
+  width: 260px;
+  height: 185px;
   position: absolute;
-  bottom: 0px;
+  right: 0px;
 }
-.mycreativesPage__image__image > img {
+.mycreativesVideoPage__image__image > img {
   width: 100%;
   height: 100%;
 }
 
-.mycreativesPage__video {
-  width: 380px;
-  height: 360px;
-  margin-left: 250px;
-  margin-top: 250px;
+.mycreativesVideoPage__video {
+  width: 480px;
+  height: 185px;
+  margin-left: 300px;
+  margin-top: 50px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -70,36 +71,34 @@
     rgba(35, 250, 236, 0.04) 47%,
     rgba(0, 170, 255, 0.04) 88%
   );
-  border: 1px solid rgba(147, 165, 207, 0.12);
+  border: 3px solid rgba(147, 165, 207);
   border-radius: 15px;
   cursor: pointer;
   transition: all 0.5s;
-}
-.mycreativesPage__video:hover {
   transform: scale(1.05);
 }
-.mycreativesPage__video > h2 {
-  font-size: 25px;
+.mycreativesVideoPage__video > h2 {
+  font-size: 22px;
   font-weight: bold;
   background: linear-gradient(90deg, #93a5cf 0%, #e4efe9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text; /* 일부 브라우저 호환용 */
   color: transparent; /* 혹시 모를 fallback */
-  padding: 0px 0px 0px 25px;
+  padding: 0px 0px 0px 15px;
 }
-.mycreativesPage__video > span {
-  font-size: 18px;
+.mycreativesVideoPage__video > span {
+  font-size: 16px;
   color: #e5e6ee;
-  padding: 0px 0px 0px 25px;
+  padding: 0px 0px 0px 15px;
 }
-.mycreativesPage__video__image {
-  width: 380px;
-  height: 230px;
+.mycreativesVideoPage__video__image {
+  width: 260px;
+  height: 185px;
   position: absolute;
-  bottom: 0px;
+  right: 0px;
 }
-.mycreativesPage__video__image > img {
+.mycreativesVideoPage__video__image > img {
   width: 100%;
   height: 100%;
 }
