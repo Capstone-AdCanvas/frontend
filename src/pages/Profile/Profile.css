@@ -34,6 +34,7 @@
 .profilePage__content__btn:hover {
   transform: scale(1.05);
 }
+
 .profilePage__content__image {
   width: 250px;
   height: 250px;
@@ -108,4 +109,37 @@
   color: #e5e6ee;
   font-size: 28px;
   text-decoration: underline;
+}
+
+.profilePage__content__imageEdit {
+  width: 250px;
+  height: 60px;
+  position: absolute;
+  left: 150px;
+  bottom: 32.5px;
+  font-size: 25px;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  background: var(--gradient-text);
+  padding: 0px;
+  transition: all 0.5s;
+}
+.profilePage__content__imageEdit:hover {
+  transform: scale(1.05);
+}
+.profilePage__content__info__insta__login {
+  width: 210px;
+  height: 40px;
+  margin-left: 20px;
+  padding: 0px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(90deg, #fe5196 0%, #98305a 100%);
+  transition: all 0.5s;
+}
+.profilePage__content__info__insta__login:hover {
+  transform: scale(1.05);
 }
