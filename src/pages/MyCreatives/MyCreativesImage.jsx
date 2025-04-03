@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyCreativesImage.css";
 import imagePicture from "../../assets/mycreatives-image-1.png";
 import videoPicture from "../../assets/mycreatives-video-1.png";
+import Box from "../../components/Box/Box";
 
 const MyCreativesImage = () => {
   const navigate = useNavigate();
@@ -32,9 +33,54 @@ const MyCreativesImage = () => {
           </div>
         </article>
       </header>
-      <div>
-        <span></span>
-        <div></div>
+      <div className="mycreativesImagePage__contents">
+        <span className="mycreativesImagePage__contents__title">
+          My AI Images
+        </span>
+        <div className="mycreativesImagePage__contents__image">
+          <Box
+            width={400}
+            height={215}
+            title="Image 1"
+            userImage="https://via.placeholder.com/50"
+            username="User1"
+          />
+          <Box
+            width={400}
+            height={215}
+            title="Image 2"
+            userImage="https://via.placeholder.com/50"
+            username="User2"
+          />
+          <Box
+            width={400}
+            height={215}
+            title="Image 3"
+            userImage="https://via.placeholder.com/50"
+            username="User3"
+          />
+          <Box
+            width={400}
+            height={215}
+            title="Image 4"
+            userImage="https://via.placeholder.com/50"
+            username="User4"
+          />
+          <Box
+            width={400}
+            height={215}
+            title="Image 5"
+            userImage="https://via.placeholder.com/50"
+            username="User5"
+          />
+          <Box
+            width={400}
+            height={215}
+            title="Image 6"
+            userImage="https://via.placeholder.com/50"
+            username="User6"
+          />
+        </div>
       </div>
     </section>
   );

@@ -123,6 +123,7 @@
   border-radius: 15px;
   background: var(--gradient-text);
   padding: 0px;
+  cursor: pointer;
   transition: all 0.5s;
 }
 .profilePage__content__imageEdit:hover {
@@ -134,10 +135,12 @@
   margin-left: 20px;
   padding: 0px;
   border: none;
+  border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
   color: white;
   background: linear-gradient(90deg, #fe5196 0%, #98305a 100%);
+  cursor: pointer;
   transition: all 0.5s;
 }
 .profilePage__content__info__insta__login:hover {
