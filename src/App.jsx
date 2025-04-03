@@ -6,6 +6,8 @@ import Community from "./pages/Community/Community.jsx";
 import AiImages from "./pages/AiImages/AiImages.jsx";
 import AiVideos from "./pages/AiVideos/AiVideos.jsx";
 import MyCreatives from "./pages/MyCreatives/MyCreatives.jsx";
+import MyCreativesImage from "./pages/MyCreatives/MyCreativesImage.jsx";
+import MyCreativesVideo from "./pages/MyCreatives/MyCreativesVideo.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Header from "./components/Header/Header.jsx";
 import SideMenubar from "./components/SideMenubar/SideMenubar.jsx";
@@ -25,6 +27,8 @@ function App() {
               <Route path="/AiImages" element={<AiImages />} />
               <Route path="/AiVideos" element={<AiVideos />} />
               <Route path="/MyCreatives" element={<MyCreatives />} />
+              <Route path="/MyCreatives/image" element={<MyCreativesImage />} />
+              <Route path="/MyCreatives/video" element={<MyCreativesVideo />} />
               <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>

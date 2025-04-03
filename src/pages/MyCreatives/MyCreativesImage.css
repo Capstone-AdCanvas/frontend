@@ -1,0 +1,131 @@
+.mycreativesImagePage {
+  width: 100%;
+  height: 100%;
+}
+.mycreativesImagePage__header {
+  display: flex;
+  width: 100%;
+}
+
+.mycreativesImagePage__image {
+  width: 480px;
+  height: 185px;
+  margin-left: 130px;
+  margin-top: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    133deg,
+    rgba(82, 255, 186, 0.04) 0%,
+    rgba(82, 255, 186, 0.04) 9%,
+    rgba(35, 250, 236, 0.04) 47%,
+    rgba(0, 170, 255, 0.04) 88%
+  );
+  border: 3px solid rgba(147, 165, 207);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+  transform: scale(1.05);
+}
+.mycreativesImagePage__image > h2 {
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #93a5cf 0%, #e4efe9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+  padding: 0px 0px 0px 15px;
+}
+.mycreativesImagePage__image > span {
+  font-size: 16px;
+  color: #e5e6ee;
+  padding: 0px 0px 0px 15px;
+}
+.mycreativesImagePage__image__image {
+  width: 260px;
+  height: 185px;
+  position: absolute;
+  right: 0px;
+}
+.mycreativesImagePage__image__image > img {
+  width: 100%;
+  height: 100%;
+}
+
+.mycreativesImagePage__video {
+  width: 480px;
+  height: 185px;
+  margin-left: 300px;
+  margin-top: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    133deg,
+    rgba(82, 255, 186, 0.04) 0%,
+    rgba(82, 255, 186, 0.04) 9%,
+    rgba(35, 250, 236, 0.04) 47%,
+    rgba(0, 170, 255, 0.04) 88%
+  );
+  border: 1px solid rgba(147, 165, 207, 0.12);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.mycreativesImagePage__video:hover {
+  transform: scale(1.05);
+}
+.mycreativesImagePage__video > h2 {
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #93a5cf 0%, #e4efe9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+  padding: 0px 0px 0px 15px;
+}
+.mycreativesImagePage__video > span {
+  font-size: 16px;
+  color: #e5e6ee;
+  padding: 0px 0px 0px 15px;
+}
+.mycreativesImagePage__video__image {
+  width: 260px;
+  height: 185px;
+  position: absolute;
+  right: 0px;
+}
+.mycreativesImagePage__video__image > img {
+  width: 100%;
+  height: 100%;
+}
+
+.mycreativesImagePage__contents {
+  width: 1270px;
+  height: 565px;
+  margin-top: 125px;
+  margin-left: 130px;
+}
+.mycreativesImagePage__contents__title {
+  font-size: 25px;
+  color: #ffffff;
+}
+.mycreativesImagePage__contents__image {
+  width: 100%;
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 35px;
+  grid-row-gap: 75px;
+}
+.mycreativesImagePage__contents__image > .box {
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.mycreativesImagePage__contents__image > .box:hover {
+  transform: scale(1.05);
+}
