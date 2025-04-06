@@ -1,7 +1,13 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
 import Home from "./pages/Home/Home.jsx";
+import Login from "./pages/Login/Login.jsx";
 import Community from "./pages/Community/Community.jsx";
 import CommunityImage from "./pages/Community/CommunityImage.jsx";
 import CommunityVideo from "./pages/Community/CommunityVideo.jsx";
@@ -16,29 +22,34 @@ import SideMenubar from "./components/SideMenubar/SideMenubar.jsx";
 import "./App.css";
 
 function App() {
-  return (
-    <Router>
-      <div className="app">
-        <Header />
-        <div className="main">
-          <SideMenubar />
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/Community" element={<Community />} />
-              <Route path="/Community/image" element={<CommunityImage />} />
-              <Route path="/Community/video" element={<CommunityVideo />} />
-              <Route path="/AiImages" element={<AiImages />} />
-              <Route path="/AiVideos" element={<AiVideos />} />
-              <Route path="/MyCreatives" element={<MyCreatives />} />
-              <Route path="/MyCreatives/image" element={<MyCreativesImage />} />
-              <Route path="/MyCreatives/video" element={<MyCreativesVideo />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </div>
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+
+  return isLoginPage ? (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  ) : (
+    <div className="app">
+      <Header />
+      <div className="main">
+        <SideMenubar />
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Community" element={<Community />} />
+            <Route path="/Community/image" element={<CommunityImage />} />
+            <Route path="/Community/video" element={<CommunityVideo />} />
+            <Route path="/AiImages" element={<AiImages />} />
+            <Route path="/AiVideos" element={<AiVideos />} />
+            <Route path="/MyCreatives" element={<MyCreatives />} />
+            <Route path="/MyCreatives/image" element={<MyCreativesImage />} />
+            <Route path="/MyCreatives/video" element={<MyCreativesVideo />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
         </div>
       </div>
-    </Router>
+    </div>
   );
 }
 
