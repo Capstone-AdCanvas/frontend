@@ -1,12 +1,10 @@
 import React from "react";
+import StepBar from "../../components/StepBar/StepBar";
 
 
 function AiImages() {
   return (
-    <div>
-      <h1>Ai Images Page</h1>
-      <p>Explore AI-generated images.</p>
-    </div>
+    <StepBar currentStep={1} ></StepBar>
     
   );
 }

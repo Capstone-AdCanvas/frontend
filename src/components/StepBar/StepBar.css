@@ -1,0 +1,61 @@
+.stepbar {
+    width: 1200px;
+    margin: 20px auto;
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  /* 각 단계별 레이블 영역: 4등분하여 중앙 정렬 */
+  .stepbar__labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .stepbar__label {
+    width: 300px;
+    text-align: center;
+  }
+  
+  .stepbar__step {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #8B8B8B;
+  }
+  
+  .stepbar__content {
+    font-size: 24px;
+    color: #F4F4F4;
+  }
+  
+  /* 막대와 인디케이터 컨테이너 */
+  .stepbar__container {
+    position: relative;
+    width: 1200px;
+    height: 10px; /* 막대 및 인디케이터를 위한 높이 */
+  }
+  
+  /* 메인 막대: 전체 너비 1200px, 높이 5px, 컨테이너의 중앙에 위치 */
+  .stepbar__main {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 1200px;
+    height: 5px;
+    background-color: #555;
+    transform: translateY(-50%);
+    border-radius: 20px;
+  }
+  
+  /* 인디케이터: 300x10, 현재 단계에 맞게 왼쪽 위치 결정 */
+  .stepbar__indicator {
+    position: absolute;
+    top: 50%;
+    width: 300px;
+    height: 10px;
+    background: var(--gradient-text);
+    transform: translateY(-50%);
+    border-radius: 15px;
+  }
+  
