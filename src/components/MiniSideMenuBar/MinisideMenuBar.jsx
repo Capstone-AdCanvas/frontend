@@ -18,7 +18,6 @@ function MiniSideMenuBar() {
             to="/" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
           >
-            <div className="MiniSideMeuBar_menu-indicator"></div>
             <img src={homeImg} alt="Home" className="MiniSideMeuBar_menu-icon" />
           </NavLink>
         </li>
@@ -27,7 +26,6 @@ function MiniSideMenuBar() {
             to="/Community" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
           >
-            <div className="MiniSideMeuBar_menu-indicator"></div>
             <img src={communityImg} alt="Community" className="MiniSideMeuBar_menu-icon" />
           </NavLink>
         </li>
@@ -36,7 +34,6 @@ function MiniSideMenuBar() {
             to="/AiImages" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
           >
-            <div className="MiniSideMeuBar_menu-indicator"></div>
             <img src={aiImagesImg} alt="AI Images" className="MiniSideMeuBar_menu-icon" />
           </NavLink>
         </li>
@@ -45,7 +42,6 @@ function MiniSideMenuBar() {
             to="/AiVideos" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
           >
-            <div className="MiniSideMeuBar_menu-indicator"></div>
             <img src={aiVideosImg} alt="AI Videos" className="MiniSideMeuBar_menu-icon" />
           </NavLink>
         </li>
@@ -53,8 +49,7 @@ function MiniSideMenuBar() {
           <NavLink 
             to="/MyCreatives" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
-          >
-            <div className="MiniSideMeuBar_menu-indicator"></div>
+          > 
             <img src={myCreativesImg} alt="My Creatives" className="MiniSideMeuBar_menu-icon" />
           </NavLink>
         </li>
@@ -63,7 +58,6 @@ function MiniSideMenuBar() {
             to="/profile" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
           >
-            <div className="MiniSideMeuBar_menu-indicator"></div>
             <img src={profileImg} alt="Profile" className="MiniSideMeuBar_menu-icon" />
           </NavLink>
         </li>

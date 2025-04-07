@@ -35,18 +35,6 @@
     transition: background 0.3s;
 }
   
-.MiniSideMeuBar_menu-indicator {
-    position: absolute;
-    left: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 52px;
-    background-color: transparent;
-    border-radius: 15px;
-    transition: background 0.3s;
-    margin-left: 6px;
-}
   
 .MiniSideMeuBar_menu-link:hover .MiniSideMeuBar_menu-indicator,
 .MiniSideMeuBar_menu-link.MiniSideMeuBar_active .MiniSideMeuBar_menu-indicator {
