@@ -3,25 +3,70 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     color: #fff;
     text-align: center;
     margin-top: 200px;
   }
-
+  
   .image-upload {
     display: flex;
     align-items: center;
-    margin-left: 5px;
+    margin-bottom: 20px;
+    margin-left: 10px;
   }
   
   .image-upload img {
-    width: 30px;       /* 필요에 따라 조절 */
+    width: 30px;
     height: auto;
+    margin-right: 10px;
   }
   
   .image-upload h2 {
     margin: 0;
-    margin-left: 13px;
     font-size: 24px;
     color: #fff;
   }
+  
+  .upload-box {
+    width: 520px;
+    height: 300px;
+    background-color: #000;
+    border-radius: 10px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .upload-content {
+    display: flex;
+    align-items: center;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .upload-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 17px;
+  }
+  
+  /* 박스 하단 텍스트 */
+  .upload-support {
+    position: absolute;
+    bottom: 20px;
+    font-size: 14px;
+    color: #727485;
+  }
+  
+  /* 파일 input 숨김 처리 */
+  .upload-input {
+    display: none;
+  }
+  
