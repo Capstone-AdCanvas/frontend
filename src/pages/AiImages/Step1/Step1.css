@@ -1,101 +1,174 @@
 .step1 {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-align: center;
-    margin-top: 200px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  margin-top: 150px;
+}
+
+.image-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.image-upload img {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.image-upload h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+}
+
+.upload-box {
+  width: 520px;
+  height: 300px;
+  background-color: #000;
+  border-radius: 10px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: height 0.5s ease;
+}
+
+.upload-content {
+  display: flex;
+  align-items: center;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.upload-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 17px;
+}
+
+.upload-support {
+  position: absolute;
+  bottom: 20px;
+  font-size: 14px;
+  color: #727485;
+}
+
+.upload-input {
+  display: none;
+}
+
+.uploaded-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.close-button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #000;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.uploaded-image {
+  width: 540px;
+  height: 400px;
+  margin-left: 10px;
+  margin-top: 3px;
+  object-fit: cover;
+}
+
+.background-remove-btn {
+  width: 130px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background: var(--gradient-text);
+  color: #0d1116;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 423px;
+  margin-top: 3px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ccc;
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  /* 업로드 전: 이미지 업로드 영역 */
-  .image-upload {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-left: 10px;
-  }
-  
-  .image-upload img {
-    width: 30px;
-    height: auto;
-    margin-right: 10px;
-  }
-  
-  .image-upload h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #fff;
-  }
-  
-  /* 업로드 박스 기본 스타일 (파일 미업로드 상태) */
-  .upload-box {
-    width: 520px;
-    height: 300px;
-    background-color: #000;
-    border-radius: 10px;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    transition: height 0.5s ease;
-  }
-  
-  .upload-content {
-    display: flex;
-    align-items: center;
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  
-  .upload-icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 17px;
-  }
-  
-  .upload-support {
-    position: absolute;
-    bottom: 20px;
-    font-size: 14px;
-    color: #727485;
-  }
-  
-  .upload-input {
-    display: none;
-  }
-  
-  /* 업로드 후 표시할 콘텐츠 */
-  .uploaded-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* GradientBox 내부 전체를 채우도록 */
-  }
-  
-  .uploaded-image {
-    width: 550px;
-    height: 380px;
-    margin-left: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .background-remove-btn {
-    width: 130px;
-    height: 30px;
-    border: none;
-    border-radius: 5px;
-    background: var(--gradient-text);
-    color: #0d1116;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 425px;
-  }
+}
+
+/* 자동 애니메이션 영역 */
+.image-transition-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.image-blend-container {
+  position: relative;
+  width: 540px;
+  height: 400px;
+  overflow: hidden;
+}
+
+.image-half {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.auto-wipe-bar {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background-color: white;
+  transform: translateX(-50%);
+  z-index: 2;
+}
