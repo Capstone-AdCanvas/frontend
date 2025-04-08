@@ -10,8 +10,7 @@ function AiImages() {
   return (
     <div className="aiImages">
       <StepBar currentStep={currentStep} />
-      {currentStep === 1 && <Step1 setCurrentStep={setCurrentStep} />}
-      {/* 나중에 Step2, Step3, Step4 컴포넌트를 조건부로 추가하면 됩니다. */}
+      {currentStep === 1 && <Step1 setCurrentStep={setCurrentStep} />}'
     </div>
   );
 }
