@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import Home from "./pages/Home/Home.jsx";
+import OnBoarding from "./pages/OnBoarding/OnBoarding.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Community from "./pages/Community/Community.jsx";
 import CommunityImage from "./pages/Community/CommunityImage.jsx";
@@ -24,12 +25,18 @@ import "./App.css";
 function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+  const isOnBoardingPage = location.pathname === "/OnBoarding";
 
-  return isLoginPage ? (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-    </Routes>
-  ) : (
+  if (isLoginPage || isOnBoardingPage) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/OnBoarding" element={<OnBoarding />} />
+      </Routes>
+    );
+  }
+
+  return (
     <div className="app">
       <Header />
       <div className="main">

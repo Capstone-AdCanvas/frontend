@@ -1,11 +1,12 @@
 import React from "react";
+import "./OnBoarding.css";
+import OnBoardingPage1 from "./Page1/OnBoardingPage1";
 
 const OnBoarding = () => {
   return (
-    <div>
-      <h1>OnBoarding Page</h1>
-      <p>Welcome to the onboarding process.</p>
-    </div>
+    <section className="onboardingPage">
+      <OnBoardingPage1 />
+    </section>
   );
 };
 

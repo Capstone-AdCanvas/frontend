@@ -1,0 +1,123 @@
+.onboardingPage1 {
+  width: 1920px;
+  height: 1080px;
+  border: 1px solid black;
+}
+.onboardingPage1__title {
+  padding: 100px 0px 0px 150px;
+}
+.onboardingPage1__title > span {
+  font-size: 25px;
+  font-weight: bold;
+}
+.onboardingPage1__title > h2 {
+  font-size: 45px;
+  font-weight: bold;
+  background: linear-gradient(
+    90deg,
+    #f2b9ff 0%,
+    #9384fe 36%,
+    #80b4ff 72%,
+    #cadde9 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+}
+
+/*.onboardingPage1__content {
+  width: 100%;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid red;
+}
+ .onboardingPage1__content__container {
+  width: 550px;
+  height: 450px;
+}
+.onboardingPage1__content__container > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
+/* 전체 콘텐츠 */
+.onboardingPage1__content {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 바깥 Swiper 위치 */
+.outer-swiper-wrapper {
+  position: absolute;
+  top: 145px;
+  left: 0;
+  width: 100%;
+  height: 239px;
+  z-index: 1;
+  pointer-events: none; /* 사용자 클릭 방지 */
+}
+
+.outer-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.outer-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.outer-slide img {
+  width: 498px;
+  height: 239px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* TV 프레임 */
+.tv-frame {
+  position: relative;
+  width: 550px;
+  height: 450px;
+  z-index: 2;
+}
+
+.tv-frame__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tv-screen {
+  position: absolute;
+  top: 145px;
+  left: 25px;
+  width: 498px;
+  height: 239px;
+  overflow: hidden;
+  border-radius: 10px;
+  z-index: 3;
+}
+
+.tv-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.tv-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
