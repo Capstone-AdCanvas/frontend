@@ -26,23 +26,7 @@
   color: transparent; /* 혹시 모를 fallback */
 }
 
-/*.onboardingPage1__content {
-  width: 100%;
-  height: 450px;
-  display: flex;
-  justify-content: center;
-  border: 1px solid red;
-}
- .onboardingPage1__content__container {
-  width: 550px;
-  height: 450px;
-}
-.onboardingPage1__content__container > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
-/* 전체 콘텐츠 */
+/* 전체 콘텐츠 영역 */
 .onboardingPage1__content {
   position: relative;
   width: 100%;
@@ -52,72 +36,85 @@
   justify-content: center;
   align-items: center;
 }
-
-/* 바깥 Swiper 위치 */
+/* 바깥 Swiper 래퍼 */
 .outer-swiper-wrapper {
   position: absolute;
   top: 145px;
   left: 0;
   width: 100%;
-  height: 239px;
+  height: 240px;
   z-index: 1;
-  pointer-events: none; /* 사용자 클릭 방지 */
+  pointer-events: none;
+  overflow: hidden;
 }
-
+/* Swiper 기본 크기 */
 .outer-swiper {
   width: 100%;
   height: 100%;
 }
-
+/* 각 SwiperSlide를 자동 너비로 설정 */
+.outer-swiper-slide {
+  width: auto !important; /* 자동 슬라이드 너비 */
+}
+/* 이미지 wrapper */
 .outer-slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: 100%;
 }
-
+/* 이미지 스타일 */
 .outer-slide img {
-  width: 498px;
-  height: 239px;
+  width: 499px;
+  height: 240px;
   object-fit: cover;
   border-radius: 10px;
 }
 
-/* TV 프레임 */
+/* TV 프레임 전체 */
 .tv-frame {
   position: relative;
   width: 550px;
   height: 450px;
   z-index: 2;
 }
-
+/* TV 외곽 이미지 */
 .tv-frame__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
-
+/* TV 안의 화면 */
 .tv-screen {
   position: absolute;
-  top: 145px;
-  left: 25px;
-  width: 498px;
-  height: 239px;
+  top: 144px;
+  left: 24px;
+  width: 499px;
+  height: 240px;
   overflow: hidden;
   border-radius: 10px;
   z-index: 3;
 }
-
+/* TV 내부 Swiper */
 .tv-swiper {
   width: 100%;
   height: 100%;
 }
-
+/* TV 내부 이미지 */
 .tv-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.fade-out {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./OnBoardingPage1.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css"; // 기본 스타일 import
@@ -27,8 +27,35 @@ const slides = [
 const OnBoardingPage1 = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  /* 페이지 fade-in, fade-out하는 코드 */
+  const sectionRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+  /* 페이지 fade-in, fade-out하는 코드 */
+
   return (
-    <article className="onboardingPage1">
+    <article
+      ref={sectionRef}
+      className={`onboardingPage1 ${inView ? "fade-in" : "fade-out"}`}
+    >
       <div className="onboardingPage1__title">
         <span>AI와 광고의 만남</span>
         <h2>
@@ -39,18 +66,24 @@ const OnBoardingPage1 = () => {
       </div>
 
       <div className="onboardingPage1__content">
-        {/* 바깥 이미지 트랙 - Swiper */}
+        {/* 바깥 이미지 트랙 - 여러 장 슬라이드 */}
         <div className="outer-swiper-wrapper">
           <Swiper
             modules={[Autoplay]}
             autoplay={{ delay: 2500, disableOnInteraction: false }}
             speed={5000}
             loop={true}
-            slidesPerView={1}
+            slidesPerView="auto"
+            centeredSlides={true}
+            spaceBetween={15}
+            allowTouchMove={false}
             className="outer-swiper"
           >
             {slides.map((slide, index) => (
-              <SwiperSlide key={`outer-${index}`}>
+              <SwiperSlide
+                className="outer-swiper-slide"
+                key={`outer-${index}`}
+              >
                 <div className="outer-slide">
                   <img src={slide.img1} alt={`outer-img-${index}`} />
                 </div>
@@ -70,6 +103,7 @@ const OnBoardingPage1 = () => {
               loop={true}
               slidesPerView={1}
               onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+              allowTouchMove={false}
               className="tv-swiper"
             >
               {slides.map((slide, index) => (
