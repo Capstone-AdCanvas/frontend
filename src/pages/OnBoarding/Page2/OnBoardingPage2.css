@@ -1,0 +1,46 @@
+.onboardingPage2 {
+  width: 1920px;
+  height: 1080px;
+  border: 1px solid black;
+}
+.onboardingPage2__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.onboardingPage2__content__screen {
+  width: 1150px;
+  height: 700px;
+  background-color: #eeeaea;
+  text-align: center;
+}
+.onboardingPage2__content > h2 {
+  font-size: 45px;
+  font-weight: bold;
+  background: linear-gradient(
+    90deg,
+    #f2b9ff 0%,
+    #9384fe 36%,
+    #80b4ff 72%,
+    #cadde9 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+  margin-left: 100px;
+}
+
+.fade-in-right {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-out-left {
+  opacity: 0;
+  transform: translateX(50px); /* 오른쪽에서 살짝 들어옴 */
+  transition: opacity 1s ease, transform 1s ease;
+}
