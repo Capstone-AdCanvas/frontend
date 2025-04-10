@@ -12,6 +12,8 @@ function Step1({ setCurrentStep }) {
   const [isComplete, setIsComplete] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const [isAnimationDone, setIsAnimationDone] = useState(false);
+  const [showDownloadBox, setShowDownloadBox] = useState(false);
+  const [showNextStepButton, setShowNextStepButton] = useState(false);
 
   const handleClick = () => fileInputRef.current.click();
 
@@ -38,7 +40,7 @@ function Step1({ setCurrentStep }) {
     }, 5000);
   };
 
-  // 자동 애니메이션
+  // 배경제거 완료 후 슬라이더 애니메이션: 이미지가 왼쪽으로 이동
   useEffect(() => {
     if (isComplete) {
       let position = 0;
@@ -49,10 +51,27 @@ function Step1({ setCurrentStep }) {
           clearInterval(interval);
           setIsAnimationDone(true);
         }
-      }, 40); // 총 2초 (100 * 20ms)
+      }, 20);
     }
   }, [isComplete]);
 
+  // 최종 애니메이션 후 다운로드 박스가 fade-in 효과로 나타남
+  useEffect(() => {
+    if (isAnimationDone) {
+      const timer = setTimeout(() => {
+        setShowDownloadBox(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isAnimationDone]);
+
+  // 다운로드 박스가 나타난 후 2초 후에 다음 단계 버튼이 나타남
+  useEffect(() => {
+    if (showDownloadBox) {
+      setShowNextStepButton(true); // ✅ 즉시 true로 변경!
+    }
+  }, [showDownloadBox]);
+  
   return (
     <div className="step1">
       {!isComplete ? (
@@ -91,7 +110,12 @@ function Step1({ setCurrentStep }) {
             <div className="uploaded-content">
               <div className="image-wrapper">
                 {!isLoading && (
-                  <button className="close-button" onClick={() => setUploadedImage(null)}>×</button>
+                  <button
+                    className="close-button"
+                    onClick={() => setUploadedImage(null)}
+                  >
+                    ×
+                  </button>
                 )}
                 <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
               </div>
@@ -110,27 +134,24 @@ function Step1({ setCurrentStep }) {
           {!isAnimationDone ? (
             <div className="image-transition-wrapper">
               <div className="image-blend-container">
-                {/* 샘플 이미지 - 왼쪽부터 점점 보임 (아래 쪽) */}
                 <img
                   src={sampleImage}
                   alt="After"
                   className="image-half"
                   style={{
                     clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`,
-                    zIndex: 1
+                    zIndex: 1,
                   }}
                 />
-                {/* 기존 이미지 - 오른쪽부터 점점 사라짐 (위쪽) */}
                 <img
                   src={uploadedImage}
                   alt="Before"
                   className="image-half"
                   style={{
                     clipPath: `polygon(${sliderPosition}% 0, 100% 0, 100% 100%, ${sliderPosition}% 100%)`,
-                    zIndex: 2
+                    zIndex: 2,
                   }}
                 />
-                {/* 흰색 막대 */}
                 <div
                   className="auto-wipe-bar"
                   style={{ left: `${sliderPosition}%` }}
@@ -138,10 +159,29 @@ function Step1({ setCurrentStep }) {
               </div>
             </div>
           ) : (
-            <div className="image-transition-wrapper">
-              <div className="image-blend-container">
-                <img src={sampleImage} alt="Final" className="image-half" style={{ clipPath: "none" }} />
+            // 최종 화면: 동일 컨테이너 내에서 이미지와 다운로드 박스가 겹쳐서 표시됨
+            <div className="final-screen">
+              <div className="final-image-container">
+                <img
+                  src={sampleImage}
+                  alt="Final"
+                  className="final-image-move"
+                />
               </div>
+              {showDownloadBox && (
+                <div className="download-box fade-in">
+                  <div className="download-info">
+                    <div className="image-name">강아지.jpg</div>
+                    <div className="image-size">사이즈: 400 × 400</div>
+                    <button className="download-button">다운로드</button>
+                  </div>
+                </div>
+              )}
+              {showNextStepButton && (
+                <button className="next-step-button" onClick={()=>setCurrentStep(2)}>
+                  &gt;
+                </button>
+              )}
             </div>
           )}
         </>
