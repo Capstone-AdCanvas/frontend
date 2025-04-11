@@ -19,13 +19,7 @@
 .onboardingPage3__content > h2 {
   font-size: 45px;
   font-weight: bold;
-  background: linear-gradient(
-    90deg,
-    #f2b9ff 0%,
-    #9384fe 36%,
-    #80b4ff 72%,
-    #cadde9 100%
-  );
+  background: var(--gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text; /* 일부 브라우저 호환용 */

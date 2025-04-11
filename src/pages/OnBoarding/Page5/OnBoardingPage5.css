@@ -1,0 +1,39 @@
+.onboardingPage5 {
+  width: 1920px;
+  height: 1080px;
+  border: 1px solid black;
+}
+.onboardingPage5__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 25px;
+}
+.onboardingPage5__content__introduce {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.onboardingPage5__content__introduce > span {
+  font-size: 45px;
+  font-weight: bold;
+}
+.onboardingPage5__content__introduce > .title4 {
+  margin-top: 150px;
+}
+.onboardingPage5__content__introduce > .title4 > span {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+}
+.onboardingPage5__button {
+  width: 500px;
+  height: 150px;
+  font-size: 40px;
+  border-radius: 30px;
+  border: none;
+}
