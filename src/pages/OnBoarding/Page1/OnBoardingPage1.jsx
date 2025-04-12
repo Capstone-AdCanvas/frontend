@@ -71,7 +71,7 @@ const OnBoardingPage1 = () => {
           <Swiper
             modules={[Autoplay]}
             autoplay={{ delay: 2500, disableOnInteraction: false }}
-            speed={5000}
+            speed={2500}
             loop={true}
             slidesPerView="auto"
             centeredSlides={true}
@@ -99,7 +99,7 @@ const OnBoardingPage1 = () => {
             <Swiper
               modules={[Autoplay]}
               autoplay={{ delay: 2500, disableOnInteraction: false }}
-              speed={5000}
+              speed={2500}
               loop={true}
               slidesPerView={1}
               onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
