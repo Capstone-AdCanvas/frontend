@@ -1,7 +1,6 @@
 .onboardingPage1 {
   width: 1920px;
   height: 1080px;
-  border: 1px solid black;
 }
 .onboardingPage1__title {
   padding: 100px 0px 0px 150px;
@@ -9,6 +8,7 @@
 .onboardingPage1__title > span {
   font-size: 25px;
   font-weight: bold;
+  color: #ffffff;
 }
 .onboardingPage1__title > h2 {
   font-size: 45px;

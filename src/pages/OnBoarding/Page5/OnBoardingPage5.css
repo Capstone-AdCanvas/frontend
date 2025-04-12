@@ -1,7 +1,6 @@
 .onboardingPage5 {
   width: 1920px;
   height: 1080px;
-  border: 1px solid black;
 }
 .onboardingPage5__content {
   width: 100%;
@@ -9,12 +8,12 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  gap: 25px;
 }
 .onboardingPage5__content__introduce {
   width: 50%;
   display: flex;
   flex-direction: column;
+  color: #00b0c7;
 }
 .onboardingPage5__content__introduce > span {
   font-size: 45px;
@@ -22,6 +21,7 @@
 }
 .onboardingPage5__content__introduce > .title4 {
   margin-top: 150px;
+  color: #ffffff;
 }
 .onboardingPage5__content__introduce > .title4 > span {
   background: var(--gradient-text);
@@ -31,9 +31,42 @@
   color: transparent; /* 혹시 모를 fallback */
 }
 .onboardingPage5__button {
-  width: 500px;
+  width: 400px;
   height: 150px;
   font-size: 40px;
+  font-weight: bold;
   border-radius: 30px;
   border: none;
+  background: linear-gradient(
+    0deg,
+    #505285 0%,
+    #585e92 12%,
+    #65689f 25%,
+    #7474b0 37%,
+    #7e7ebb 50%,
+    #8389c7 62%,
+    #9795d4 75%,
+    #a2a1dc 87%,
+    #b5aee4 100%
+  );
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.onboardingPage5__button:hover {
+  transform: scale(1.05);
+}
+.onboardingPage5__button > span {
+  color: #efefef;
+  font-weight: normal;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.fade-out {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
 }

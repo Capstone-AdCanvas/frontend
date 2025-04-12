@@ -1,7 +1,6 @@
 .onboardingPage4 {
   width: 1920px;
   height: 1080px;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +16,7 @@
 .onboardingPage4__content > h2 {
   font-size: 45px;
   font-weight: bold;
-  color: #000000;
+  color: #ffffff;
 }
 .onboardingPage4__content > h2 > span {
   color: #2f7ff8;
