@@ -1,0 +1,32 @@
+/*.onboardingPage {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  /*scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  background-color: #091925;
+}
+
+.onboardingPage > * {
+  width: 1920px;
+  height: 1080px;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}*/
+
+.onboardingPageSwiper {
+  width: 100vw;
+  height: 100vh;
+  scroll-behavior: smooth;
+  background-color: #091925;
+}
+.onboardingPageSwiper > * {
+  box-sizing: border-box;
+}
+.swiper-slide {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
