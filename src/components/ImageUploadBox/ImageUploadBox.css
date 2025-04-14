@@ -23,7 +23,7 @@
   color: #fff;
 }
 
-/* 업로드 박스 (정적 디자인) */
+/* 업로드 박스 */
 .upload-box {
   background-color: #000;
   border-radius: 10px;
@@ -53,4 +53,28 @@
 .upload-support {
   font-size: 14px;
   color: #727485;
+}
+
+.mylogo-wrapper {
+  margin-top: 20px;
+  width: 510px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 24px;
+}
+
+.mylogo-title {
+  font-size: 23px;
+  font-weight: bold;
+  color: white;
+
+}
+
+.mylogo-box {
+  width: 510px;
+  height: 240px;
+  background-color: black;
+  margin-bottom: 20px;
+  border-radius: 10px;
 }
