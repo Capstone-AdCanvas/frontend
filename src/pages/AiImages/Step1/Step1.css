@@ -172,7 +172,6 @@
   z-index: 3;
 }
 
-/* 최종 이미지 이동 애니메이션 (왼쪽으로 이동하여 고정) */
 .final-image-container {
   display: flex;
   justify-content: center;
@@ -184,8 +183,8 @@
   height: 400px;
   object-fit: cover;
   border-radius: 10px;
-  animation: move-left 1s ease forwards;
   z-index: 2;
+  animation: move-left 1s ease forwards;
 }
 
 @keyframes move-left {
@@ -199,7 +198,6 @@
   }
 }
 
-/* 최종 화면: 왼쪽에 최종 이미지, 오른쪽에 다운로드 박스 */
 .final-screen {
   flex-direction: row;
   align-items: center;
@@ -208,7 +206,6 @@
   margin-top: 40px;
 }
 
-/* 다운로드 박스: 1000×500 크기, fade-in 효과 */
 .download-box {
   width: 920px;
   height: 450px;
@@ -258,7 +255,7 @@
   margin-top: 250px;
 }
 
-/* 다음 스텝으로 가는 화살표 버튼 */
+/* 다음 스텝 버튼 */
 .next-step-button {
   position: fixed;
   right: 100px;
@@ -280,5 +277,19 @@
 @keyframes fadeInArrow {
   to {
     opacity: 1;
+  }
+}
+
+/* exit 애니메이션 적용: 다음 스텝 버튼 클릭 시, 이미지가 자연스럽게 이동 */
+.final-image-container.exit-animation .final-image-move {
+  animation: exit-move 1s ease forwards !important;
+}
+
+@keyframes exit-move {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-370px, -110px);
   }
 }

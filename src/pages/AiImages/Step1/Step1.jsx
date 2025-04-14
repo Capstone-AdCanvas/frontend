@@ -15,6 +15,9 @@ function Step1({ setCurrentStep }) {
   const [showDownloadBox, setShowDownloadBox] = useState(false);
   const [showNextStepButton, setShowNextStepButton] = useState(false);
 
+  // exit 애니메이션 실행 여부를 위한 state
+  const [animateExit, setAnimateExit] = useState(false);
+
   const handleClick = () => fileInputRef.current.click();
 
   const handleFileChange = (e) => {
@@ -40,7 +43,7 @@ function Step1({ setCurrentStep }) {
     }, 5000);
   };
 
-  // 배경제거 완료 후 슬라이더 애니메이션: 이미지가 왼쪽으로 이동
+
   useEffect(() => {
     if (isComplete) {
       let position = 0;
@@ -55,7 +58,6 @@ function Step1({ setCurrentStep }) {
     }
   }, [isComplete]);
 
-  // 최종 애니메이션 후 다운로드 박스가 fade-in 효과로 나타남
   useEffect(() => {
     if (isAnimationDone) {
       const timer = setTimeout(() => {
@@ -65,13 +67,19 @@ function Step1({ setCurrentStep }) {
     }
   }, [isAnimationDone]);
 
-  // 다운로드 박스가 나타난 후 2초 후에 다음 단계 버튼이 나타남
   useEffect(() => {
     if (showDownloadBox) {
-      setShowNextStepButton(true); // ✅ 즉시 true로 변경!
+      setShowNextStepButton(true);
     }
   }, [showDownloadBox]);
-  
+
+  const handleNextStep = () => {
+    setAnimateExit(true);
+    setTimeout(() => {
+      setCurrentStep(2);
+    }, 1000);
+  };
+
   return (
     <div className="step1">
       {!isComplete ? (
@@ -159,16 +167,17 @@ function Step1({ setCurrentStep }) {
               </div>
             </div>
           ) : (
-            // 최종 화면: 동일 컨테이너 내에서 이미지와 다운로드 박스가 겹쳐서 표시됨
+            // 최종 화면: 다운로드 박스, 텍스트, 버튼과 배경제거된 이미지가 표시됨
             <div className="final-screen">
-              <div className="final-image-container">
+              <div className={`final-image-container ${animateExit ? "exit-animation" : ""}`}>
                 <img
                   src={sampleImage}
                   alt="Final"
                   className="final-image-move"
                 />
               </div>
-              {showDownloadBox && (
+              {/* animateExit가 true이면 다운로드 박스와 다음 스텝 버튼은 렌더링하지 않음 */}
+              {!animateExit && showDownloadBox && (
                 <div className="download-box fade-in">
                   <div className="download-info">
                     <div className="image-name">강아지.jpg</div>
@@ -177,8 +186,8 @@ function Step1({ setCurrentStep }) {
                   </div>
                 </div>
               )}
-              {showNextStepButton && (
-                <button className="next-step-button" onClick={()=>setCurrentStep(2)}>
+              {!animateExit && showNextStepButton && (
+                <button className="next-step-button" onClick={handleNextStep}>
                   &gt;
                 </button>
               )}
