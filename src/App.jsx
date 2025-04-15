@@ -13,7 +13,7 @@ import MyCreativesVideo from "./pages/MyCreatives/MyCreativesVideo.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Header from "./components/Header/Header.jsx";
 import SideMenubar from "./components/SideMenubar/SideMenubar.jsx";
-import MiniSideMenuBar from "./components/MiniSideMenuBar/MinisideMenuBar.jsx";
+import MiniSideMenuBar from "./components/MiniSideMenuBar/MinisideMenuBar.jsx";
 import "./App.css";
 
 function AppLayout() {
