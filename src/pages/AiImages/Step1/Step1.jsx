@@ -167,7 +167,6 @@ function Step1({ setCurrentStep }) {
               </div>
             </div>
           ) : (
-            // 최종 화면: 다운로드 박스, 텍스트, 버튼과 배경제거된 이미지가 표시됨
             <div className="final-screen">
               <div className={`final-image-container ${animateExit ? "exit-animation" : ""}`}>
                 <img
@@ -176,7 +175,6 @@ function Step1({ setCurrentStep }) {
                   className="final-image-move"
                 />
               </div>
-              {/* animateExit가 true이면 다운로드 박스와 다음 스텝 버튼은 렌더링하지 않음 */}
               {!animateExit && showDownloadBox && (
                 <div className="download-box fade-in">
                   <div className="download-info">
