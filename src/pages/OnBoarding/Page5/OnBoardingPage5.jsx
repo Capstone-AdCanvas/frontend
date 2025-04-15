@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./OnBoardingPage5.css";
+import { useNavigate } from "react-router-dom";
 
 const OnBoardingPage5 = () => {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
+  const navigate = useNavigate();
 
   // 각 타이틀과 버튼 활성화 여부
   const [step1, setStep1] = useState(false);
@@ -57,6 +59,9 @@ const OnBoardingPage5 = () => {
           className={`onboardingPage5__button ${
             showButton ? "fade-in" : "fade-out"
           }`}
+          onClick={() => {
+            navigate("/login");
+          }}
         >
           <span>AdCanvas</span>와
           <br />

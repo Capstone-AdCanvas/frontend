@@ -2,12 +2,21 @@ import React from "react";
 import "./Login.css";
 import { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setIsSignIn((prev) => !prev);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      navigate("/home");
+    }
   };
 
   return (
@@ -67,9 +76,9 @@ function Login() {
         {!isSignIn && (
           <input type="text" placeholder="Name" className="normal name" />
         )}
-        <input type="text" placeholder="Email" className="normal" />
+        <input type="text" placeholder="Email" className="normal"  onKeyDown={handleKeyDown} />
         <br />
-        <input type="password" placeholder="Password" className="normal" />
+        <input type="password" placeholder="Password" className="normal"  onKeyDown={handleKeyDown} />
         <br />
         {isSignIn && <p className="normal forgot">Forgot your password?</p>}
 

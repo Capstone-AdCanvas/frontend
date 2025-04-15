@@ -15,7 +15,7 @@ function SideMenubar() {
       <ul>
         <li className="menu-item">
           <NavLink 
-            to="/" 
+            to="/home" 
             className={({ isActive }) => "menu-link" + (isActive ? " active" : "")}
           >
             <div className="menu-indicator"></div>
