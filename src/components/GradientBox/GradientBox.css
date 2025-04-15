@@ -1,0 +1,20 @@
+.gradient-box {
+    position: relative;
+    padding: 1px; /* 바깥 그라데이션 두께 */
+    border-radius: 17px;
+    background: var(--gradient-text); /* 기존 그라데이션 변수 사용 */
+    display: inline-block;
+  }
+  
+  .gradient-box__inner {
+    background: #0d1116; /* 내부 배경색 */
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 17px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition: height 0.5s ease;
+  }
+  

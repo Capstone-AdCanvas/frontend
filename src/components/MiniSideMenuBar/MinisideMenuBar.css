@@ -1,0 +1,47 @@
+.MiniSideMeuBar_miniSideMenuBar {
+    width: 90px; /* 아이콘만 표시하기 위한 너비 */
+    height: 954px;
+    background-color: #0D1116;
+    padding: 20px 0;
+    box-sizing: border-box;
+    margin-left: 10px;
+}
+  
+.MiniSideMeuBar_miniSideMenuBar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.MiniSideMeuBar_menu-item {
+    width: 100%;
+    height: 73px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.MiniSideMeuBar_menu-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+    transition: background 0.3s;
+}
+  
+  
+.MiniSideMeuBar_menu-link:hover .MiniSideMeuBar_menu-indicator,
+.MiniSideMeuBar_menu-link.MiniSideMeuBar_active .MiniSideMeuBar_menu-indicator {
+    background: var(--gradient-text);
+}
+  
+.MiniSideMeuBar_menu-icon {
+    width: 20px;
+    height: 20px;
+}
