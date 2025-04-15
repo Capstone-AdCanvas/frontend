@@ -15,7 +15,7 @@ function MiniSideMenuBar() {
       <ul>
         <li className="MiniSideMeuBar_menu-item">
           <NavLink 
-            to="/" 
+            to="/home" 
             className={({ isActive }) => "MiniSideMeuBar_menu-link" + (isActive ? " MiniSideMeuBar_active" : "")}
           >
             <img src={homeImg} alt="Home" className="MiniSideMeuBar_menu-icon" />
