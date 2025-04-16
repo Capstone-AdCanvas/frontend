@@ -183,7 +183,7 @@ body {
 }
 
 /* 입력창 */
-input {
+.login__input {
   width: 60%;
   padding: 10px 5px;
   margin-bottom: 20px;
@@ -196,11 +196,11 @@ input {
   outline: none;
 }
 
-input::placeholder {
+.login__input::placeholder {
   color: #959595;
 }
 
-input:focus {
+.login__input:focus {
   color: #ffffff;
   border-bottom: 1px solid #ffffff;
 }

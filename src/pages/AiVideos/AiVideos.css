@@ -1,0 +1,25 @@
+.aiVideos {
+  width: 100%;
+}
+.aiVideos__initial {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.aiVideos__initial__btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+.aiVideos__initial__btn > button {
+  padding: 10px 15px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
