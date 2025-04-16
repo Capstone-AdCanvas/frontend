@@ -1,0 +1,98 @@
+.texttovideo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+.prompt .gradient-box__inner {
+  background-color: #282e37 !important;
+}
+.prompt__screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 20px;
+}
+.prompt__screen__title {
+  font-size: 20px;
+  color: #ffffff;
+}
+.prompt__screen__input {
+  width: 90%;
+  height: 100%;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #000000;
+  border: none;
+  color: #ffffff;
+  resize: none; /* 크기 조절 비활성화 */
+  padding: 10px;
+  line-height: 1.4;
+}
+
+.settings .gradient-box__inner {
+  background-color: #282e37 !important;
+}
+.settings__screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 20px;
+}
+.settings__screen__title {
+  font-size: 20px;
+  color: #ffffff;
+}
+.settings__screen__main {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+}
+.settings__screen__main > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.settings__screen__main > div > span {
+  color: #727485;
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 10px;
+}
+.settings__screen__main > div > div {
+  width: 60%;
+  display: flex;
+}
+.settings__screen__main > div > div > button {
+  position: relative;
+  border: none;
+  padding-left: 20px;
+  background-color: transparent;
+  color: #ffffff;
+  margin-right: 30px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.settings__screen__main > div > div > button:hover {
+  transform: scale(1.05);
+}
+.settings__screen__main > div > div > button::before {
+  content: "";
+  position: absolute;
+  left: 5px; /* 왼쪽 위치 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border: 1px solid white;
+  border-radius: 999px;
+}
+.settings__screen__main > div > div > button.active::before {
+  background-color: white;
+}

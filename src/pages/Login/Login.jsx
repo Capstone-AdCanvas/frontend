@@ -20,7 +20,7 @@ function Login() {
   };
 
   return (
-    <section className="loginPage">
+    <article className="loginPage">
       <div
         className={`move ${isSignIn ? "moving" : "start"}`}
         style={{
@@ -100,7 +100,7 @@ function Login() {
           {isSignIn ? "SIGN IN" : "SIGN UP"}
         </button>
       </div>
-    </section>
+    </article>
   );
 }
 
