@@ -1,0 +1,57 @@
+.imageupload .gradient-box__inner {
+  background-color: #282e37 !important;
+}
+.imageupload__screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 20px;
+}
+.imageupload__screen__title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.imageupload__screen__uploadbox {
+  width: 90%;
+  height: 220px;
+  border-radius: 10px;
+  background-color: #000000;
+  border: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+.imageupload__screen__uploadbox__title {
+  font-size: 17px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+}
+.imageupload__screen__uploadbox__title > img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+.imageupload__screen__uploadbox__support {
+  font-size: 16px;
+  color: #727485;
+  position: absolute;
+  bottom: 20px;
+}
+
+.imageupload__screen__preview {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}

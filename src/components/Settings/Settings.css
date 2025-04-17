@@ -1,38 +1,3 @@
-.texttovideo {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 50px;
-}
-.prompt .gradient-box__inner {
-  background-color: #282e37 !important;
-}
-.prompt__screen {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  gap: 20px;
-}
-.prompt__screen__title {
-  font-size: 20px;
-  color: #ffffff;
-}
-.prompt__screen__input {
-  width: 90%;
-  height: 100%;
-  border-radius: 10px;
-  font-size: 15px;
-  background-color: #000000;
-  border: none;
-  color: #ffffff;
-  resize: none; /* 크기 조절 비활성화 */
-  padding: 10px;
-  line-height: 1.4;
-}
-
 .settings .gradient-box__inner {
   background-color: #282e37 !important;
 }
@@ -46,6 +11,7 @@
 }
 .settings__screen__title {
   font-size: 20px;
+  font-weight: bold;
   color: #ffffff;
 }
 .settings__screen__main {
@@ -72,6 +38,7 @@
 .settings__screen__main > div > div > button {
   position: relative;
   border: none;
+  font-size: 15px;
   padding-left: 20px;
   background-color: transparent;
   color: #ffffff;
@@ -95,4 +62,35 @@
 }
 .settings__screen__main > div > div > button.active::before {
   background-color: white;
+}
+/* 공통 비율 박스 스타일 */
+.ratio-box {
+  width: 24px;
+  height: 16px;
+  border: 2px solid white;
+  background-color: #0d1116;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+/* 16:9 가로형 */
+.ratio-16by9 {
+  width: 24px;
+  height: 14px;
+}
+/* 9:16 세로형 */
+.ratio-9by16 {
+  width: 14px;
+  height: 24px;
+}
+/* 1:1 정사각형 */
+.ratio-1by1 {
+  width: 20px;
+  height: 20px;
+}
+/* 버튼 내부 배치 조정 */
+.settings__screen__main__option3__btn > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AiVideos.css";
-import TexttoVideo from "../../components/TexttoVideo/TexttoVideo";
-import ImagetoVideo from "../../components/ImagetoVideo/ImagetoVideo";
+import TexttoVideo from "./TexttoVideo/TexttoVideo";
+import ImagetoVideo from "./ImagetoVideo/ImagetoVideo";
 
 function AiVideos() {
   const [activeTab, setActiveTab] = useState("text"); // 기본은 Text to Video
