@@ -1,14 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Darker+Grotesque&display=swap");
 
-/* 전체 배경 */
-body {
-  background: #4d4d4d;
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
-}
-
 /* 공통 텍스트 스타일 */
 .bold {
   font-family: "Montserrat", sans-serif;
@@ -183,7 +175,7 @@ body {
 }
 
 /* 입력창 */
-input {
+.login__input {
   width: 60%;
   padding: 10px 5px;
   margin-bottom: 20px;
@@ -196,11 +188,11 @@ input {
   outline: none;
 }
 
-input::placeholder {
+.login__input::placeholder {
   color: #959595;
 }
 
-input:focus {
+.login__input:focus {
   color: #ffffff;
   border-bottom: 1px solid #ffffff;
 }

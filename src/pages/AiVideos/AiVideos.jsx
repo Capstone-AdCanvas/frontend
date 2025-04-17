@@ -1,20 +1,36 @@
-import React from "react";
-import ImageUploadBox from "../../components/ImageUploadBox/ImageUploadBox";
-import uploadIcon from "../../assets/uploadIcon.png";
+import React, { useState } from "react";
+import "./AiVideos.css";
+import TexttoVideo from "./TexttoVideo/TexttoVideo";
+import ImagetoVideo from "./ImagetoVideo/ImagetoVideo";
 
 function AiVideos() {
+  const [activeTab, setActiveTab] = useState("text"); // 기본은 Text to Video
+
   return (
-    <div>
-      <ImageUploadBox
-        width="600px"
-        height="350px"
-        uploadBoxWidth="520px"
-        uploadBoxHeight="300px"
-        icon={uploadIcon}
-        title="이미지 업로드"
-        supportText="Support JPG/PNG Files"
-      />
-    </div>
+    <section className="aiVideos">
+      <main className="aiVideos__initial">
+        <div className="aiVideos__initial__btn">
+          <button
+            className={`texttovideo__btn ${
+              activeTab === "text" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("text")}
+          >
+            Text to Video
+          </button>
+          <button
+            className={`imagetovideo__btn ${
+              activeTab === "image" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("image")}
+          >
+            Image to Video
+          </button>
+        </div>
+        {activeTab === "text" && <TexttoVideo />}
+        {activeTab === "image" && <ImagetoVideo />}
+      </main>
+    </section>
   );
 }
 

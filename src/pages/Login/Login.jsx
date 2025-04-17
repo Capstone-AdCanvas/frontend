@@ -20,7 +20,7 @@ function Login() {
   };
 
   return (
-    <section className="loginPage">
+    <article className="loginPage">
       <div
         className={`move ${isSignIn ? "moving" : "start"}`}
         style={{
@@ -74,11 +74,25 @@ function Login() {
         </p>
 
         {!isSignIn && (
-          <input type="text" placeholder="Name" className="normal name" />
+          <input
+            type="text"
+            placeholder="Name"
+            className="normal name login__input"
+          />
         )}
-        <input type="text" placeholder="Email" className="normal"  onKeyDown={handleKeyDown} />
+        <input
+          type="text"
+          placeholder="Email"
+          className="normal login__input"
+          onKeyDown={handleKeyDown}
+        />
         <br />
-        <input type="password" placeholder="Password" className="normal"  onKeyDown={handleKeyDown} />
+        <input
+          type="password"
+          placeholder="Password"
+          className="normal login__input"
+          onKeyDown={handleKeyDown}
+        />
         <br />
         {isSignIn && <p className="normal forgot">Forgot your password?</p>}
 
@@ -86,7 +100,7 @@ function Login() {
           {isSignIn ? "SIGN IN" : "SIGN UP"}
         </button>
       </div>
-    </section>
+    </article>
   );
 }
 

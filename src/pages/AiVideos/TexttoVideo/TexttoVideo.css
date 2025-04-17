@@ -1,0 +1,25 @@
+.texttovideo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.texttovideo__generate {
+  width: 97%;
+  padding: 10px 0px;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.5s;
+  background: #d9d9d9;
+  cursor: not-allowed;
+}
+.texttovideo__generate.active {
+  background: var(--gradient-text);
+  cursor: pointer;
+}
+.texttovideo__generate.active:hover {
+  transform: scale(1.05);
+}

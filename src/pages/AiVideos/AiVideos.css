@@ -1,0 +1,48 @@
+.aiVideos {
+  width: 100%;
+}
+.aiVideos__initial {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.aiVideos__initial__btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+.aiVideos__initial__btn > button {
+  padding: 10px 15px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.aiVideos__initial__btn > button:hover {
+  transform: scale(1.05);
+}
+.aiVideos__initial__btn > button.active {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
+  border-bottom: 2px solid var(--gradient-text);
+}
+.aiVideos__initial__btn > button.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient-text);
+  border-radius: 2px;
+}
