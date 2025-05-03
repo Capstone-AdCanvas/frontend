@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { motion } from "motion/react";
+import { animation } from "../../../styles/motion";
 import "./OnBoardingPage4.css";
 
 import img1 from "../../../assets/onboardingPage4-img1.png";
@@ -7,34 +9,13 @@ import img3 from "../../../assets/onboardingPage4-img3.png";
 import img4 from "../../../assets/onboardingPage4-img4.png";
 
 const OnBoardingPage4 = () => {
-  /* 페이지 fade-in, fade-out하는 코드 */
-  const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-  /* 페이지 fade-in, fade-out하는 코드 */
-
   return (
-    <article
-      ref={sectionRef}
-      className={`onboardingPage4 ${inView ? "fade-in" : "fade-out"}`}
+    <motion.article
+      className="onboardingPage4"
+      variants={animation.fadeInSlideUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
     >
       <div className="onboardingPage4__content">
         <h2>
@@ -46,13 +27,37 @@ const OnBoardingPage4 = () => {
           모든 채널에 광고를 쉽고 빠르게 연결해보세요
         </span>
         <div className="onboardingPage4__content__image">
-          <img className="img1" src={img1} alt="" />
-          <img className="img2" src={img2} alt="" />
-          <img className="img3" src={img3} alt="" />
-          <img className="img4" src={img4} alt="" />
+          <motion.img
+            className="img1"
+            src={img1}
+            alt=""
+            transition={{ duration: 0.5 }}
+            whileTap={{ scale: 1.05 }}
+          />
+          <motion.img
+            className="img2"
+            src={img2}
+            alt=""
+            transition={{ duration: 0.5 }}
+            whileTap={{ scale: 1.05 }}
+          />
+          <motion.img
+            className="img3"
+            src={img3}
+            alt=""
+            transition={{ duration: 0.5 }}
+            whileTap={{ scale: 1.05 }}
+          />
+          <motion.img
+            className="img4"
+            src={img4}
+            alt=""
+            transition={{ duration: 0.5 }}
+            whileTap={{ scale: 1.05 }}
+          />
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };
 

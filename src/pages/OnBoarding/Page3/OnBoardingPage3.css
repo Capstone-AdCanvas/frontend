@@ -25,15 +25,3 @@
   color: transparent; /* 혹시 모를 fallback */
   margin-right: 100px;
 }
-
-.fade-in-left {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 1s ease, transform 1s ease;
-}
-
-.fade-out-right {
-  opacity: 0;
-  transform: translateX(-50px); /* 오른쪽에서 살짝 들어옴 */
-  transition: opacity 1s ease, transform 1s ease;
-}

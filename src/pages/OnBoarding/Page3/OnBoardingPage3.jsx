@@ -1,37 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { motion } from "motion/react";
+import { animation } from "../../../styles/motion";
 import "./OnBoardingPage3.css";
 
 const OnBoardingPage3 = () => {
-  /* 페이지 fade-in-left, fade-out-right하는 코드 */
-  const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-  /* 페이지 fade-in-left, fade-out-right하는 코드 */
-
   return (
-    <article
-      ref={sectionRef}
-      className={`onboardingPage3 ${
-        inView ? "fade-in-left" : "fade-out-right"
-      }`}
+    <motion.article
+      className="onboardingPage3"
+      variants={animation.fadeInSlideRight}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
     >
       <div className="onboardingPage3__content">
         <h2>
@@ -43,7 +22,7 @@ const OnBoardingPage3 = () => {
           (영상 제작 보여주는 화면)
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };
 

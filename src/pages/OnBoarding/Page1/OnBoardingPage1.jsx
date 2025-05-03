@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import "./OnBoardingPage1.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css"; // 기본 스타일 import
 import { Autoplay } from "swiper/modules";
+import { motion } from "motion/react";
+import { animation } from "../../../styles/motion";
 
 import framePicture from "../../../assets/onboardingPage1-content.png";
 import img1_1 from "../../../assets/onboardingPage1-img1-1.png";
@@ -25,36 +27,13 @@ const slides = [
 ];
 
 const OnBoardingPage1 = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  /* 페이지 fade-in, fade-out하는 코드 */
-  const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-  /* 페이지 fade-in, fade-out하는 코드 */
-
   return (
-    <article
-      ref={sectionRef}
-      className={`onboardingPage1 ${inView ? "fade-in" : "fade-out"}`}
+    <motion.article
+      className="onboardingPage1"
+      variants={animation.fadeInSlideUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
     >
       <div className="onboardingPage1__title">
         <span>AI와 광고의 만남</span>
@@ -102,7 +81,6 @@ const OnBoardingPage1 = () => {
               speed={2500}
               loop={true}
               slidesPerView={1}
-              onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
               allowTouchMove={false}
               className="tv-swiper"
             >
@@ -119,7 +97,7 @@ const OnBoardingPage1 = () => {
           </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };
 
