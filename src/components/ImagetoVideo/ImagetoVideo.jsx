@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "./ImagetoVideo.css";
-import GradientBox from "../../../components/GradientBox/GradientBox";
-import Information from "../../../components/Information/Information";
-import Prompt from "../../../components/Prompt/Prompt";
-import Settings from "../../../components/Settings/Settings";
-import ImageUpload from "../../../components/ImageUpload/ImageUpload";
+import GradientBox from "../GradientBox/GradientBox";
+import Information from "../subcomponents/Information/Information";
+import Prompt from "../subcomponents/Prompt/Prompt";
+import Settings from "../subcomponents/Settings/Settings";
+import ImageUpload from "../subcomponents/ImageUpload/ImageUpload";
 
-const ImagetoVideo = () => {
+const ImagetoVideo = ({ activeTab, setActiveTab }) => {
   const [prompt, setPrompt] = useState("");
   const [videoLength, setVideoLength] = useState("");
   const [bgm, setBgm] = useState("");
@@ -22,8 +22,25 @@ const ImagetoVideo = () => {
     script &&
     imageUploaded;
 
+  if (activeTab !== "image") return null;
+
   return (
     <article className="imagetovideo">
+      <div className="aiVideos__initial__btn">
+        <button
+          className="texttovideo__btn"
+          onClick={() => setActiveTab("text")}
+        >
+          Text to Video
+        </button>
+        <button
+          className="imagetovideo__btn active"
+          onClick={() => setActiveTab("image")}
+        >
+          Image to Video
+        </button>
+      </div>
+
       <GradientBox width={400} height={850} className="imagetovideo__options">
         <div className="imagetovideo__scrollable">
           <Information />

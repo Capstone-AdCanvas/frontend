@@ -10,9 +10,17 @@
   gap: 20px;
 }
 .prompt__screen__title {
+  display: flex;
+  align-items: center;
   font-size: 20px;
   font-weight: bold;
   color: #ffffff;
+  gap: 10px;
+}
+.prompt__screen__title > img {
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) invert(1); /* 밝기 없애고 색 반전 => 흰색 */
 }
 .prompt__screen__input {
   width: 90%;
