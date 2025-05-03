@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AiVideos.css";
-import TexttoVideo from "./TexttoVideo/TexttoVideo";
-import ImagetoVideo from "./ImagetoVideo/ImagetoVideo";
+import TexttoVideo from "../../components/TexttoVideo/TexttoVideo";
+import ImagetoVideo from "../../components/ImagetoVideo/ImagetoVideo";
 
 function AiVideos() {
   const [activeTab, setActiveTab] = useState("text"); // 기본은 Text to Video
@@ -9,26 +9,8 @@ function AiVideos() {
   return (
     <section className="aiVideos">
       <main className="aiVideos__initial">
-        <div className="aiVideos__initial__btn">
-          <button
-            className={`texttovideo__btn ${
-              activeTab === "text" ? "active" : ""
-            }`}
-            onClick={() => setActiveTab("text")}
-          >
-            Text to Video
-          </button>
-          <button
-            className={`imagetovideo__btn ${
-              activeTab === "image" ? "active" : ""
-            }`}
-            onClick={() => setActiveTab("image")}
-          >
-            Image to Video
-          </button>
-        </div>
-        {activeTab === "text" && <TexttoVideo />}
-        {activeTab === "image" && <ImagetoVideo />}
+        <TexttoVideo activeTab={activeTab} setActiveTab={setActiveTab} />
+        <ImagetoVideo activeTab={activeTab} setActiveTab={setActiveTab} />
       </main>
     </section>
   );
