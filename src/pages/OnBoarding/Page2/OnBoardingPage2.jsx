@@ -1,37 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { motion } from "framer-motion";
+import { animation } from "../../../styles/motion";
 import "./OnBoardingPage2.css";
 
 const OnBoardingPage2 = () => {
-  /* 페이지 fade-in-right, fade-out-left하는 코드 */
-  const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-  /* 페이지 fade-in-right, fade-out-left하는 코드 */
-
   return (
-    <article
-      ref={sectionRef}
-      className={`onboardingPage2 ${
-        inView ? "fade-in-right" : "fade-out-left"
-      }`}
+    <motion.article
+      className="onboardingPage2"
+      variants={animation.fadeInSlideLeft}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
     >
       <div className="onboardingPage2__content">
         <div className="onboardingPage2__content__screen">
@@ -43,7 +22,7 @@ const OnBoardingPage2 = () => {
           완성되는 맞춤형 디자인
         </h2>
       </div>
-    </article>
+    </motion.article>
   );
 };
 

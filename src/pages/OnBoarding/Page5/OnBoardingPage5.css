@@ -36,7 +36,7 @@
   font-size: 40px;
   font-weight: bold;
   border-radius: 30px;
-  border: none;
+  border: 2px solid #8389c7;
   background: linear-gradient(
     0deg,
     #505285 0%,
@@ -50,23 +50,16 @@
     #b5aee4 100%
   );
   cursor: pointer;
-  transition: all 0.5s;
+  transform: all 0.5s;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
+
 .onboardingPage5__button:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 10px 0 #8389c7 inset, 0 0 10px 4px #8389c7;
 }
+
 .onboardingPage5__button > span {
   color: #efefef;
   font-weight: normal;
-}
-
-.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 1s ease, transform 1s ease;
-}
-.fade-out {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
 }

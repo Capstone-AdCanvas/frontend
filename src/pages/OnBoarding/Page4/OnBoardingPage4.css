@@ -19,7 +19,12 @@
   color: #ffffff;
 }
 .onboardingPage4__content > h2 > span {
-  color: #2f7ff8;
+  background: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
 }
 .onboardingPage4__content > span {
   font-size: 25px;
@@ -39,6 +44,8 @@
   height: 500px;
   object-fit: cover;
   border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+  cursor: pointer;
 }
 .onboardingPage4__content__image > .img1,
 .img3 {
@@ -47,15 +54,4 @@
 .onboardingPage4__content__image > .img2,
 .img4 {
   margin-top: 50px;
-}
-
-.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 1s ease, transform 1s ease;
-}
-.fade-out {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
 }

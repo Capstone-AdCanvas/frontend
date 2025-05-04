@@ -9,12 +9,10 @@ import OnBoardingPage2 from "./Page2/OnBoardingPage2";
 import OnBoardingPage3 from "./Page3/OnBoardingPage3";
 import OnBoardingPage4 from "./Page4/OnBoardingPage4";
 import OnBoardingPage5 from "./Page5/OnBoardingPage5";
-import MouseTrail from "../../components/MouseTrail/MouseTrail";
 
 const OnBoarding = () => {
   return (
     <>
-      <MouseTrail /> {/* 마우스 트레일 SVG */}
       <Swiper
         direction="vertical"
         modules={[Mousewheel]}
