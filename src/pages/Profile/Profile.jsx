@@ -4,9 +4,11 @@ import editIcon from "../../assets/profile-edit-btn-1.png";
 import editIcon2 from "../../assets/profile-edit-btn-2.png";
 import profileIcon from "../../assets/profile-icon.png";
 import instaIcon from "../../assets/profile-insta-icon.png";
+import ImageUploadBox from "../../components/ImageUploadBox/ImageUploadBox";
 
 function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [showImageUploader, setShowImageUploader] = useState(false);
 
   const toggleEditMode = () => {
     setIsEditMode((prev) => !prev);
@@ -24,9 +26,28 @@ function Profile() {
         </div>
 
         {isEditMode && (
-          <button className="profilePage__content__imageEdit">
-            사진 변경하기
-          </button>
+          <>
+            <button
+              className="profilePage__content__imageEdit"
+              onClick={() => setShowImageUploader(true)}
+            >
+              사진 변경하기
+            </button>
+
+            {showImageUploader && (
+              <div className="imageUploadModalOverlay">
+                <div className="imageUploadModalContent">
+                  <ImageUploadBox />
+                  <button
+                    className="closeButton"
+                    onClick={() => setShowImageUploader(false)}
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <div className="profilePage__content__info">

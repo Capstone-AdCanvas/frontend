@@ -146,3 +146,38 @@
 .profilePage__content__info__insta__login:hover {
   transform: scale(1.05);
 }
+
+.imageUploadModalOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  z-index: 10; /* article 내에서 위로 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageUploadModalContent {
+  position: relative;
+  width: 600px;
+}
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  color: #ffffff;
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.closeButton:hover {
+  transform: scale(1.1);
+}
