@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import "./ImageUpload.css";
-import uploadIcon from "../../assets/uploadIcon.png";
+import imageuploadIcon from "../../../assets/logo-imageupload.png";
+import uploadIcon from "../../../assets/uploadIcon.png";
 
 const ImageUpload = ({ setImageUploaded }) => {
   const [fileName, setFileName] = useState("");
@@ -51,7 +52,10 @@ const ImageUpload = ({ setImageUploaded }) => {
 
   return (
     <div className="imageupload__screen">
-      <span className="imageupload__screen__title">이미지 업로드</span>
+      <span className="imageupload__screen__title">
+        <img src={imageuploadIcon} alt="" />
+        이미지 업로드
+      </span>
 
       <div
         className="imageupload__screen__uploadbox"

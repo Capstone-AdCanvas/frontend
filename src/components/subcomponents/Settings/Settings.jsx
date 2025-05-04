@@ -1,5 +1,6 @@
 import React from "react";
 import "./Settings.css";
+import settingsIcon from "../../../assets/logo-settings.png";
 
 const Settings = ({
   videoLength,
@@ -13,7 +14,10 @@ const Settings = ({
 }) => {
   return (
     <div className="settings__screen">
-      <span className="settings__screen__title">Settings</span>
+      <span className="settings__screen__title">
+        <img src={settingsIcon} alt="" />
+        Settings
+      </span>
       <div className="settings__screen__main">
         <div className="settings__screen__main__option1">
           <span>영상 길이 조절</span>
