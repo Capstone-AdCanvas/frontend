@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { animation, containerVariant } from "../../../styles/motion";
 import "./OnBoardingPage5.css";
 import { useNavigate } from "react-router-dom";

@@ -3,7 +3,7 @@ import "./OnBoardingPage1.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css"; // 기본 스타일 import
 import { Autoplay } from "swiper/modules";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { animation } from "../../../styles/motion";
 
 import framePicture from "../../../assets/onboardingPage1-content.png";
