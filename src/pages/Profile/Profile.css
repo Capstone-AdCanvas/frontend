@@ -42,6 +42,12 @@
   top: 125px;
   left: 150px;
 }
+.profilePage__content__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+}
 .profilePage__content__info {
   display: flex;
   flex-direction: column;
@@ -180,4 +186,56 @@
 }
 .closeButton:hover {
   transform: scale(1.1);
+}
+
+.image-upload-box-gradient {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* 상단 이미지 업로드 영역 */
+.image-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.image-upload img {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+}
+.image-upload h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+}
+/* 업로드 박스 */
+.upload-box {
+  background-color: #000;
+  border-radius: 10px;
+  width: 550px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.upload-content {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.upload-support {
+  font-size: 14px;
+  color: #727485;
+}
+.upload-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 }

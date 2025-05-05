@@ -1,17 +1,50 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import editIcon from "../../assets/profile-edit-btn-1.png";
 import editIcon2 from "../../assets/profile-edit-btn-2.png";
 import profileIcon from "../../assets/profile-icon.png";
 import instaIcon from "../../assets/profile-insta-icon.png";
-import ImageUploadBox from "../../components/ImageUploadBox/ImageUploadBox";
+import GradientBox from "../../components/GradientBox/GradientBox";
+import imageIcon from "../../assets/AI Images.png";
+import uploadIcon from "../../assets/uploadIcon.png";
 
 function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showImageUploader, setShowImageUploader] = useState(false);
+  const [profileImage, setProfileImage] = useState(profileIcon);
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
-  const toggleEditMode = () => {
-    setIsEditMode((prev) => !prev);
+  const toggleEditMode = () => setIsEditMode((prev) => !prev);
+
+  const handleClick = () => fileInputRef.current.click();
+  const handleChange = (e) => handleFile(e.target.files[0]);
+  const handleDrop = (e) => {
+    e.preventDefault();
+    handleFile(e.dataTransfer.files[0]);
+  };
+  const handleDragOver = (e) => e.preventDefault();
+
+  const handleFile = (file) => {
+    const allowed = ["image/jpeg", "image/png"];
+    if (file && allowed.includes(file.type)) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+        setShowImageUploader(false);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("JPG 또는 PNG 이미지 파일만 업로드할 수 있습니다.");
+    }
+  };
+
+  const handleImageClick = () => {
+    navigate("/MyCreatives/image");
+  };
+  const handleVideoClick = () => {
+    navigate("/MyCreatives/video");
   };
 
   return (
@@ -22,7 +55,7 @@ function Profile() {
           <img src={isEditMode ? editIcon2 : editIcon} alt="프로필 수정 버튼" />
         </div>
         <div className="profilePage__content__image">
-          <img src={profileIcon} alt="" />
+          <img src={profileImage} alt="프로필 이미지" />
         </div>
 
         {isEditMode && (
@@ -37,7 +70,42 @@ function Profile() {
             {showImageUploader && (
               <div className="imageUploadModalOverlay">
                 <div className="imageUploadModalContent">
-                  <ImageUploadBox />
+                  <GradientBox
+                    width={"600px"}
+                    height={"350px"}
+                    className="image-upload-box-gradient"
+                  >
+                    <div className="image-upload">
+                      <img src={imageIcon} alt="AI Upload" />
+                      <h2>이미지 업로드</h2>
+                    </div>
+
+                    <div
+                      className="upload-box"
+                      onClick={handleClick}
+                      onDrop={handleDrop}
+                      onDragOver={handleDragOver}
+                    >
+                      <div className="upload-content">
+                        <img
+                          src={uploadIcon}
+                          alt="Upload Icon"
+                          className="upload-icon"
+                        />
+                        <span>Click to Upload or drag and drop</span>
+                      </div>
+                      <div className="upload-support">
+                        Support JPG/PNG Files
+                      </div>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        ref={fileInputRef}
+                        onChange={handleChange}
+                        style={{ display: "none" }}
+                      />
+                    </div>
+                  </GradientBox>
                   <button
                     className="closeButton"
                     onClick={() => setShowImageUploader(false)}
@@ -58,10 +126,16 @@ function Profile() {
             </span>
           </div>
           <div className="profilePage__content__info__btn">
-            <button className="profilePage__content__info__btn__image">
+            <button
+              className="profilePage__content__info__btn__image"
+              onClick={handleImageClick}
+            >
               Image <span>3</span>
             </button>
-            <button className="profilePage__content__info__btn__video">
+            <button
+              className="profilePage__content__info__btn__video"
+              onClick={handleVideoClick}
+            >
               Video <span>2</span>
             </button>
           </div>
