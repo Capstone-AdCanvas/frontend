@@ -68,25 +68,25 @@ function Profile() {
             </button>
 
             {showImageUploader && (
-              <div className="imageUploadModalOverlay">
-                <div className="imageUploadModalContent">
+              <div className="profilePage-imageUploadModalOverlay">
+                <div className="profilePage-imageUploadModalContent">
                   <GradientBox
                     width={"600px"}
                     height={"350px"}
-                    className="image-upload-box-gradient"
+                    className="profilePage-image-upload-box-gradient"
                   >
-                    <div className="image-upload">
+                    <div className="profilePage-image-upload">
                       <img src={imageIcon} alt="AI Upload" />
                       <h2>이미지 업로드</h2>
                     </div>
 
                     <div
-                      className="upload-box"
+                      className="profilePage-upload-box"
                       onClick={handleClick}
                       onDrop={handleDrop}
                       onDragOver={handleDragOver}
                     >
-                      <div className="upload-content">
+                      <div className="profilePage-upload-content">
                         <img
                           src={uploadIcon}
                           alt="Upload Icon"
@@ -94,7 +94,7 @@ function Profile() {
                         />
                         <span>Click to Upload or drag and drop</span>
                       </div>
-                      <div className="upload-support">
+                      <div className="profilePage-upload-support">
                         Support JPG/PNG Files
                       </div>
                       <input
@@ -107,7 +107,7 @@ function Profile() {
                     </div>
                   </GradientBox>
                   <button
-                    className="closeButton"
+                    className="profilePage-imageUploadModal-closeButton"
                     onClick={() => setShowImageUploader(false)}
                   >
                     ✕
