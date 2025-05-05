@@ -1,51 +1,56 @@
 .box {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #222222; /* 구별을 위한 임시용 */
-  }
-  
-  .box__content {
-    flex-grow: 1;
-    background-color: #2a2a2e;
-    width: 100%;
-  }
-  
-  .box__info {
-    width: 100%;
-    height: 56px;
-    background-color: rgba(0, 0, 0, 0.3); /* 불투명한 배경 */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-    box-sizing: border-box;
-  }
-  
-  .box__title {
-    color: white;
-    font-size: 16px;
-    font-family: "Apple SD Gothic Neo", sans-serif;
-  }
-  
-  .box__user {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .box__user-image {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .box__username {
-    color: white;
-    font-size: 14px;
-    font-family: "PingFangSC", sans-serif;
-  }
-  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #222222;
+  cursor: pointer;
+}
+
+.box__content {
+  flex-grow: 1;
+  background-color: #2a2a2e;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.box__info {
+  width: 100%;
+  height: 56px;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  box-sizing: border-box;
+  z-index: 2;
+  position: relative;
+}
+
+.box__title {
+  color: white;
+  font-size: 16px;
+  font-family: "Apple SD Gothic Neo", sans-serif;
+}
+
+.box__user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.box__user-image {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.box__username {
+  color: white;
+  font-size: 14px;
+  font-family: "PingFangSC", sans-serif;
+}

@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyCreativesImage.css";
 import imagePicture from "../../assets/mycreatives-image-1.png";
 import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
+import userIcon from "../../assets/profile-icon.png";
+import dummyImage from "../../assets/dummyimage.png";
 
 const MyCreativesImage = () => {
   const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleVideoClick = () => {
     navigate("/MyCreatives/video");
+  };
+
+  const handleBoxClick = (imageData) => {
+    const img = new Image();
+    img.src = imageData.dataImage;
+
+    img.onload = () => {
+      const width = img.naturalWidth;
+      const height = img.naturalHeight;
+
+      // 확장자 추출
+      const extension = imageData.dataImage.split(".").pop().split("?")[0];
+
+      setSelectedImage({
+        ...imageData,
+        size: `${width} x ${height}`,
+        extension,
+      });
+    };
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
   };
 
   return (
@@ -41,10 +67,18 @@ const MyCreativesImage = () => {
           <Box
             width={400}
             height={215}
-            title="Image 1"
-            userImage="https://via.placeholder.com/50"
-            username="User1"
+            title="향수병"
+            userImage={userIcon}
+            username="Chill guy"
+            dataImage={dummyImage}
+            onClick={() =>
+              handleBoxClick({
+                dataImage: dummyImage,
+                title: "향수병",
+              })
+            }
           />
+          {/* Other boxes omitted for brevity */}
           <Box
             width={400}
             height={215}
@@ -82,6 +116,49 @@ const MyCreativesImage = () => {
           />
         </div>
       </div>
+
+      {selectedImage && (
+        <div
+          className="mycreativesImage-download-box-overlay"
+          onClick={closeModal}
+        >
+          <div
+            className="mycreativesImage-download-box fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mycreativesImage-download-preview">
+              <img src={selectedImage.dataImage} alt="Preview" />
+            </div>
+            <div className="mycreativesImage-download-info">
+              <div className="mycreativesImage-image-info">
+                <div className="mycreativesImage-image-name">
+                  {selectedImage.title}.{selectedImage.extension}
+                </div>
+                <div className="mycreativesImage-image-size">
+                  {selectedImage.size}
+                </div>
+              </div>
+              <button
+                className="mycreativesImage-download-button"
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = selectedImage.dataImage;
+                  link.download = `${selectedImage.title}.${selectedImage.extension}`;
+                  link.click();
+                }}
+              >
+                다운로드
+              </button>
+            </div>
+            <button
+              className="mycreativesImage-modal-close-button"
+              onClick={closeModal}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
