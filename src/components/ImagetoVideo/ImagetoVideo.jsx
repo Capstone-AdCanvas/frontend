@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ImagetoVideo.css";
 import GradientBox from "../GradientBox/GradientBox";
 import Information from "../subcomponents/Information/Information";
@@ -6,7 +6,7 @@ import Prompt from "../subcomponents/Prompt/Prompt";
 import Settings from "../subcomponents/Settings/Settings";
 import ImageUpload from "../subcomponents/ImageUpload/ImageUpload";
 
-const ImagetoVideo = ({ activeTab, setActiveTab }) => {
+const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate }) => {
   const [prompt, setPrompt] = useState("");
   const [videoLength, setVideoLength] = useState("");
   const [bgm, setBgm] = useState("");
@@ -14,13 +14,11 @@ const ImagetoVideo = ({ activeTab, setActiveTab }) => {
   const [script, setScript] = useState("");
   const [imageUploaded, setImageUploaded] = useState(false);
 
-  const isReadyToGenerate =
-    prompt.trim() !== "" &&
-    videoLength &&
-    bgm &&
-    ratio &&
-    script &&
-    imageUploaded;
+  const isReady = prompt.trim() !== "" && videoLength && bgm && ratio && script && imageUploaded;
+
+  useEffect(() => {
+    setIsReadyToGenerate(isReady);
+  }, [prompt, videoLength, bgm, ratio, script, imageUploaded]);
 
   if (activeTab !== "image") return null;
 
@@ -57,10 +55,9 @@ const ImagetoVideo = ({ activeTab, setActiveTab }) => {
             setScript={setScript}
           />
           <button
-            className={`imagetovideo__generate ${
-              isReadyToGenerate ? "active" : ""
-            }`}
-            disabled={!isReadyToGenerate}
+            className={`imagetovideo__generate ${isReady ? "active" : ""}`}
+            disabled={!isReady}
+            onClick={handleGenerate}
           >
             생성하기
           </button>
