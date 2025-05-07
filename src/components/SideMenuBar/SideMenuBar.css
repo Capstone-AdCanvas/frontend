@@ -1,10 +1,14 @@
 .sideMenubar {
   width: 363px;
-  height: 954px;
-  background-color: #0D1116;
+  height: 100%;
+  background-color: #0d1116;
   padding: 20px;
   box-sizing: border-box;
   margin-left: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sideMenubar ul {
@@ -35,14 +39,14 @@
 /* 호버 및 활성 시 배경 효과 유지 */
 .menu-link:hover,
 .menu-link.active {
-  background-color: #191D21;
+  background-color: #191d21;
   border-radius: 15px;
 }
 
 /* 메뉴 인디케이터를 절대 위치로 배치하여 독립적으로 이동 */
 .menu-indicator {
   position: absolute;
-  left: -20px;   
+  left: -20px;
   top: 50%;
   transform: translateY(-50%);
   width: 4px;
@@ -66,7 +70,6 @@
   margin-right: 10px;
   margin-left: 10px;
 }
-
 
 .menu-text {
   font-size: 24px;
@@ -95,7 +98,7 @@
 .separator-line {
   width: 305px;
   height: 1px;
-  background-color: #24282C;
+  background-color: #24282c;
   margin: 0 auto;
   margin-left: -12px;
 }
@@ -104,4 +107,24 @@
   font-size: 14px;
   color: #727485;
   margin-top: 8px;
+}
+
+.help-popup {
+  position: absolute;
+  top: -230px; /* menu-text 바로 위로 띄우기 (조정 가능) */
+  left: 80px;
+  z-index: 999;
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* 부드러운 등장 애니메이션 */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
