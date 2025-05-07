@@ -12,6 +12,9 @@ import HelpImg from "../../assets/Help.png";
 import LogoutImg from "../../assets/Logout.png";
 import Help from "../subcomponents/Help/Help";
 
+import { motion } from "framer-motion";
+import { animation } from "../../styles/motion";
+
 function SideMenubar() {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -172,13 +175,19 @@ function SideMenubar() {
         </li>
 
         {showHelp && (
-          <li className="help-popup-item">
+          <motion.li
+            className="help-popup-item"
+            variants={animation.fadeInSlideUp}
+            initial="hidden"
+            animate="visible"
+          >
             <Help />
-          </li>
+          </motion.li>
         )}
+
         <li
-          className="menu-item"
-          onClick={() => setShowHelp((prev) => !prev)} // ✅ 클릭 시 toggle
+          className={`menu-item${showHelp ? " active" : ""}`}
+          onClick={() => setShowHelp((prev) => !prev)}
         >
           <div className="menu-indicator"></div>
           <img
@@ -187,7 +196,7 @@ function SideMenubar() {
             className="menu-icon"
             style={!showHelp ? { filter: "brightness(0) invert(1)" } : {}}
           />
-          <span className="menu-text">Help</span>
+          <span className={`menu-text${showHelp ? " active" : ""}`}>Help</span>
         </li>
         {/* 일단 Logout Account만 만들고 나중에 로그인 연동을 하면, 로그인 여부에 따라서 Login Account/Logout Account로 구현하면 될 것같음 */}
         <li className="menu-item">
@@ -197,7 +206,6 @@ function SideMenubar() {
               "menu-link" + (isActive ? " active" : "")
             }
           >
-            <div className="menu-indicator"></div>
             <img src={LogoutImg} alt="Logout" className="menu-icon" />
             <span className="menu-text">Logout Account</span>
           </NavLink>

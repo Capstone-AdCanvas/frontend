@@ -21,6 +21,8 @@
   width: 333px;
   height: 73px;
   margin-bottom: 15px;
+
+  cursor: pointer;
 }
 
 .menu-link {
@@ -109,22 +111,24 @@
   margin-top: 8px;
 }
 
-.help-popup {
-  position: absolute;
-  top: -230px; /* menu-text 바로 위로 띄우기 (조정 가능) */
-  left: 80px;
-  z-index: 999;
-  animation: fadeInUp 0.3s ease forwards;
+.menu-item.active {
+  background-color: #191d21;
+  border-radius: 15px;
 }
-
-/* 부드러운 등장 애니메이션 */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.menu-item.active .menu-indicator {
+  background: var(--gradient-text);
+}
+.menu-text.active {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.menu-item:hover {
+  background-color: #191d21;
+  border-radius: 15px;
+}
+.menu-item:hover .menu-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
