@@ -6,6 +6,7 @@ import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import dummyVideo from "../../assets/dummyvideo.mp4";
+import ModalVideo from "../../components/ModalVideo/ModalVideo";
 
 // 해당 비디오 0초(시작타이밍)에 썸네일 장면으로 나오게 하는 함수
 const getVideoThumbnail = (videoSrc) => {
@@ -142,52 +143,11 @@ const MyCreativesVideo = () => {
         </div>
       </div>
 
-      {selectedVideo && (
-        <div
-          className="mycreativesVideo-download-box-overlay"
-          onClick={() => setSelectedVideo(null)}
-        >
-          <div
-            className="mycreativesVideo-download-box fade-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mycreativesVideo-download-preview">
-              <video
-                src={selectedVideo.dataImage}
-                controls
-                style={{ width: "100%", height: "100%", borderRadius: "15px" }}
-              />
-            </div>
-            <div className="mycreativesVideo-download-info">
-              <div className="mycreativesVideo-video-info">
-                <div className="mycreativesVideo-video-name">
-                  {selectedVideo.title}.{selectedVideo.extension}
-                </div>
-                <div className="mycreativesVideo-video-size">
-                  {selectedVideo.size}
-                </div>
-              </div>
-              <button
-                className="mycreativesVideo-download-button"
-                onClick={() => {
-                  const link = document.createElement("a");
-                  link.href = selectedVideo.dataImage;
-                  link.download = `${selectedVideo.title}.${selectedVideo.extension}`;
-                  link.click();
-                }}
-              >
-                다운로드
-              </button>
-            </div>
-            <button
-              className="mycreativesVideo-modal-close-button"
-              onClick={() => setSelectedVideo(null)}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+      <ModalVideo
+        video={selectedVideo}
+        onClose={() => setSelectedVideo(null)}
+        isCommunity={false}
+      />
     </section>
   );
 };

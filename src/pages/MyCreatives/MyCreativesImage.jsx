@@ -6,6 +6,7 @@ import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import dummyImage from "../../assets/dummyimage.png";
+import ModalImage from "../../components/ModalImage/ModalImage";
 
 const MyCreativesImage = () => {
   const navigate = useNavigate();
@@ -117,48 +118,11 @@ const MyCreativesImage = () => {
         </div>
       </div>
 
-      {selectedImage && (
-        <div
-          className="mycreativesImage-download-box-overlay"
-          onClick={closeModal}
-        >
-          <div
-            className="mycreativesImage-download-box fade-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mycreativesImage-download-preview">
-              <img src={selectedImage.dataImage} alt="Preview" />
-            </div>
-            <div className="mycreativesImage-download-info">
-              <div className="mycreativesImage-image-info">
-                <div className="mycreativesImage-image-name">
-                  {selectedImage.title}.{selectedImage.extension}
-                </div>
-                <div className="mycreativesImage-image-size">
-                  {selectedImage.size}
-                </div>
-              </div>
-              <button
-                className="mycreativesImage-download-button"
-                onClick={() => {
-                  const link = document.createElement("a");
-                  link.href = selectedImage.dataImage;
-                  link.download = `${selectedImage.title}.${selectedImage.extension}`;
-                  link.click();
-                }}
-              >
-                다운로드
-              </button>
-            </div>
-            <button
-              className="mycreativesImage-modal-close-button"
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+      <ModalImage
+        image={selectedImage}
+        onClose={closeModal}
+        isCommunity={false}
+      />
     </section>
   );
 };

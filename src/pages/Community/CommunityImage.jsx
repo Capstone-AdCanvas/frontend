@@ -6,6 +6,7 @@ import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import dummyImage from "../../assets/dummyimage.png";
+import ModalImage from "../../components/ModalImage/ModalImage";
 
 const CommunityImage = () => {
   const navigate = useNavigate();
@@ -128,54 +129,11 @@ const CommunityImage = () => {
         </div>
       </div>
 
-      {selectedImage && (
-        <div
-          className="communityImage-download-box-overlay"
-          onClick={closeModal}
-        >
-          <div
-            className="communityImage-download-box fade-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="communityImage-download-preview">
-              <img src={selectedImage.dataImage} alt="Preview" />
-            </div>
-            <div className="communityImage-download-info">
-              <div className="communityImage-image-info">
-                <div className="communityImage-image-name">
-                  {selectedImage.title}.{selectedImage.extension}
-                </div>
-                <div className="communityImage-image-size">
-                  {selectedImage.size}
-                </div>
-              </div>
-
-              <div className="communityImage-image-info2">
-                <div className="communityImage-image-username">
-                  만든 사람: {selectedImage.username}
-                </div>
-                <button
-                  className="communityImage-download-button"
-                  onClick={() => {
-                    const link = document.createElement("a");
-                    link.href = selectedImage.dataImage;
-                    link.download = `${selectedImage.title}.${selectedImage.extension}`;
-                    link.click();
-                  }}
-                >
-                  다운로드
-                </button>
-              </div>
-            </div>
-            <button
-              className="communityImage-modal-close-button"
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+      <ModalImage
+        image={selectedImage}
+        onClose={closeModal}
+        isCommunity={true}
+      />
     </section>
   );
 };

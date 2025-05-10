@@ -1,0 +1,123 @@
+.modalVideo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.modalVideo-box {
+  width: 950px;
+  height: 400px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  position: relative;
+  z-index: 1000;
+  padding: 20px;
+  margin-left: 300px;
+  margin-bottom: 100px;
+}
+
+.modalVideo-box.fade-in {
+  opacity: 1;
+}
+
+.modalVideo-preview {
+  width: 400px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.modalVideo-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalVideo-download-info {
+  color: white;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 550px;
+  height: 100%;
+  position: relative;
+}
+
+.modalVideo-video-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modalVideo-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.modalVideo-size {
+  font-size: 18px;
+}
+
+.modalVideo-video-info2 {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modalVideo-username {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #f794a4 0%, #fdd6bd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.modalVideo-download-button {
+  width: 96%;
+  height: 40px;
+  background: var(--gradient-text);
+  color: #0d1116;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.modalVideo-download-button:hover {
+  transform: scale(1.05);
+}
+
+.modalVideo-close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.modalVideo-close-button:hover {
+  transform: scale(1.1);
+}
