@@ -8,6 +8,7 @@ import GradientBox from "../../components/GradientBox/GradientBox";
 import BackgroundMusic from "./components/BackgroundMusic/BackgroundMusic";
 import ScriptEditor from "./components/ScriptEditor/ScriptEditor";
 import VideoPreview from "./components/VideoPreview/VideoPreview";
+import TextScriptEditor from "./components/TextScriptEditor/TextScriptEditor";
 
 function AiVideos() {
   const [activeTab, setActiveTab] = useState("text");
@@ -22,6 +23,10 @@ function AiVideos() {
   const [showMergedVideo, setShowMergedVideo] = useState(false);
   const [showBackgroundMusic, setShowBackgroundMusic] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState(null);
+  const [showTextScriptEditor, setShowTextScriptEditor] = useState(false);
+  const [showTextScriptResult, setShowTextScriptResult] = useState(false);
+  const [selectedTextVoiceIndex, setSelectedTextVoiceIndex] = useState(null);
+  const [selectedTextMusic, setSelectedTextMusic] = useState(null);
 
   useEffect(() => {
     if (isGenerating) {
@@ -93,14 +98,36 @@ function AiVideos() {
     setShowScriptEditor(true);
   };
 
+  const handleTextScriptGenerate = () => {
+    setShowTextScriptResult(true);
+  };
+
+  const handleTextVoiceSelect = (index) => {
+    setSelectedTextVoiceIndex(index);
+  };
+
+  const handleTextMusicSelect = (musicId) => {
+    setSelectedTextMusic(musicId);
+  };
+
+  const handleTextProceedToScript = () => {
+    setShowBackgroundMusic(false);
+    setShowTextScriptEditor(true);
+  };
+
+  const handleTextBackgroundMusicSelect = () => {
+    setShowBackgroundMusic(true);
+    setShowTextScriptEditor(false);
+  };
+
   const shouldShowPreviewBox =
     isGenerating || showVideoText || showVideoImage || isMerging || showMergedVideo;
 
   return (
     <section className="AiVideo_aiVideos">
       <main className="AiVideo_aiVideos__initial">
-        <div className={`AiVideo_aiVideos__editor ${showScriptEditor || showBackgroundMusic ? "no-margin" : ""}`}>
-          {!showScriptEditor && !showBackgroundMusic ? (
+        <div className={`AiVideo_aiVideos__editor ${showScriptEditor || showBackgroundMusic || showTextScriptEditor ? "no-margin" : ""}`}>
+          {!showScriptEditor && !showBackgroundMusic && !showTextScriptEditor ? (
             <>
               <TexttoVideo
                 activeTab={activeTab}
@@ -116,14 +143,14 @@ function AiVideos() {
               />
             </>
           ) : showBackgroundMusic ? (
-            <GradientBox width={"550px"} height={"550px"}>
+            <GradientBox width={"550px"} height={"560px"}>
               <BackgroundMusic
-                selectedMusic={selectedMusic}
-                onMusicSelect={handleMusicSelect}
-                onProceedToScript={handleProceedToScript}
+                selectedMusic={activeTab === "text" ? selectedTextMusic : selectedMusic}
+                onMusicSelect={activeTab === "text" ? handleTextMusicSelect : handleMusicSelect}
+                onProceedToScript={activeTab === "text" ? handleTextProceedToScript : handleProceedToScript}
               />
             </GradientBox>
-          ) : (
+          ) : showScriptEditor ? (
             <>
               <GradientBox width={"550px"} height={"240px"}>
                 <ScriptEditor
@@ -170,6 +197,53 @@ function AiVideos() {
                 </div>
               )}
             </>
+          ) : (
+            <>
+              <GradientBox width={"550px"} height={"240px"}>
+                <TextScriptEditor
+                  showScriptResult={showTextScriptResult}
+                  selectedVoiceIndex={selectedTextVoiceIndex}
+                  onScriptGenerate={handleTextScriptGenerate}
+                  onVoiceSelect={handleTextVoiceSelect}
+                  onMerge={handleMerge}
+                />
+              </GradientBox>
+              {showTextScriptResult && (
+                <div className="AiVideo_script-output__wrapper">
+                  <GradientBox width={"550px"} height={"450px"}>
+                    <div className="AiVideo_script-output__box">
+                      <div className="AiVideo_text-input__title">생성된 대본</div>
+                      <div className="AiVideo_text-input__textarea" style={{ height: "138px", width: "101%" }}>
+                        지친 순간, 내 몸이 먼저 찾는건<br />
+                        맑고 깨끗한 한 모금, 생기를 채우다. <br />
+                        Deep 워터, 당신의 하루를 깨우는 물.
+                      </div>
+                      <div className="AiVideo_voice-list">
+                        {[...Array(6)].map((_, index) => (
+                          <div
+                            className={`AiVideo_voice-item ${selectedTextVoiceIndex === index ? "selected" : ""}`}
+                            key={index}
+                            onClick={() => handleTextVoiceSelect(index)}
+                          >
+                            <img src="https://placehold.co/45x45" alt="voice" />
+                            <div className="AiVideo_voice-info">
+                              <div className="AiVideo_voice-name">Voice {index + 1}</div>
+                              <div className="AiVideo_voice-details">30세 - 남성(KR)</div>
+                            </div>
+                            <button className="AiVideo_voice-play">▶</button>
+                          </div>
+                        ))}
+                      </div>
+                      {selectedTextVoiceIndex !== null && (
+                        <button className="AiVideo_merge-button" onClick={handleMerge}>
+                          음성 입히기
+                        </button>
+                      )}
+                    </div>
+                  </GradientBox>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -181,7 +255,7 @@ function AiVideos() {
             showVideoText={showVideoText}
             showVideoImage={showVideoImage}
             showMergedVideo={showMergedVideo}
-            onBackgroundMusicSelect={handleBackgroundMusicSelect}
+            onBackgroundMusicSelect={activeTab === "text" ? handleTextBackgroundMusicSelect : handleBackgroundMusicSelect}
           />
         </div>
       </main>

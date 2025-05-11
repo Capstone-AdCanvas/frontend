@@ -86,7 +86,7 @@ const Settings = ({
           </div>
         </div>
         <div className="settings__screen__main__option4">
-          <span>대본</span>
+          <span>음성 합성</span>
           <div className="settings__screen__main__option4__btn">
             <button
               className={script === "on" ? "active" : ""}

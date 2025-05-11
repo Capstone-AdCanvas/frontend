@@ -16,6 +16,7 @@
   font-weight: bold;
   color: #ffffff;
   gap: 10px;
+  margin-top: -15px;
 }
 .prompt__screen__title > img {
   width: 25px;

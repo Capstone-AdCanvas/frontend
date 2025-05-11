@@ -10,7 +10,8 @@ function VideoPreview({
   showVideoText,
   showVideoImage,
   showMergedVideo,
-  onBackgroundMusicSelect
+  onBackgroundMusicSelect,
+  activeTab
 }) {
   if (!shouldShowPreviewBox) {
     return (
@@ -23,38 +24,44 @@ function VideoPreview({
 
   return (
     <div className="AiVideo_aiVideos__preview">
-      {(isGenerating || isMerging) && (
+      {!shouldShowPreviewBox ? (
+        <div className="AiVideo_preview__initial">
+          <img src="/images/video-icon.png" alt="video" />
+          <p>영상을 생성해주세요</p>
+        </div>
+      ) : isGenerating ? (
         <div className="AiVideo_preview__loading">
-          <div className="AiVideo_spinner" />
+          <div className="AiVideo_spinner"></div>
         </div>
-      )}
-      {showVideoText && !isMerging && (
+      ) : isMerging ? (
+        <div className="AiVideo_preview__loading">
+          <div className="AiVideo_spinner"></div>
+        </div>
+      ) : showVideoText ? (
         <div className="AiVideo_preview__videoBox">
           <video width="940" height="600" controls>
             <source src={dummyVideo} type="video/mp4" />
           </video>
-        </div>
-      )}
-      {showVideoImage && !isMerging && (
-        <div className="AiVideo_preview__videoBox">
-          <video width="940" height="600" controls>
-            <source src={dummyVideo} type="video/mp4" />
-          </video>
-          <button
-            className="AiVideo_script-add-button"
-            onClick={onBackgroundMusicSelect}
-          >
-            배경음악 생성, 대본 만들고 음성 입히기
+          <button className="AiVideo_script-add-button" onClick={onBackgroundMusicSelect}>
+            대본 만들기
           </button>
         </div>
-      )}
-      {showMergedVideo && (
+      ) : showVideoImage ? (
+        <div className="AiVideo_preview__videoBox">
+          <video width="940" height="600" controls>
+            <source src={dummyVideo} type="video/mp4" />
+          </video>
+          <button className="AiVideo_script-add-button" onClick={onBackgroundMusicSelect}>
+            대본 만들기
+          </button>
+        </div>
+      ) : showMergedVideo ? (
         <div className="AiVideo_preview__videoBox">
           <video width="940" height="600" controls>
             <source src={dummyVideo} type="video/mp4" />
           </video>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
