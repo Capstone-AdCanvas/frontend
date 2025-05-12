@@ -1,0 +1,97 @@
+.TextBackgroundMusic {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.TextBackgroundMusic__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.TextBackgroundMusic__list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #1f2429;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.TextBackgroundMusic__item {
+  width: 100%;
+  height: 65px;
+  background-color: #1f2429;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  color: white;
+  gap: 15px;
+  border: 1px solid #2d333b;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.TextBackgroundMusic__item:hover {
+  background-color: #2d333b;
+}
+
+.TextBackgroundMusic__item.selected {
+  border: 2px solid var(--gradient-text);
+  background-color: #2d333b;
+}
+
+.TextBackgroundMusic__item img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.TextBackgroundMusic__info {
+  flex-grow: 1;
+}
+
+.TextBackgroundMusic__name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.TextBackgroundMusic__details {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.TextBackgroundMusic__play {
+  background-color: white;
+  color: #0d1116;
+  font-weight: bold;
+  border: none;
+  border-radius: 100px;
+  padding: 6px 6px;
+  cursor: pointer;
+}
+
+.TextBackgroundMusic__button {
+  width: 490px;
+  height: 50px;
+  background: var(--gradient-text);
+  color: black;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 

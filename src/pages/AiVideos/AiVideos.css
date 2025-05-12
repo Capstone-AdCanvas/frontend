@@ -1,9 +1,272 @@
-.aiVideos {
+.AiVideo_aiVideos {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
-.aiVideos__initial {
+
+.AiVideo_aiVideos__initial {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  padding: 30px 0;
+}
+
+/* 왼쪽 입력 영역 */
+.AiVideo_aiVideos__editor {
   width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: margin 0.3s;
+}
+.AiVideo_aiVideos__editor.no-margin {
+  margin-left: 0;
+  margin-top: 80px;
+}
+.AiVideo_aiVideos__editor:not(.no-margin) {
+  margin-left: -200px;
+  margin-top: -0px;
+}
+
+/* 오른쪽 프리뷰 전체 wrapper */
+.AiVideo_aiVideos__right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 초기 텍스트 및 이미지 */
+.AiVideo_preview__initial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 700px;
+  width: 1000px;
+  margin-top: 150px;
+  margin-left: 70px;
+  border-radius: 20px;
+}
+.AiVideo_preview__initial img {
+  width: 150px;
+  margin-bottom: 20px;
+}
+.AiVideo_preview__initial p {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 회색 박스 */
+.AiVideo_aiVideos__preview {
+  width: 1000px;
+  height: 727px;
+  background-color: #282e37;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+  margin-left: 10px;
+  position: relative;
+}
+
+/* 영상 박스 */
+.AiVideo_preview__videoBox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.AiVideo_preview__videoBox video {
+  width: 940px;
+  height: 600px;
+  border-radius: 10px;
+  margin-top: -40px;
+}
+
+/* 로딩 인디케이터 */
+.AiVideo_preview__loading .AiVideo_spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #fff;
+  border-top: 6px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 대본 만들기 버튼 */
+.AiVideo_script-add-button {
+  width: 190px;
+  height: 35px;
+  position: absolute;
+  bottom: -53px;
+  right: 4px;
+  background: white;
+  color: #0d1116;
+  font-size: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* 대본 생성 프롬프트 */
+.AiVideo_text-input__box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.AiVideo_text-input__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+.AiVideo_text-input__textarea {
+  width: 95%;
+  height: 300px;
+  resize: none;
+  border-radius: 8px;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #000000;
+  color: white;
+}
+.AiVideo_text-input__button {
+  background: var(--gradient-text);
+  color: #0D1116;
+  padding: 4px 25px;
+  display: flex;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+/* 생성된 대본 출력 박스 */
+.AiVideo_script-output__wrapper {
+  margin-top: 30px;
+}
+
+.AiVideo_script-output__box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 10px;
+}
+
+/* 음성 리스트 */
+.AiVideo_voice-list {
+  width: 100%;
+  height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #1f2429;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* 음성 항목 */
+.AiVideo_voice-item {
+  width: 100%;
+  height: 65px;
+  background-color: #1f2429;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  color: white;
+  gap: 15px;
+  border: 1px solid #2d333b;
+  transition: all 0.2s ease;
+}
+
+.AiVideo_voice-item:hover {
+  background-color: #2d333b;
+}
+
+.AiVideo_voice-item img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.AiVideo_voice-info {
+  flex-grow: 1;
+}
+
+.AiVideo_voice-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.AiVideo_voice-details {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.AiVideo_voice-play {
+  background-color: white;
+  color: #0d1116;
+  font-weight: bold;
+  border: none;
+  border-radius: 100px;
+  padding: 6px 6px;
+  cursor: pointer;
+}
+
+.AiVideo_voice-item.selected {
+  border: 2px solid var(--gradient-text);
+  background-color: #2d333b;
+}
+
+.AiVideo_merge-button {
+  width: 560px;
+  height: 50px;
+  background: var(--gradient-text);
+  color: black;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.AiVideo_voice-list::-webkit-scrollbar {
+  width: 6px; /* 스크롤 바 너비 */
+  height: 6px; /* 수평 스크롤 바에도 적용 시 */
+}
+
+.AiVideo_voice-list::-webkit-scrollbar-track {
+  background: transparent; /* 배경 없애기 */
+}
+
+.AiVideo_voice-list::-webkit-scrollbar-thumb {
+  background-color: white ;
+  border-radius: 4px;
+  min-height: 30px;
 }

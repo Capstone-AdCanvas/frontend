@@ -1,0 +1,80 @@
+.AiVideo_preview__initial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 700px;
+  width: 1000px;
+  margin-top: 150px;
+  margin-left: 70px;
+  border-radius: 20px;
+}
+
+.AiVideo_preview__initial img {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.AiVideo_preview__initial p {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.AiVideo_aiVideos__preview {
+  width: 1000px;
+  height: 727px;
+  background-color: #282e37;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+  margin-left: 10px;
+  position: relative;
+}
+
+.AiVideo_preview__videoBox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AiVideo_preview__videoBox video {
+  width: 940px;
+  height: 600px;
+  border-radius: 10px;
+  margin-top: -40px;
+}
+
+.AiVideo_preview__loading .AiVideo_spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #fff;
+  border-top: 6px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.AiVideo_script-add-button {
+  width: 190px;
+  height: 35px;
+  position: absolute;
+  bottom: -53px;
+  right: 4px;
+  background: white;
+  color: #0d1116;
+  font-size: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 5;
+} 
