@@ -29,18 +29,21 @@ function Login() {
   };
 
   const handleSignUp = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await registerUser(formData);
-      console.log("Registration successful:", response);
-      // 회원가입 성공 후 로그인 화면으로 전환
-      setIsSignIn(true);
-      setFormData({ username: "", email: "", password: "" });
-      setError("");
-    } catch (error) {
-      setError(error.message || "회원가입 중 오류가 발생했습니다.");
-    }
-  };
+  e.preventDefault();
+  try {
+    const response = await registerUser({
+      name: formData.username,
+      email: formData.email,
+      password: formData.password
+    });
+    console.log("Registration successful:", response);
+    setIsSignIn(true);
+    setFormData({ username: "", email: "", password: "" });
+    setError("");
+  } catch (error) {
+    setError(error.message || "회원가입 중 오류가 발생했습니다.");
+  }
+};
 
   const WelcomeSection = () => (
     <div
