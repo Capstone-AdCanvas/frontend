@@ -1,17 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Login.css";
+import { registerUser } from "../../api/user";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState("");
 
   const handleToggle = () => setIsSignIn((prev) => !prev);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") navigate("/home");
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSignUp = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await registerUser({
+      name: formData.username,
+      email: formData.email,
+      password: formData.password
+    });
+    console.log("Registration successful:", response);
+    setIsSignIn(true);
+    setFormData({ username: "", email: "", password: "" });
+    setError("");
+  } catch (error) {
+    setError(error.message || "회원가입 중 오류가 발생했습니다.");
+  }
+};
 
   const WelcomeSection = () => (
     <div
@@ -37,65 +69,81 @@ function Login() {
     </div>
   );
 
-  const AuthForm = () => (
-    <div
-      className={`login__form ${
-        isSignIn ? "login__movingForm" : "login__startForm"
-      }`}
-      style={{
-        transform: isSignIn ? "translate(0px)" : "translate(400px)",
-        borderRadius: isSignIn ? "15px 0px 0px 15px" : "0px 15px 15px 0px",
-      }}
-    >
-      <h4 className="login__bold">
-        {isSignIn ? "Sign-in in to AdCanvas" : "Create Account"}
-      </h4>
+  const AuthForm = useMemo(() => {
+    return (
+      <div
+        className={`login__form ${
+          isSignIn ? "login__movingForm" : "login__startForm"
+        }`}
+        style={{
+          transform: isSignIn ? "translate(0px)" : "translate(400px)",
+          borderRadius: isSignIn ? "15px 0px 0px 15px" : "0px 15px 15px 0px",
+        }}
+      >
+        <h4 className="login__bold">
+          {isSignIn ? "Sign-in in to AdCanvas" : "Create Account"}
+        </h4>
 
-      <div className="login__icons">
-        <div className="login__icon">
-          <i className="fa-brands fa-instagram"></i>
+        <div className="login__icons">
+          <div className="login__icon">
+            <i className="fa-brands fa-instagram"></i>
+          </div>
         </div>
-      </div>
 
-      <p className="login__normal login__light">
-        {isSignIn
-          ? "Or use your email account"
-          : "Or use your email for registration"}
-      </p>
+        <p className="login__normal login__light">
+          {isSignIn
+            ? "Or use your email account"
+            : "Or use your email for registration"}
+        </p>
 
-      {!isSignIn && (
+        {!isSignIn && (
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            className="login__normal login__input"
+            value={formData.username}
+            onChange={handleInputChange}
+          />
+        )}
+
         <input
           type="text"
-          placeholder="Username"
+          name="email"
+          placeholder="Email"
           className="login__normal login__input"
+          value={formData.email}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
-      )}
+        <br />
 
-      <input
-        type="text"
-        placeholder="Email"
-        className="login__normal login__input"
-        onKeyDown={handleKeyDown}
-      />
-      <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          className="login__normal login__input"
+          value={formData.password}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+        />
+        <br />
 
-      <input
-        type="password"
-        placeholder="Password"
-        className="login__normal login__input"
-        onKeyDown={handleKeyDown}
-      />
-      <br />
+        {error && <p className="login__normal" style={{ color: "red" }}>{error}</p>}
 
-      {isSignIn && (
-        <p className="login__normal login__forgot">Forgot your password?</p>
-      )}
+        {isSignIn && (
+          <p className="login__normal login__forgot">Forgot your password?</p>
+        )}
 
-      <button className="b-button login__normal">
-        {isSignIn ? "SIGN IN" : "SIGN UP"}
-      </button>
-    </div>
-  );
+        <button 
+          className="b-button login__normal"
+          onClick={!isSignIn ? handleSignUp : undefined}
+        >
+          {isSignIn ? "SIGN IN" : "SIGN UP"}
+        </button>
+      </div>
+    );
+  }, [isSignIn, formData, error, handleInputChange, handleKeyDown, handleSignUp]);
 
   return (
     <article className="loginPage">
@@ -112,7 +160,7 @@ function Login() {
       </div>
 
       {isSignIn ? <HelloSection /> : <WelcomeSection />}
-      <AuthForm />
+      {AuthForm}
     </article>
   );
 }
