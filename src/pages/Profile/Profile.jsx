@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import editIcon from "../../assets/profile-edit-btn-1.png";
@@ -8,13 +8,15 @@ import instaIcon from "../../assets/profile-insta-icon.png";
 import GradientBox from "../../components/GradientBox/GradientBox";
 import imageIcon from "../../assets/AI Images.png";
 import uploadIcon from "../../assets/uploadIcon.png";
+import { ProfileContext } from "../../context/ProfileContext";
 
 function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showImageUploader, setShowImageUploader] = useState(false);
-  const [profileImage, setProfileImage] = useState(profileIcon);
+  // const [profileImage, setProfileImage] = useState(profileIcon);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const { profileImage, setProfileImage } = useContext(ProfileContext);
 
   const toggleEditMode = () => setIsEditMode((prev) => !prev);
 
@@ -140,7 +142,7 @@ function Profile() {
             </button>
           </div>
 
-          <div className="profilePage__content__info__insta">
+          {/* <div className="profilePage__content__info__insta">
             <img src={instaIcon} alt="인스타 아이콘" />
             {isEditMode ? (
               <button className="profilePage__content__info__insta__login">
@@ -151,7 +153,7 @@ function Profile() {
                 chill_guy
               </span>
             )}
-          </div>
+          </div> */}
         </div>
       </article>
     </section>
