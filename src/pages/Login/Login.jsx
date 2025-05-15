@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Login.css";
-import { registerUser } from "../../api/user";
+import { getAllUsers, registerUser } from "../../api/user";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -10,7 +10,7 @@ function Login() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    password: ""
+    password: "",
   });
   const [error, setError] = useState("");
 
@@ -22,28 +22,49 @@ function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSignUp = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await registerUser({
-      name: formData.username,
-      email: formData.email,
-      password: formData.password
-    });
-    console.log("Registration successful:", response);
-    setIsSignIn(true);
-    setFormData({ username: "", email: "", password: "" });
-    setError("");
-  } catch (error) {
-    setError(error.message || "회원가입 중 오류가 발생했습니다.");
-  }
-};
+    e.preventDefault();
+    try {
+      const response = await registerUser({
+        name: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
+      console.log("Registration successful:", response);
+      setIsSignIn(true);
+      setFormData({ username: "", email: "", password: "" });
+      setError("");
+    } catch (error) {
+      setError(error.message || "회원가입 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
+      const users = await getAllUsers();
+
+      const matchedUser = users.find(
+        (user) =>
+          user.email === formData.email && user.password === formData.password
+      );
+
+      if (matchedUser) {
+        console.log("로그인 성공:", matchedUser);
+        setError("");
+        navigate("/home"); // 홈으로 이동
+      } else {
+        setError("이메일 또는 비밀번호가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      setError("서버 오류로 로그인할 수 없습니다.");
+    }
+  };
 
   const WelcomeSection = () => (
     <div
@@ -129,21 +150,32 @@ function Login() {
         />
         <br />
 
-        {error && <p className="login__normal" style={{ color: "red" }}>{error}</p>}
+        {error && (
+          <p className="login__normal" style={{ color: "red" }}>
+            {error}
+          </p>
+        )}
 
         {isSignIn && (
           <p className="login__normal login__forgot">Forgot your password?</p>
         )}
 
-        <button 
+        <button
           className="b-button login__normal"
-          onClick={!isSignIn ? handleSignUp : undefined}
+          onClick={isSignIn ? handleSignIn : handleSignUp}
         >
           {isSignIn ? "SIGN IN" : "SIGN UP"}
         </button>
       </div>
     );
-  }, [isSignIn, formData, error, handleInputChange, handleKeyDown, handleSignUp]);
+  }, [
+    isSignIn,
+    formData,
+    error,
+    handleInputChange,
+    handleKeyDown,
+    handleSignUp,
+  ]);
 
   return (
     <article className="loginPage">
@@ -155,7 +187,7 @@ function Login() {
         }}
       >
         <div className="p-button login__normal" onClick={handleToggle}>
-          {isSignIn ? "SIGN IN" : "SIGN UP"}
+          {isSignIn ? "SIGN UP" : "SIGN IN"}
         </div>
       </div>
 
