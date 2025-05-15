@@ -32,7 +32,7 @@ function Login() {
   e.preventDefault();
   try {
     const response = await registerUser({
-      name: formData.username,
+      name: formData.username,  
       email: formData.email,
       password: formData.password
     });

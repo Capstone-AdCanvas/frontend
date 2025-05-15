@@ -10,6 +10,15 @@
   margin-top: 150px;
 }
 
+.error-message {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff4444;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ff4444;
+}
+
 .image-upload {
   display: flex;
   align-items: center;

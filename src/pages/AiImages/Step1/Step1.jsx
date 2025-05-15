@@ -3,10 +3,11 @@ import "./Step1.css";
 import GradientBox from "../../../components/GradientBox/GradientBox";
 import image from "../../../assets/AI Images.png";
 import uploadIcon from "../../../assets/uploadIcon.png";
-import sampleImage from "../../../assets/두부_배경제거.png";
+import { uploadImage, removeBackground } from "../../../api/image";
 
 function Step1({ setCurrentStep }) {
   const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -14,6 +15,9 @@ function Step1({ setCurrentStep }) {
   const [isAnimationDone, setIsAnimationDone] = useState(false);
   const [showDownloadBox, setShowDownloadBox] = useState(false);
   const [showNextStepButton, setShowNextStepButton] = useState(false);
+  const [processedImage, setProcessedImage] = useState(null);
+  const [imageId, setImageId] = useState(null);
+  const [error, setError] = useState(null);
 
   // exit 애니메이션 실행 여부를 위한 state
   const [animateExit, setAnimateExit] = useState(false);
@@ -23,6 +27,7 @@ function Step1({ setCurrentStep }) {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
+      setSelectedFile(file);
       setUploadedImage(URL.createObjectURL(file));
     }
   };
@@ -31,18 +36,30 @@ function Step1({ setCurrentStep }) {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (file) {
+      setSelectedFile(file);
       setUploadedImage(URL.createObjectURL(file));
     }
   };
 
-  const handleBackgroundRemove = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+  const handleBackgroundRemove = async () => {
+    if (!selectedFile) return;
+    
+    try {
+      setIsLoading(true);
+      // 1. 먼저 이미지 업로드
+      const uploadResult = await uploadImage(selectedFile);
+      setImageId(uploadResult.id);
+      
+      // 2. 배경 제거 요청
+      const result = await removeBackground(uploadResult.id);
+      setProcessedImage(result.processedImage);
       setIsComplete(true);
-    }, 5000);
+      setError(null);
+    } catch (err) {
+      setError(err.message || '배경 제거에 실패했습니다.');
+      setIsLoading(false);
+    }
   };
-
 
   useEffect(() => {
     if (isComplete) {
@@ -82,6 +99,7 @@ function Step1({ setCurrentStep }) {
 
   return (
     <div className="step1">
+      {error && <div className="error-message">{error}</div>}
       {!isComplete ? (
         <GradientBox
           width={600}
@@ -120,7 +138,11 @@ function Step1({ setCurrentStep }) {
                 {!isLoading && (
                   <button
                     className="close-button"
-                    onClick={() => setUploadedImage(null)}
+                    onClick={() => {
+                      setUploadedImage(null);
+                      setImageId(null);
+                      setError(null);
+                    }}
                   >
                     ×
                   </button>
@@ -143,7 +165,7 @@ function Step1({ setCurrentStep }) {
             <div className="image-transition-wrapper">
               <div className="image-blend-container">
                 <img
-                  src={sampleImage}
+                  src={`http://localhost:8080${processedImage}`}
                   alt="After"
                   className="image-half"
                   style={{
@@ -170,7 +192,7 @@ function Step1({ setCurrentStep }) {
             <div className="final-screen">
               <div className={`final-image-container ${animateExit ? "exit-animation" : ""}`}>
                 <img
-                  src={sampleImage}
+                  src={`http://localhost:8080${processedImage}`}
                   alt="Final"
                   className="final-image-move"
                 />
@@ -178,7 +200,7 @@ function Step1({ setCurrentStep }) {
               {!animateExit && showDownloadBox && (
                 <div className="download-box fade-in">
                   <div className="download-info">
-                    <div className="image-name">강아지.jpg</div>
+                    <div className="image-name">배경제거_이미지.jpg</div>
                     <div className="image-size">사이즈: 400 × 400</div>
                     <button className="download-button">다운로드</button>
                   </div>
