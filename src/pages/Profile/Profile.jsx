@@ -16,7 +16,8 @@ function Profile() {
   // const [profileImage, setProfileImage] = useState(profileIcon);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const { profileImage, setProfileImage } = useContext(ProfileContext);
+  const { profileImage, setProfileImage, profileName } =
+    useContext(ProfileContext);
 
   const toggleEditMode = () => setIsEditMode((prev) => !prev);
 
@@ -124,7 +125,7 @@ function Profile() {
           <div className="profilePage__content__info__name">
             닉네임:
             <span className="profilePage__content__info__name__nickname">
-              Chill guy
+              {profileName || "닉네임 없음"}
             </span>
           </div>
           <div className="profilePage__content__info__btn">

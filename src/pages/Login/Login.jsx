@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Login.css";
-import { getAllUsers, registerUser } from "../../api/user";
+import { loginUser, registerUser } from "../../api/user";
+import { ProfileContext } from "../../context/ProfileContext";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -13,6 +14,7 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState("");
+  const { setProfileName } = useContext(ProfileContext);
 
   const handleToggle = () => setIsSignIn((prev) => !prev);
 
@@ -47,22 +49,24 @@ function Login() {
 
   const handleSignIn = async () => {
     try {
-      const users = await getAllUsers();
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+      };
 
-      const matchedUser = users.find(
-        (user) =>
-          user.email === formData.email && user.password === formData.password
-      );
+      const response = await loginUser(userData);
+      console.log("로그인 성공:", response);
 
-      if (matchedUser) {
-        console.log("로그인 성공:", matchedUser);
-        setError("");
-        navigate("/home"); // 홈으로 이동
-      } else {
-        setError("이메일 또는 비밀번호가 일치하지 않습니다.");
-      }
+      // 기존 localStorage 클리어 (중복 방지)
+      localStorage.removeItem("profileImage");
+      localStorage.removeItem("profileName");
+
+      setProfileName(response.name);
+      setError("");
+      navigate("/home");
     } catch (error) {
-      setError("서버 오류로 로그인할 수 없습니다.");
+      console.error("로그인 오류:", error);
+      setError(error.message || "이메일 또는 비밀번호가 일치하지 않습니다.");
     }
   };
 

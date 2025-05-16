@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./SideMenubar.css";
 
@@ -14,14 +14,20 @@ import Help from "../subcomponents/Help/Help";
 
 import { motion } from "framer-motion";
 import { animation } from "../../styles/motion";
+import { ProfileContext } from "../../context/ProfileContext";
 
 function SideMenubar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const [showHelp, setShowHelp] = useState(false);
+  const { logout } = useContext(ProfileContext);
 
   // 유틸: 현재 경로가 메뉴 경로와 일치하는지 확인
   const isCurrent = (path) => currentPath.startsWith(path);
+
+  const handleLogout = () => {
+    logout(); // 상태와 localStorage 초기화
+  };
 
   return (
     <nav className="sideMenubar">
@@ -199,13 +205,8 @@ function SideMenubar() {
           <span className={`menu-text${showHelp ? " active" : ""}`}>Help</span>
         </li>
         {/* 일단 Logout Account만 만들고 나중에 로그인 연동을 하면, 로그인 여부에 따라서 Login Account/Logout Account로 구현하면 될 것같음 */}
-        <li className="menu-item">
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              "menu-link" + (isActive ? " active" : "")
-            }
-          >
+        <li className="menu-item" onClick={handleLogout}>
+          <NavLink to="/login">
             <img src={LogoutImg} alt="Logout" className="menu-icon" />
             <span className="menu-text">Logout Account</span>
           </NavLink>

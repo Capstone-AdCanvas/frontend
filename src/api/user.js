@@ -17,12 +17,18 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const getAllUsers = async () => {
+// 🔄 로그인 요청 API 추가
+export const loginUser = async (credentials) => {
   try {
-    const response = await axios.get(API_BASE_URL);
-    return response.data; // 사용자 목록 배열
+    const response = await axios.post(`${API_BASE_URL}/login`, credentials);
+    return response.data;
   } catch (error) {
-    console.error("전체 유저 조회 실패", error);
-    throw error;
+    if (error.response) {
+      console.error("Login Error:", error.response.data);
+      throw error.response.data;
+    } else {
+      console.error("Network or Unknown Error:", error);
+      throw { message: "서버와 연결할 수 없습니다." };
+    }
   }
 };
