@@ -4,6 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Login.css";
 import { loginUser, registerUser } from "../../api/user";
 import { ProfileContext } from "../../context/ProfileContext";
+import profileIcon from "../../assets/profile-icon.png";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -14,7 +15,8 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState("");
-  const { setProfileName } = useContext(ProfileContext);
+  const { setProfileName, setEmail, setProfileImage } =
+    useContext(ProfileContext);
 
   const handleToggle = () => setIsSignIn((prev) => !prev);
 
@@ -54,14 +56,18 @@ function Login() {
         password: formData.password,
       };
 
-      const response = await loginUser(userData);
-      console.log("로그인 성공:", response);
-
-      // 기존 localStorage 클리어 (중복 방지)
-      localStorage.removeItem("profileImage");
-      localStorage.removeItem("profileName");
+      const response = await loginUser(userData); // { name, email }
 
       setProfileName(response.name);
+      setEmail(response.email);
+
+      // 이메일별 저장된 이미지 로드
+      const storedImages = JSON.parse(
+        localStorage.getItem("userProfileImages") || "{}"
+      );
+      const image = storedImages[response.email];
+      setProfileImage(image || profileIcon);
+
       setError("");
       navigate("/home");
     } catch (error) {

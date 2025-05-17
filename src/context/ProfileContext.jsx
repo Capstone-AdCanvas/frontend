@@ -4,38 +4,59 @@ import profileIcon from "../assets/profile-icon.png";
 export const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
-  const [profileImage, setProfileImage] = useState(() => {
-    return localStorage.getItem("profileImage") || profileIcon;
-  });
-
   const [profileName, setProfileName] = useState(() => {
     return localStorage.getItem("profileName") || "";
   });
 
-  // ✅ 로그아웃 함수
-  const logout = () => {
-    localStorage.removeItem("profileImage");
-    localStorage.removeItem("profileName");
-    setProfileImage(profileIcon);
-    setProfileName("");
+  const [email, setEmail] = useState(() => {
+    return localStorage.getItem("email") || "";
+  });
+
+  const getStoredImage = (email) => {
+    const stored = localStorage.getItem("userProfileImages");
+    const images = stored ? JSON.parse(stored) : {};
+    return images[email] || profileIcon;
   };
 
-  useEffect(() => {
-    localStorage.setItem("profileImage", profileImage);
-  }, [profileImage]);
+  const [profileImage, setProfileImage] = useState(() =>
+    getStoredImage(localStorage.getItem("email"))
+  );
 
   useEffect(() => {
     localStorage.setItem("profileName", profileName);
   }, [profileName]);
 
+  useEffect(() => {
+    localStorage.setItem("email", email);
+  }, [email]);
+
+  useEffect(() => {
+    if (email) {
+      const stored = localStorage.getItem("userProfileImages");
+      const images = stored ? JSON.parse(stored) : {};
+      images[email] = profileImage;
+      localStorage.setItem("userProfileImages", JSON.stringify(images));
+    }
+  }, [profileImage, email]);
+
+  const logout = () => {
+    localStorage.removeItem("profileName");
+    localStorage.removeItem("email");
+    setProfileName("");
+    setEmail("");
+    setProfileImage(profileIcon); // 기본 이미지로 초기화
+  };
+
   return (
     <ProfileContext.Provider
       value={{
-        profileImage,
-        setProfileImage,
         profileName,
         setProfileName,
-        logout, // 👈 로그아웃 추가
+        profileImage,
+        setProfileImage,
+        email,
+        setEmail,
+        logout,
       }}
     >
       {children}
