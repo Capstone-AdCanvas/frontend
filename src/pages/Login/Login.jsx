@@ -160,11 +160,7 @@ function Login() {
         />
         <br />
 
-        {error && (
-          <p className="login__normal" style={{ color: "red" }}>
-            {error}
-          </p>
-        )}
+        {error && <p className="login__normal login__error">{error}</p>}
 
         {isSignIn && (
           <p className="login__normal login__forgot">Forgot your password?</p>
