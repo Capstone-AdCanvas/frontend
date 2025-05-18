@@ -24,6 +24,7 @@ import Header from "./components/Header/Header.jsx";
 import SideMenubar from "./components/SideMenubar/SideMenubar.jsx";
 import MiniSideMenuBar from "./components/MiniSideMenuBar/MinisideMenuBar.jsx";
 import "./App.css";
+import { ProfileProvider } from "./context/ProfileContext.jsx";
 
 function AppLayout() {
   const location = useLocation();
@@ -87,7 +88,9 @@ function App() {
 function AppWithRouter() {
   return (
     <Router>
-      <App />
+      <ProfileProvider>
+        <App />
+      </ProfileProvider>
     </Router>
   );
 }
