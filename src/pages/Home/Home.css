@@ -11,7 +11,7 @@
 }
 
 .home-subtitle {
-  color: #FFF;
+  color: #fff;
   font-size: 40px;
   font-family: "Apple Lisung", sans-serif;
   margin: 0;
@@ -35,16 +35,24 @@
   margin-top: 20px;
 }
 
-.AI_buttons__image {
+.AI_buttons__image,
+.AI_buttons__video {
   position: relative;
   padding: 1px;
   border-radius: 17px;
   background: var(--gradient-text);
   width: fit-content;
   height: fit-content;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.AI_buttons__image:hover,
+.AI_buttons__video:hover {
+  transform: scale(1.05);
 }
 
-.AI_buttons__image--inner {
+.AI_buttons__image--inner,
+.AI_buttons__video--inner {
   width: 530px;
   height: 186px;
   background: #0d1116;
@@ -59,7 +67,11 @@
 }
 
 .AI_buttons h3 {
-  color: white;
+  background: linear-gradient(90deg, #23fac1 0%, #60caff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
   font-size: 22px;
   font-family: "Apple SD Gothic Neo", sans-serif;
   margin: 0;
@@ -71,35 +83,29 @@
   font-family: "PingFangSC", sans-serif;
 }
 
-.AI_buttons__video {
-  width: 530px;
-  height: 186px;
-  background: linear-gradient(
-    90deg,
-    rgba(82, 255, 186, 0.04) 0%,
-    rgba(82, 255, 186, 0.04) 9%,
-    rgba(35, 250, 236, 0.04) 47%,
-    rgba(0, 170, 255, 0.04) 88%
-  );
+.AI_buttons__image--inner__image,
+.AI_buttons__video--inner__image {
+  width: 300px;
+  height: 180px;
   border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  box-sizing: border-box;
-  padding: 17px;
-  gap: 0px;
-  border: 1px solid rgba(27, 229, 236, 0.12);
+  position: absolute;
+  right: 0px;
+  top: 3px;
+}
+.AI_buttons__image--inner__image > img,
+.AI_buttons__video--inner__image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .others p {
   margin-top: 40px;
   margin-left: 100px;
-  color: #FFF;
+  color: #fff;
   font-size: 18px;
   font-family: PingFangSC, sans-serif;
 }
-
 
 .others__box {
   display: flex;
@@ -108,4 +114,13 @@
   gap: 24px;
   margin-left: 100px;
   margin-top: 20px;
+}
+
+.others__box > .box {
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.others__box > .box:hover {
+  transform: scale(1.05);
 }
