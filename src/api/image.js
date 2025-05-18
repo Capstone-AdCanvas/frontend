@@ -6,7 +6,7 @@ export const uploadImage = async (imageFile) => {
   try {
     const formData = new FormData();
     formData.append('image', imageFile);
-    formData.append('userId', '3');
+    formData.append('userId', '1');
 
     const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
       headers: {
@@ -30,6 +30,64 @@ export const removeBackground = async (imageId) => {
     const response = await axios.post(`${API_BASE_URL}/bg/${imageId}/remove`, {
       userId: 3
     });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.data);
+      throw error.response.data;
+    } else {
+      console.error('Network or Unknown Error:', error);
+      throw { message: '서버와 연결할 수 없습니다.' };
+    }
+  }
+};
+
+export const generateBackground = async (imageId, conceptOption) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/bg/${imageId}/generate`,
+      {
+        concept_option: conceptOption.toUpperCase()
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.data);
+      throw error.response.data;
+    } else {
+      console.error('Network or Unknown Error:', error);
+      throw { message: '서버와 연결할 수 없습니다.' };
+    }
+  }
+};
+
+export const generateCustomBackground = async (imageId, customPrompt) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/bg/${imageId}/custom-generate`,
+      {
+        customPrompt: customPrompt
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.data);
+      throw error.response.data;
+    } else {
+      console.error('Network or Unknown Error:', error);
+      throw { message: '서버와 연결할 수 없습니다.' };
+    }
+  }
+};
+
+export const selectFinalImage = async (imageId, fileName) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/bg/${imageId}/select-finalImage`,
+      { fileName }
+    );
     return response.data;
   } catch (error) {
     if (error.response) {

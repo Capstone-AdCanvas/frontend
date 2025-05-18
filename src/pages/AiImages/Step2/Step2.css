@@ -140,8 +140,30 @@
 .theme__box {
   width: 150px;
   height: 150px;
-  background-color: white;
+  background-color: #273038;
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.theme__box:hover {
+  background-color: #323b45;
+}
+
+.theme__box.selected {
+  border-color: var(--gradient-bg);
+  background-color: #323b45;
+}
+
+.prompt__textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .generate__button {

@@ -7,14 +7,25 @@ import Step3 from "./Step3/Step3";
 import Step4 from "./Step4/Step4";
 
 function AiImages() {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(3);
   const [hideStepBar, setHideStepBar] = useState(false); //StepBar 표시 여부 제어
+  const [bgRemovedImage, setBgRemovedImage] = useState(null);
 
   return (
     <div className="aiImages">
       {!hideStepBar && <StepBar currentStep={currentStep} />}
-      {currentStep === 1 && <Step1 setCurrentStep={setCurrentStep} />}
-      {currentStep === 2 && <Step2 setCurrentStep={setCurrentStep} />}
+      {currentStep === 1 && (
+        <Step1 
+          setCurrentStep={setCurrentStep} 
+          setBgRemovedImage={setBgRemovedImage} 
+        />
+      )}
+      {currentStep === 2 && (
+        <Step2 
+          setCurrentStep={setCurrentStep} 
+          bgRemovedImage={bgRemovedImage}
+        />
+      )}
       {currentStep === 3 && <Step3 setCurrentStep={setCurrentStep} />}
       {currentStep === 4 && <Step4 setCurrentStep={setCurrentStep} setHideStepBar={setHideStepBar} />}
     </div>

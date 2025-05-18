@@ -5,7 +5,7 @@ import image from "../../../assets/AI Images.png";
 import uploadIcon from "../../../assets/uploadIcon.png";
 import { uploadImage, removeBackground } from "../../../api/image";
 
-function Step1({ setCurrentStep }) {
+function Step1({ setCurrentStep, setBgRemovedImage }) {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -55,6 +55,7 @@ function Step1({ setCurrentStep }) {
       setProcessedImage(result.processedImage);
       setIsComplete(true);
       setError(null);
+      setBgRemovedImage(`http://localhost:8080${result.processedImage}`);
     } catch (err) {
       setError(err.message || '배경 제거에 실패했습니다.');
       setIsLoading(false);
