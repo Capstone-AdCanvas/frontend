@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 
 import logoImg from "../../assets/react.svg";
-import profileImg from "../../assets/프로필이미지.png";
+import { ProfileContext } from "../../context/ProfileContext";
 
 function Header() {
+  const { profileImage } = useContext(ProfileContext);
+
   return (
     <header className="header">
       <div className="brand">
@@ -14,7 +16,7 @@ function Header() {
         <div className="siteName">AdCanvas</div>
       </div>
       <div className="profile">
-        <img src={profileImg} alt="Profile" />
+        <img src={profileImage} alt="Profile" />
       </div>
     </header>
   );

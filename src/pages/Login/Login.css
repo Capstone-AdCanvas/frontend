@@ -237,3 +237,10 @@
 .login__forgot {
   display: none;
 }
+
+.login__error {
+  color: red;
+  margin: 10px 0; /* 위아래 여백 축소 */
+  font-size: 16px;
+  line-height: 1.2;
+}
