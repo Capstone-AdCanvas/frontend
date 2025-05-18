@@ -4,6 +4,10 @@ import profileIcon from "../assets/profile-icon.png";
 export const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
+  const [id, setId] = useState(() => {
+    return localStorage.getItem("id") || "";
+  });
+
   const [profileName, setProfileName] = useState(() => {
     return localStorage.getItem("profileName") || "";
   });
@@ -23,6 +27,10 @@ export const ProfileProvider = ({ children }) => {
   );
 
   useEffect(() => {
+    localStorage.setItem("id", id); // ✅ "id"라는 key로 저장
+  }, [id]);
+
+  useEffect(() => {
     localStorage.setItem("profileName", profileName);
   }, [profileName]);
 
@@ -40,16 +48,20 @@ export const ProfileProvider = ({ children }) => {
   }, [profileImage, email]);
 
   const logout = () => {
+    localStorage.removeItem("id"); // ✅ 로그아웃 시 "id" 삭제
     localStorage.removeItem("profileName");
     localStorage.removeItem("email");
+    setId("");
     setProfileName("");
     setEmail("");
-    setProfileImage(profileIcon); // 기본 이미지로 초기화
+    setProfileImage(profileIcon);
   };
 
   return (
     <ProfileContext.Provider
       value={{
+        id,
+        setId,
         profileName,
         setProfileName,
         profileImage,

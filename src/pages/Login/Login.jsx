@@ -15,14 +15,10 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState("");
-  const { setProfileName, setEmail, setProfileImage } =
+  const { setProfileName, setEmail, setProfileImage, setId } =
     useContext(ProfileContext);
 
   const handleToggle = () => setIsSignIn((prev) => !prev);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") navigate("/home");
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,8 +52,9 @@ function Login() {
         password: formData.password,
       };
 
-      const response = await loginUser(userData); // { name, email }
+      const response = await loginUser(userData); // { id, name, email }
 
+      setId(response.id); // 🔹 ID 저장
       setProfileName(response.name);
       setEmail(response.email);
 
@@ -145,7 +142,6 @@ function Login() {
           className="login__normal login__input"
           value={formData.email}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
         />
         <br />
 
@@ -156,7 +152,6 @@ function Login() {
           className="login__normal login__input"
           value={formData.password}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
         />
         <br />
 
@@ -174,14 +169,7 @@ function Login() {
         </button>
       </div>
     );
-  }, [
-    isSignIn,
-    formData,
-    error,
-    handleInputChange,
-    handleKeyDown,
-    handleSignUp,
-  ]);
+  }, [isSignIn, formData, error, handleInputChange, handleSignUp]);
 
   return (
     <article className="loginPage">
