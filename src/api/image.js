@@ -99,3 +99,45 @@ export const selectFinalImage = async (imageId, fileName) => {
     }
   }
 };
+
+export const uploadLogo = async (logoFile) => {
+  try {
+    const formData = new FormData();
+    formData.append('image', logoFile);
+    formData.append('userId', 1);
+
+    const response = await axios.post(`${API_BASE_URL}/logo/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.data);
+      throw error.response.data;
+    } else {
+      console.error('Network or Unknown Error:', error);
+      throw { message: '서버와 연결할 수 없습니다.' };
+    }
+  }
+};
+
+export const getLogos = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/logo/`, {
+      params: {
+        userId: 1
+      }
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.data);
+      throw error.response.data;
+    } else {
+      console.error('Network or Unknown Error:', error);
+      throw { message: '서버와 연결할 수 없습니다.' };
+    }
+  }
+};
