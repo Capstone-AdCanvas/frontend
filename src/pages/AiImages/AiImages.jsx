@@ -7,7 +7,7 @@ import Step3 from "./Step3/Step3";
 import Step4 from "./Step4/Step4";
 
 function AiImages() {
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(1);
   const [hideStepBar, setHideStepBar] = useState(false); //StepBar 표시 여부 제어
   const [bgRemovedImage, setBgRemovedImage] = useState(null);
 
