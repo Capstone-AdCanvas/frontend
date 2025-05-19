@@ -3,9 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
 }
+
 .aiVideos__initial__btn {
   width: 100%;
   display: flex;
@@ -13,6 +12,7 @@
   gap: 10px;
   margin-bottom: 50px;
 }
+
 .aiVideos__initial__btn > button {
   padding: 10px 15px;
   font-size: 25px;
@@ -24,9 +24,11 @@
   cursor: pointer;
   transition: all 0.5s;
 }
+
 .aiVideos__initial__btn > button:hover {
   transform: scale(1.05);
 }
+
 .aiVideos__initial__btn > button.active {
   background: var(--gradient-text);
   -webkit-background-clip: text;
@@ -35,6 +37,7 @@
   color: transparent; /* 혹시 모를 fallback */
   border-bottom: 2px solid var(--gradient-text);
 }
+
 .aiVideos__initial__btn > button.active::after {
   content: "";
   position: absolute;
@@ -53,6 +56,7 @@
   align-items: center;
   gap: 30px;
 }
+
 .texttovideo__generate {
   width: calc(100% - 20px); /* 좌우 padding: 10px 가정 시 */
   margin: 0 auto; /* 가운데 정렬 */
@@ -64,10 +68,12 @@
   background: #d9d9d9;
   cursor: not-allowed;
 }
+
 .texttovideo__generate.active {
   background: var(--gradient-text);
   cursor: pointer;
 }
+
 .texttovideo__generate.active:hover {
   transform: scale(1.05);
 }
