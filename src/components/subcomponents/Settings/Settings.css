@@ -95,6 +95,11 @@
   width: 20px;
   height: 20px;
 }
+/* 4:3 비율 */
+.ratio-4by3 {
+  width: 20px;
+  height: 15px;
+}
 /* 버튼 내부 배치 조정 */
 .settings__screen__main__option3__btn > button {
   display: flex;

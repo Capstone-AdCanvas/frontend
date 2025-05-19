@@ -87,3 +87,13 @@
 .imagetovideo__generate.active:hover {
   transform: scale(1.05);
 }
+
+.imagetovideo__error {
+  color: #ff4d4f;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(255, 77, 79, 0.1);
+  border-radius: 8px;
+}

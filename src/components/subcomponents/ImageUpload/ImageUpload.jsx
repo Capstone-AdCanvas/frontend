@@ -3,7 +3,7 @@ import "./ImageUpload.css";
 import imageuploadIcon from "../../../assets/logo-imageupload.png";
 import uploadIcon from "../../../assets/uploadIcon.png";
 
-const ImageUpload = ({ setImageUploaded }) => {
+const ImageUpload = ({ setImageUploaded, setImageFile }) => {
   const [fileName, setFileName] = useState("");
   const [previewUrl, setPreviewUrl] = useState(null);
   const fileInputRef = useRef(null);
@@ -40,6 +40,7 @@ const ImageUpload = ({ setImageUploaded }) => {
       };
       reader.readAsDataURL(file);
       setImageUploaded(true);
+      setImageFile(file); // 이미지 파일 저장
     } else {
       alert("JPG 또는 PNG 이미지 파일만 업로드할 수 있습니다.");
     }

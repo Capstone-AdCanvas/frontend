@@ -38,20 +38,22 @@
   border-radius: 30px;
   border: 2px solid #8389c7;
   background: linear-gradient(
-    0deg,
-    #505285 0%,
-    #585e92 12%,
-    #65689f 25%,
-    #7474b0 37%,
-    #7e7ebb 50%,
-    #8389c7 62%,
-    #9795d4 75%,
-    #a2a1dc 87%,
-    #b5aee4 100%
-  );
+      0deg,
+      rgba(80, 82, 133, 0.3) 0%,
+      rgba(88, 94, 146, 0.3) 12%,
+      rgba(101, 104, 159, 0.3) 25%,
+      rgba(116, 116, 176, 0.3) 37%,
+      rgba(126, 126, 187, 0.3) 50%,
+      rgba(131, 137, 199, 0.3) 62%,
+      rgba(151, 149, 212, 0.3) 75%,
+      rgba(162, 161, 220, 0.3) 87%,
+      rgba(181, 174, 228, 0.3) 100%
+    ),
+    url("../../../assets/onboarding-button.jpg");
+  background-size: cover;
   cursor: pointer;
-  transform: all 0.5s;
-  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+  transform: all 0.4s;
+  box-shadow: rgba(0, 0, 0, 0.46) 0px 22px 70px 4px;
 }
 
 .onboardingPage5__button:hover {
@@ -60,6 +62,10 @@
 }
 
 .onboardingPage5__button > span {
-  color: #efefef;
   font-weight: normal;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 일부 브라우저 호환용 */
+  color: transparent; /* 혹시 모를 fallback */
 }

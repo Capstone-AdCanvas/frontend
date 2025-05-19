@@ -11,6 +11,7 @@ const Settings = ({
   setRatio,
   script,
   setScript,
+  activeTab,
 }) => {
   return (
     <div className="settings__screen">
@@ -22,24 +23,43 @@ const Settings = ({
         <div className="settings__screen__main__option1">
           <span>영상 길이 조절</span>
           <div className="settings__screen__main__option1__btn">
-            <button
-              className={videoLength === "5s" ? "active" : ""}
-              onClick={() => setVideoLength("5s")}
-            >
-              5s
-            </button>
-            <button
-              className={videoLength === "10s" ? "active" : ""}
-              onClick={() => setVideoLength("10s")}
-            >
-              10s
-            </button>
-            <button
-              className={videoLength === "15s" ? "active" : ""}
-              onClick={() => setVideoLength("15s")}
-            >
-              15s
-            </button>
+            {activeTab === "text" ? (
+              <>
+                <button
+                  className={videoLength === "10s" ? "active" : ""}
+                  onClick={() => setVideoLength("10s")}
+                >
+                  10s
+                </button>
+                <button
+                  className={videoLength === "15s" ? "active" : ""}
+                  onClick={() => setVideoLength("15s")}
+                >
+                  15s
+                </button>
+                <button
+                  className={videoLength === "20s" ? "active" : ""}
+                  onClick={() => setVideoLength("20s")}
+                >
+                  20s
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className={videoLength === "5s" ? "active" : ""}
+                  onClick={() => setVideoLength("5s")}
+                >
+                  5s
+                </button>
+                <button
+                  className={videoLength === "10s" ? "active" : ""}
+                  onClick={() => setVideoLength("10s")}
+                >
+                  10s
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div className="settings__screen__main__option2">
@@ -62,27 +82,41 @@ const Settings = ({
         <div className="settings__screen__main__option3">
           <span>영상크기</span>
           <div className="settings__screen__main__option3__btn">
-            <button
-              className={ratio === "16:9" ? "active" : ""}
-              onClick={() => setRatio("16:9")}
-            >
-              <div className="ratio-box ratio-16by9" />
-              16:9
-            </button>
-            <button
-              className={ratio === "9:16" ? "active" : ""}
-              onClick={() => setRatio("9:16")}
-            >
-              <div className="ratio-box ratio-9by16" />
-              9:16
-            </button>
-            <button
-              className={ratio === "1:1" ? "active" : ""}
-              onClick={() => setRatio("1:1")}
-            >
-              <div className="ratio-box ratio-1by1" />
-              1:1
-            </button>
+            {activeTab === "text" ? (
+              <>
+                <button
+                  className={ratio === "16:9" ? "active" : ""}
+                  onClick={() => setRatio("16:9")}
+                >
+                  <div className="ratio-box ratio-16by9" />
+                  16:9
+                </button>
+                <button
+                  className={ratio === "1:1" ? "active" : ""}
+                  onClick={() => setRatio("1:1")}
+                >
+                  <div className="ratio-box ratio-1by1" />
+                  1:1
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className={ratio === "4:3" ? "active" : ""}
+                  onClick={() => setRatio("4:3")}
+                >
+                  <div className="ratio-box ratio-4by3" />
+                  4:3
+                </button>
+                <button
+                  className={ratio === "1:1" ? "active" : ""}
+                  onClick={() => setRatio("1:1")}
+                >
+                  <div className="ratio-box ratio-1by1" />
+                  1:1
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div className="settings__screen__main__option4">

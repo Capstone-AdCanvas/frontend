@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .aiVideos__initial__btn {
   width: 100%;
   display: flex;
@@ -11,6 +12,7 @@
   gap: 10px;
   margin-bottom: 50px;
 }
+
 .aiVideos__initial__btn > button {
   padding: 10px 15px;
   font-size: 25px;
@@ -22,9 +24,11 @@
   cursor: pointer;
   transition: all 0.5s;
 }
+
 .aiVideos__initial__btn > button:hover {
   transform: scale(1.05);
 }
+
 .aiVideos__initial__btn > button.active {
   background: var(--gradient-text);
   -webkit-background-clip: text;
@@ -33,6 +37,7 @@
   color: transparent; /* 혹시 모를 fallback */
   border-bottom: 2px solid var(--gradient-text);
 }
+
 .aiVideos__initial__btn > button.active::after {
   content: "";
   position: absolute;
@@ -51,6 +56,7 @@
   align-items: center;
   gap: 30px;
 }
+
 .texttovideo__generate {
   width: calc(100% - 20px); /* 좌우 padding: 10px 가정 시 */
   margin: 0 auto; /* 가운데 정렬 */
@@ -62,10 +68,42 @@
   background: #d9d9d9;
   cursor: not-allowed;
 }
+
 .texttovideo__generate.active {
   background: var(--gradient-text);
   cursor: pointer;
 }
+
 .texttovideo__generate.active:hover {
   transform: scale(1.05);
+}
+
+.texttovideo__error {
+  color: #ff4d4f;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(255, 77, 79, 0.1);
+  border-radius: 8px;
+}
+
+.texttovideo__generate-button {
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.texttovideo__generate-button:hover {
+  background-color: #0056b3;
+}
+
+.texttovideo__generate-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

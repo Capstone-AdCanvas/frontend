@@ -49,7 +49,7 @@ const OnBoardingPage1 = () => {
         <div className="outer-swiper-wrapper">
           <Swiper
             modules={[Autoplay]}
-            autoplay={{ delay: 2500, disableOnInteraction: false }}
+            autoplay={{ delay: 1000, disableOnInteraction: false }}
             speed={2500}
             loop={true}
             slidesPerView="auto"
@@ -77,7 +77,7 @@ const OnBoardingPage1 = () => {
           <div className="tv-screen">
             <Swiper
               modules={[Autoplay]}
-              autoplay={{ delay: 2500, disableOnInteraction: false }}
+              autoplay={{ delay: 1000, disableOnInteraction: false }}
               speed={2500}
               loop={true}
               slidesPerView={1}
