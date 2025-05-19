@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./Header.css";
 
-import logoImg from "../../assets/react.svg";
+import logoImg from "../../assets/adcanvas-logo.png";
 import { ProfileContext } from "../../context/ProfileContext";
 
 function Header() {
