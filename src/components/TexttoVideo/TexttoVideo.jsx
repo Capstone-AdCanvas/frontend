@@ -3,6 +3,7 @@ import "./TexttoVideo.css";
 import GradientBox from "../GradientBox/GradientBox";
 import Prompt from "../subcomponents/Prompt/Prompt";
 import Settings from "../subcomponents/Settings/Settings";
+import { createTextToVideo, pollTextVideoStatus } from "../../api/video";
 
 const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate }) => {
   const [prompt, setPrompt] = useState("");
@@ -10,6 +11,8 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
   const [bgm, setBgm] = useState("");
   const [ratio, setRatio] = useState("");
   const [script, setScript] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState(null);
 
   const isReady = prompt.trim() !== "" && videoLength && bgm && ratio && script;
 
@@ -17,6 +20,44 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
   useEffect(() => {
     setIsReadyToGenerate(isReady);
   }, [prompt, videoLength, bgm, ratio, script]);
+
+  const handleGenerateClick = async () => {
+    if (!isReady) return;
+    
+    setIsGenerating(true);
+    setError(null);
+    
+    try {
+      // 비디오 생성 API 호출
+      const response = await createTextToVideo(
+        prompt,
+        videoLength.replace('s', ''), // '10s' -> '10'
+        ratio
+      );
+      
+      // requestId 배열 추출
+      const requestIds = response.map(item => item.requestId);
+      
+      // 폴링 시작
+      pollTextVideoStatus(
+        requestIds,
+        (videoUrls) => {
+          console.log('모든 비디오가 생성되었습니다:', videoUrls);
+          setIsGenerating(false);
+          handleGenerate();
+        },
+        (error) => {
+          console.error('비디오 생성 중 오류 발생:', error);
+          setError(error.message);
+          setIsGenerating(false);
+        }
+      );
+    } catch (error) {
+      console.error('API 호출 중 오류 발생:', error);
+      setError(error.message);
+      setIsGenerating(false);
+    }
+  };
 
   if (activeTab !== "text") return null;
 
@@ -52,13 +93,15 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
             setRatio={setRatio}
             script={script}
             setScript={setScript}
+            activeTab={activeTab}
           />
+          {error && <div className="texttovideo__error">{error}</div>}
           <button
             className={`texttovideo__generate ${isReady ? "active" : ""}`}
-            disabled={!isReady}
-            onClick={handleGenerate}
+            disabled={!isReady || isGenerating}
+            onClick={handleGenerateClick}
           >
-            생성하기
+            {isGenerating ? "생성 중..." : "생성하기"}
           </button>
         </GradientBox>
       </div>
