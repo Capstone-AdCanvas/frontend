@@ -4,6 +4,7 @@ import GradientBox from "../GradientBox/GradientBox";
 import Prompt from "../subcomponents/Prompt/Prompt";
 import Settings from "../subcomponents/Settings/Settings";
 import { createTextToVideo, pollTextVideoStatus } from "../../api/video";
+import { mergeVideos } from "../../api/merge";
 
 const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate }) => {
   const [prompt, setPrompt] = useState("");
@@ -41,10 +42,25 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
       // 폴링 시작
       pollTextVideoStatus(
         requestIds,
-        (videoUrls) => {
-          console.log('모든 비디오가 생성되었습니다:', videoUrls);
-          setIsGenerating(false);
-          handleGenerate();
+        async (videoStatuses) => {
+          console.log('모든 비디오가 생성되었습니다:', videoStatuses);
+          try {
+            // videoUrl만 추출
+            const videoUrls = videoStatuses.map(status => status.videoUrl);
+            console.log('합성할 비디오 URLs:', videoUrls);
+            
+            // 영상 합성 API 호출
+            const mergedVideoUrl = await mergeVideos(videoUrls);
+            console.log('영상 합성이 완료되었습니다:', mergedVideoUrl);
+            
+            // 상위 컴포넌트에 합성된 영상 URL 전달
+            handleGenerate(mergedVideoUrl);
+            setIsGenerating(false);
+          } catch (mergeError) {
+            console.error('영상 합성 중 오류 발생:', mergeError);
+            setError(mergeError.message);
+            setIsGenerating(false);
+          }
         },
         (error) => {
           console.error('비디오 생성 중 오류 발생:', error);

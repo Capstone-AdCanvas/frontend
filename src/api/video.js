@@ -114,7 +114,7 @@ export const createTextToVideo = async (prompt, second, aspectRatio) => {
         url: error.config?.url,
         method: error.config?.method,
         data: error.config?.data
-      }
+      } 
     });
     
     if (error.code === 'ECONNABORTED') {
@@ -169,12 +169,26 @@ export const pollTextVideoStatus = async (requestIds, onComplete, onError) => {
       
       console.log('현재 상태:', statuses);
       
-      const allCompleted = statuses.every(status => status.status === 'COMPLETED');
+      // 모든 상태가 completed인지 확인 (대소문자 구분 없이)
+      const allCompleted = statuses.every(status => 
+        status.status?.toLowerCase() === 'completed' && status.videoUrl
+      );
       
       if (allCompleted) {
         const videoUrls = statuses.map(status => status.videoUrl);
         console.log('모든 비디오 생성 완료:', videoUrls);
-        onComplete(videoUrls);
+        onComplete(statuses); // videoUrls 대신 전체 statuses 객체를 전달
+        return;
+      }
+
+      // 일부 비디오가 실패했는지 확인
+      const hasFailed = statuses.some(status => 
+        status.status?.toLowerCase() === 'failed' || 
+        status.status?.toLowerCase() === 'error'
+      );
+
+      if (hasFailed) {
+        onError(new Error('일부 비디오 생성에 실패했습니다.'));
         return;
       }
 
@@ -187,6 +201,11 @@ export const pollTextVideoStatus = async (requestIds, onComplete, onError) => {
       setTimeout(poll, pollInterval);
     } catch (error) {
       console.error('폴링 중 오류 발생:', error);
+      // 404 에러가 발생하면 폴링 중단
+      if (error.status === 404 || error.httpStatus === 'NOT_FOUND') {
+        onError(new Error('요청한 비디오를 찾을 수 없습니다.'));
+        return;
+      }
       onError(error);
     }
   };
