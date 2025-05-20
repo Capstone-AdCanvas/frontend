@@ -1,37 +1,41 @@
 import React, { useEffect, useRef } from "react";
 import "./LoadingIndicator.css";
 
-const LoadingIndicator = ({ width = 400, height = 300 }) => {
+const LoadingIndicator = ({ width = 100, height = 100 }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const c = canvasRef.current;
     const ctx = c.getContext("2d");
 
-    // canvas 해상도 설정
     c.width = width;
     c.height = height;
 
     const rand = (a, b) => ~~(Math.random() * (b - a + 1) + a);
     const dToR = (degrees) => degrees * (Math.PI / 180);
 
+    // canvas 비율에 따른 반응형 크기 설정
+    const radius = Math.min(width, height) * 0.28;
+    const thickness = radius * 0.2;
+    const blur = radius * 0.25;
+
     const circle = {
-      x: width / 2 + 5,
-      y: height / 2 + 22,
-      radius: 90,
+      x: width / 2,
+      y: height / 2,
+      radius,
       speed: 2,
       rotation: 0,
       angleStart: 270,
       angleEnd: 90,
       hue: 220,
-      thickness: 18,
-      blur: 25,
+      thickness,
+      blur,
     };
 
     const particles = [];
     const particleMax = 100;
 
-    let gradient1 = ctx.createLinearGradient(
+    const gradient1 = ctx.createLinearGradient(
       0,
       -circle.radius,
       0,
@@ -40,8 +44,7 @@ const LoadingIndicator = ({ width = 400, height = 300 }) => {
     gradient1.addColorStop(0, `hsla(${circle.hue}, 60%, 50%, .25)`);
     gradient1.addColorStop(1, `hsla(${circle.hue}, 60%, 50%, 0)`);
 
-    // 외곽 테두리 그라디언트 (얇은 선 테두리)
-    let gradient2 = ctx.createLinearGradient(
+    const gradient2 = ctx.createLinearGradient(
       -circle.radius,
       0,
       circle.radius,
@@ -103,7 +106,7 @@ const LoadingIndicator = ({ width = 400, height = 300 }) => {
       ctx.translate(circle.x, circle.y);
       ctx.rotate(dToR(circle.rotation + 185));
       ctx.beginPath();
-      ctx.arc(0, circle.radius, 30, 0, Math.PI * 2);
+      ctx.arc(0, circle.radius, radius * 0.3, 0, Math.PI * 2);
       ctx.closePath();
       const gradient3 = ctx.createRadialGradient(
         0,
@@ -111,7 +114,7 @@ const LoadingIndicator = ({ width = 400, height = 300 }) => {
         0,
         0,
         circle.radius,
-        30
+        radius * 0.3
       );
       gradient3.addColorStop(0, "hsla(330, 50%, 50%, .35)");
       gradient3.addColorStop(1, "hsla(330, 50%, 50%, 0)");
@@ -126,7 +129,7 @@ const LoadingIndicator = ({ width = 400, height = 300 }) => {
       ctx.rotate(dToR(circle.rotation + 165));
       ctx.scale(1.5, 1);
       ctx.beginPath();
-      ctx.arc(0, circle.radius, 25, 0, Math.PI * 2);
+      ctx.arc(0, circle.radius, radius * 0.25, 0, Math.PI * 2);
       ctx.closePath();
       const gradient4 = ctx.createRadialGradient(
         0,
@@ -134,7 +137,7 @@ const LoadingIndicator = ({ width = 400, height = 300 }) => {
         0,
         0,
         circle.radius,
-        25
+        radius * 0.25
       );
       gradient4.addColorStop(0, "hsla(30, 100%, 50%, .2)");
       gradient4.addColorStop(1, "hsla(30, 100%, 50%, 0)");
