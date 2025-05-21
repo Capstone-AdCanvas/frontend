@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyCreativesImage.css";
 import imagePicture from "../../assets/mycreatives-image-1.png";
@@ -7,10 +7,14 @@ import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import dummyImage from "../../assets/dummyimage.png";
 import ModalImage from "../../components/ModalImage/ModalImage";
+import { ProfileContext } from "../../context/ProfileContext";
+import { fetchUserImages } from "../../api/checkimage";
 
 const MyCreativesImage = () => {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [userImages, setUserImages] = useState([]);
+  const { id, profileName, profileImage } = useContext(ProfileContext);
 
   const handleVideoClick = () => {
     navigate("/MyCreatives/video");
@@ -39,6 +43,21 @@ const MyCreativesImage = () => {
     setSelectedImage(null);
   };
 
+  useEffect(() => {
+    if (id) {
+      fetchUserImages(id).then((images) => {
+        const filteredImages = images.filter(
+          (img) => String(img.userId) === "5"
+        );
+        setUserImages(filteredImages);
+
+        console.log("fetchUserImages 응답 확인:", images);
+      });
+    }
+  }, [id]);
+
+  const isAuthorizedUser = userImages.length > 0; // id === 5 유저가 아니면 자동으로 빈 배열
+
   return (
     <section className="mycreativesImagePage">
       <header className="mycreativesImagePage__header">
@@ -65,56 +84,24 @@ const MyCreativesImage = () => {
           My AI Images
         </span>
         <div className="mycreativesImagePage__contents__image">
-          <Box
-            width={400}
-            height={215}
-            title="향수병"
-            userImage={userIcon}
-            username="Chill guy"
-            dataImage={dummyImage}
-            onClick={() =>
-              handleBoxClick({
-                dataImage: dummyImage,
-                title: "향수병",
-              })
-            }
-          />
-          {/* Other boxes omitted for brevity */}
-          <Box
-            width={400}
-            height={215}
-            title="Image 2"
-            userImage="https://via.placeholder.com/50"
-            username="User2"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 3"
-            userImage="https://via.placeholder.com/50"
-            username="User3"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 4"
-            userImage="https://via.placeholder.com/50"
-            username="User4"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 5"
-            userImage="https://via.placeholder.com/50"
-            username="User5"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 6"
-            userImage="https://via.placeholder.com/50"
-            username="User6"
-          />
+          {isAuthorizedUser &&
+            userImages.map((img, idx) => (
+              <Box
+                key={idx}
+                width={400}
+                height={215}
+                title={`샘플 이미지 ${idx + 1}`}
+                userImage={profileImage}
+                username={profileName}
+                dataImage={img.finalImage || img.originalImage} // ✅ 핵심 수정
+                onClick={() =>
+                  handleBoxClick({
+                    dataImage: img.finalImage || img.originalImage,
+                    title: `샘플 이미지 ${idx + 1}`,
+                  })
+                }
+              />
+            ))}
         </div>
       </div>
 
