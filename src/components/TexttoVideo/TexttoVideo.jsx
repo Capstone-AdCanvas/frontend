@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./TexttoVideo.css";
 import GradientBox from "../GradientBox/GradientBox";
 import Prompt from "../subcomponents/Prompt/Prompt";
 import Settings from "../subcomponents/Settings/Settings";
-import { createTextToVideo, pollTextVideoStatus } from "../../api/video";
+import { createTextToVideo, pollTextVideoStatus, saveVideo } from "../../api/video";
 import { mergeVideos } from "../../api/merge";
+import { ProfileContext } from "../../context/ProfileContext";
 
 const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate }) => {
+  const { id } = useContext(ProfileContext);
   const [prompt, setPrompt] = useState("");
   const [videoLength, setVideoLength] = useState("");
   const [bgm, setBgm] = useState("");
@@ -52,6 +54,26 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
             // 영상 합성 API 호출
             const mergedVideoUrl = await mergeVideos(videoUrls);
             console.log('영상 합성이 완료되었습니다:', mergedVideoUrl);
+
+            // 첫 번째 비디오 URL을 저장용으로 사용
+            const firstVideoUrl = videoUrls[0];
+            console.log('저장할 첫 번째 비디오 URL:', firstVideoUrl);
+
+            // 영상 저장
+            if (id) {
+              try {
+                const savedVideo = await saveVideo(id, {
+                  videoUrl: firstVideoUrl, // 첫 번째 비디오 URL 사용
+                  aspectRatio: ratio,
+                  duration: parseInt(videoLength.replace('s', '')),
+                  createdAt: new Date().toISOString()
+                });
+                console.log('영상이 저장되었습니다:', savedVideo);
+              } catch (saveError) {
+                console.error('영상 저장 중 오류 발생:', saveError);
+                // 저장 실패는 전체 프로세스를 중단시키지 않음
+              }
+            }
             
             // 상위 컴포넌트에 합성된 영상 URL 전달
             handleGenerate(mergedVideoUrl);

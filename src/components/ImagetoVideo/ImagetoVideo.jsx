@@ -47,10 +47,14 @@ const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGen
       const response = await createImageToVideo(
         prompt,
         imageUrl,
-        videoLength.replace('s', ''), // '5s' -> '5'
+        parseInt(videoLength.replace('s', '')), // '5s' -> 5
         ratio
       );
       console.log('API Response:', response);
+
+      if (!response.requestId) {
+        throw new Error('비디오 생성 요청에 실패했습니다.');
+      }
 
       // 폴링 시작
       console.log('Starting polling with requestId:', response.requestId);
@@ -59,18 +63,44 @@ const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGen
         (status) => {
           console.log('Video generation completed:', status);
           setIsGenerating(false);
-          handleGenerate(status.videoUrl);
+          if (status.videoUrl) {
+            handleGenerate(status.videoUrl);
+          } else {
+            setError('생성된 영상 URL을 찾을 수 없습니다.');
+          }
         },
         (error) => {
           console.error('Error during polling:', error);
           setIsGenerating(false);
-          setError(error.message || '비디오 생성 중 오류가 발생했습니다.');
+          
+          // 에러 메시지에 따라 다른 안내 표시
+          if (error.message.includes('정책 위반')) {
+            setError(
+              '정책 위반 콘텐츠입니다. 다음 사항을 확인해주세요:\n' +
+              '1. 프롬프트가 부적절하지 않은지\n' +
+              '2. 이미지가 저작권이나 정책에 위배되지 않는지\n' +
+              '3. 다른 이미지나 프롬프트로 다시 시도해주세요.'
+            );
+          } else if (error.message.includes('시간이 초과')) {
+            setError('영상 생성 시간이 초과되었습니다. 다시 시도해주세요.');
+          } else {
+            setError(error.message || '비디오 생성 중 오류가 발생했습니다.');
+          }
         }
       );
     } catch (error) {
       console.error('Error in handleGenerateVideo:', error);
       setIsGenerating(false);
-      setError(error.message || '비디오 생성 중 오류가 발생했습니다.');
+      if (error.message.includes('정책 위반')) {
+        setError(
+          '정책 위반 콘텐츠입니다. 다음 사항을 확인해주세요:\n' +
+          '1. 프롬프트가 부적절하지 않은지\n' +
+          '2. 이미지가 저작권이나 정책에 위배되지 않는지\n' +
+          '3. 다른 이미지나 프롬프트로 다시 시도해주세요.'
+        );
+      } else {
+        setError(error.message || '비디오 생성 중 오류가 발생했습니다.');
+      }
     }
   };
 

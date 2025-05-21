@@ -5,15 +5,21 @@ const BASE_URL = 'http://localhost:8080/api/v1/videos';
 
 // 이미지를 URL로 변환하는 함수
 export const convertImageToUrl = async (imageFile) => {
-  // TODO: 이미지 파일을 서버에 업로드하고 URL을 받아오는 로직 구현
-  // 현재는 임시로 base64 URL을 반환
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(imageFile);
-  });
+  try {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = () => {
+        reject(new Error('이미지 변환에 실패했습니다.'));
+      };
+      reader.readAsDataURL(imageFile);
+    });
+  } catch (error) {
+    console.error('이미지 변환 중 오류 발생:', error);
+    throw new Error('이미지 변환에 실패했습니다.');
+  }
 };
 
 // 이미지 to 비디오 생성 API
@@ -28,6 +34,9 @@ export const createImageToVideo = async (prompt, imageUrl, duration, aspectRatio
     return response.data;
   } catch (error) {
     console.error('API Error:', error);
+    if (error.response?.status === 422) {
+      throw new Error('정책 위반 콘텐츠입니다. 다른 이미지나 프롬프트를 사용해주세요.');
+    }
     throw error.response?.data || error;
   }
 };
@@ -39,34 +48,67 @@ export const getImageToVideoStatus = async (requestId) => {
     return response.data;
   } catch (error) {
     console.error('API Error:', error);
+    // 에러 메시지에서 422 관련 내용 확인
+    if (error.response?.data?.message?.includes('422') || 
+        error.response?.data?.message?.includes('정책 위반') ||
+        error.message?.includes('422')) {
+      throw new Error('정책 위반 콘텐츠입니다. 다른 이미지나 프롬프트를 사용해주세요.');
+    } else if (error.response?.status === 500) {
+      throw new Error('서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    }
     throw error.response?.data || error;
   }
 };
 
 // 폴링 함수
 export const pollVideoStatus = async (requestId, onComplete, onError) => {
-  const pollInterval = 120000; // 2분
-  const maxAttempts = 30; // 최대 1시간 (2분 * 30)
+  const pollInterval = 30000; // 30초
+  const maxAttempts = 40; // 최대 20분 (30초 * 40)
   let attempts = 0;
+  let isPolling = true;
 
   const poll = async () => {
+    if (!isPolling) return;
+
     try {
+      console.log(`폴링 시도 ${attempts + 1}/${maxAttempts}`);
       const status = await getImageToVideoStatus(requestId);
+      console.log('현재 상태:', status);
       
       if (status.status === 'COMPLETED') {
+        isPolling = false;
+        
+        // 비디오 저장
+        try {
+          const savedVideo = await saveVideo(id, {
+            name: `sample${Date.now()}`,
+            videoUrl: status.videoUrl,
+            aspectRatio: status.aspect_ratio,
+            duration: parseInt(status.duration),
+            createdAt: status.createdAt
+          });
+          console.log('영상이 저장되었습니다:', savedVideo);
+        } catch (saveError) {
+          console.error('영상 저장 중 오류 발생:', saveError);
+        }
+        
         onComplete(status);
         return;
       }
 
       attempts++;
       if (attempts >= maxAttempts) {
+        isPolling = false;
         onError(new Error('비디오 생성 시간이 초과되었습니다.'));
         return;
       }
 
-      setTimeout(poll, pollInterval);
+      if (isPolling) {
+        setTimeout(poll, pollInterval);
+      }
     } catch (error) {
       console.error('Polling Error:', error);
+      isPolling = false;
       onError(error);
     }
   };
@@ -211,4 +253,40 @@ export const pollTextVideoStatus = async (requestIds, onComplete, onError) => {
   };
 
   poll();
+};
+
+// 비디오 저장 API
+export const saveVideo = async (userId, videoData) => {
+  try {
+    const requestData = {
+      name: `video-${Date.now()}`, // 임시 이름 생성
+      videoUrl: videoData.videoUrl,
+      aspectRatio: videoData.aspectRatio,
+      duration: videoData.duration,
+      createdAt: new Date().toISOString()
+    };
+
+    console.log('저장할 비디오 데이터:', requestData);
+
+    const response = await axios.post(`${BASE_URL}/${userId}`, requestData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('저장 응답:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('비디오 저장 실패:', error);
+    if (error.response) {
+      console.error('서버 응답:', error.response.data);
+      if (error.response.status === 404) {
+        throw new Error('사용자를 찾을 수 없습니다.');
+      }
+      if (error.response.status === 500) {
+        throw new Error('서버 내부 오류가 발생했습니다.');
+      }
+    }
+    throw new Error('비디오 저장 중 오류가 발생했습니다.');
+  }
 };
