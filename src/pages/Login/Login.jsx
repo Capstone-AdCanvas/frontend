@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Login.css";
-import { registerUser } from "../../api/user";
+import { loginUser, registerUser } from "../../api/user";
+import { ProfileContext } from "../../context/ProfileContext";
+import profileIcon from "../../assets/profile-icon.png";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -13,6 +15,7 @@ function Login() {
     password: ""
   });
   const [error, setError] = useState("");
+  const { setProfileName, setEmail, setProfileImage, setId } = useContext(ProfileContext);
 
   const handleToggle = () => setIsSignIn((prev) => !prev);
 
@@ -29,21 +32,48 @@ function Login() {
   };
 
   const handleSignUp = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await registerUser({
-      name: formData.username,  
-      email: formData.email,
-      password: formData.password
-    });
-    console.log("Registration successful:", response);
-    setIsSignIn(true);
-    setFormData({ username: "", email: "", password: "" });
-    setError("");
-  } catch (error) {
-    setError(error.message || "회원가입 중 오류가 발생했습니다.");
-  }
-};
+    e.preventDefault();
+    try {
+      const response = await registerUser({
+        name: formData.username,  
+        email: formData.email,
+        password: formData.password
+      });
+      console.log("Registration successful:", response);
+      setIsSignIn(true);
+      setFormData({ username: "", email: "", password: "" });
+      setError("");
+    } catch (error) {
+      setError(error.message || "회원가입 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      const response = await loginUser(userData);
+
+      setId(response.id);
+      setProfileName(response.name);
+      setEmail(response.email);
+
+      const storedImages = JSON.parse(
+        localStorage.getItem("userProfileImages") || "{}"
+      );
+      const image = storedImages[response.email];
+      setProfileImage(image || profileIcon);
+
+      setError("");
+      navigate("/home");
+    } catch (error) {
+      console.error("로그인 오류:", error);
+      setError(error.message || "이메일 또는 비밀번호가 일치하지 않습니다.");
+    }
+  };
 
   const WelcomeSection = () => (
     <div
@@ -129,7 +159,7 @@ function Login() {
         />
         <br />
 
-        {error && <p className="login__normal" style={{ color: "red" }}>{error}</p>}
+        {error && <p className="login__normal login__error">{error}</p>}
 
         {isSignIn && (
           <p className="login__normal login__forgot">Forgot your password?</p>
@@ -137,13 +167,13 @@ function Login() {
 
         <button 
           className="b-button login__normal"
-          onClick={!isSignIn ? handleSignUp : undefined}
+          onClick={isSignIn ? handleSignIn : handleSignUp}
         >
           {isSignIn ? "SIGN IN" : "SIGN UP"}
         </button>
       </div>
     );
-  }, [isSignIn, formData, error, handleInputChange, handleKeyDown, handleSignUp]);
+  }, [isSignIn, formData, error, handleInputChange, handleKeyDown, handleSignUp, handleSignIn]);
 
   return (
     <article className="loginPage">
@@ -155,7 +185,7 @@ function Login() {
         }}
       >
         <div className="p-button login__normal" onClick={handleToggle}>
-          {isSignIn ? "SIGN IN" : "SIGN UP"}
+          {isSignIn ? "SIGN UP" : "SIGN IN"}
         </div>
       </div>
 
