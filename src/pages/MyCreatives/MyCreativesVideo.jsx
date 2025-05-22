@@ -5,34 +5,38 @@ import imagePicture from "../../assets/mycreatives-image-1.png";
 import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
-import dummyVideo from "../../assets/dummyvideo.mp4";
 import ModalVideo from "../../components/ModalVideo/ModalVideo";
+import { fetchUserVideos } from "../../api/checkvideo";
+import { fetchUserInfoById } from "../../api/user";
 
-// 해당 비디오 0초(시작타이밍)에 썸네일 장면으로 나오게 하는 함수
+// ✅ 썸네일 추출 함수
 const getVideoThumbnail = (videoSrc) => {
   return new Promise((resolve, reject) => {
     const video = document.createElement("video");
     video.src = videoSrc;
-    video.crossOrigin = "anonymous"; // CORS 방지용
+    video.crossOrigin = "anonymous";
+    video.muted = true;
+    video.playsInline = true;
 
     video.addEventListener("loadeddata", () => {
-      video.currentTime = 0;
+      video.currentTime = 0.1;
     });
 
     video.addEventListener("seeked", () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageUrl = canvas.toDataURL("image/png");
-      resolve(imageUrl);
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/png"));
+      } catch (e) {
+        reject(e);
+      }
     });
 
     video.addEventListener("error", (e) => {
-      reject("썸네일 생성 실패", e);
+      reject(e);
     });
   });
 };
@@ -40,7 +44,11 @@ const getVideoThumbnail = (videoSrc) => {
 const MyCreativesVideo = () => {
   const navigate = useNavigate();
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [videoThumbnail, setVideoThumbnail] = useState(null);
+  const [videoThumbnails, setVideoThumbnails] = useState({});
+  const [userVideos, setUserVideos] = useState([]);
+  const [profileName, setProfileName] = useState("");
+  const [profileImage, setProfileImage] = useState(userIcon);
+  const userId = localStorage.getItem("id");
 
   const handleImageClick = () => {
     navigate("/MyCreatives/image");
@@ -57,10 +65,44 @@ const MyCreativesVideo = () => {
   };
 
   useEffect(() => {
-    getVideoThumbnail(dummyVideo).then((thumb) => {
-      setVideoThumbnail(thumb);
-    });
-  }, []);
+    const fetchData = async () => {
+      if (!userId) return;
+
+      const videos = await fetchUserVideos(userId);
+      setUserVideos(videos);
+
+      // 썸네일 생성
+      const thumbResults = await Promise.all(
+        videos.map(async (video) => {
+          try {
+            const thumb = await getVideoThumbnail(video.finalVideo);
+            return { id: video.id, thumb };
+          } catch {
+            return { id: video.id, thumb: video.finalVideo }; // fallback
+          }
+        })
+      );
+
+      const thumbMap = {};
+      thumbResults.forEach(({ id, thumb }) => {
+        thumbMap[id] = thumb;
+        console.log(`videoId: ${id}, 썸네일: ${thumb}`); // 콘솔 오류 출력
+      });
+      setVideoThumbnails(thumbMap);
+
+      // 프로필 정보
+      const userInfo = await fetchUserInfoById(userId);
+      setProfileName(userInfo?.name || `User ${userId}`);
+
+      const imageMap = JSON.parse(
+        localStorage.getItem("userProfileImages") || "{}"
+      );
+      const image = imageMap[userInfo?.email] || userIcon;
+      setProfileImage(image);
+    };
+
+    fetchData();
+  }, [userId]);
 
   return (
     <section className="mycreativesVideoPage">
@@ -88,58 +130,24 @@ const MyCreativesVideo = () => {
           My AI Videos
         </span>
         <div className="mycreativesVideoPage__contents__image">
-          {videoThumbnail && (
+          {userVideos.map((video, idx) => (
             <Box
+              key={video.id}
               width={400}
               height={215}
-              title="장난감"
-              userImage={userIcon}
-              username="Chill guy"
-              dataImage={videoThumbnail} // 썸네일
+              title={video.name || `나의 비디오 ${idx + 1}`}
+              userImage={profileImage}
+              username={profileName}
+              dataImage={videoThumbnails[video.id]} // ✅ 썸네일 또는 fallback
               onClick={() =>
                 handleBoxClick({
-                  dataImage: dummyVideo,
-                  title: "장난감",
+                  dataImage: video.finalVideo,
+                  title: video.name || `나의 비디오 ${idx + 1}`,
+                  username: profileName,
                 })
               }
             />
-          )}
-          {/* Other boxes omitted for brevity */}
-          <Box
-            width={400}
-            height={215}
-            title="Video 2"
-            userImage="https://via.placeholder.com/50"
-            username="User2"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 3"
-            userImage="https://via.placeholder.com/50"
-            username="User3"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 4"
-            userImage="https://via.placeholder.com/50"
-            username="User4"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 5"
-            userImage="https://via.placeholder.com/50"
-            username="User5"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 6"
-            userImage="https://via.placeholder.com/50"
-            username="User6"
-          />
+          ))}
         </div>
       </div>
 

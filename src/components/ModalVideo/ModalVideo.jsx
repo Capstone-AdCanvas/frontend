@@ -4,11 +4,23 @@ import "./ModalVideo.css";
 const ModalVideo = ({ video, onClose, isCommunity }) => {
   if (!video) return null;
 
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = video.dataImage;
-    link.download = `${video.title}.${video.extension}`;
-    link.click();
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(video.dataImage, { mode: "cors" });
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${video.title}.${video.extension}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download error:", error);
+    }
   };
 
   return (

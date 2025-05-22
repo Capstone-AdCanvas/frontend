@@ -7,32 +7,37 @@ import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import dummyVideo from "../../assets/dummyvideo.mp4";
 import ModalVideo from "../../components/ModalVideo/ModalVideo";
+import { fetchOtherVideos } from "../../api/checkvideo"; // ✅ 다른 유저 비디오 조회 API
+import { fetchUserInfoById } from "../../api/user"; // ✅ 유저 프로필
 
-// 해당 비디오 0초(시작타이밍)에 썸네일 장면으로 나오게 하는 함수
+// ✅ 썸네일 추출 함수
 const getVideoThumbnail = (videoSrc) => {
   return new Promise((resolve, reject) => {
     const video = document.createElement("video");
     video.src = videoSrc;
-    video.crossOrigin = "anonymous"; // CORS 방지용
+    video.crossOrigin = "anonymous";
+    video.muted = true;
+    video.playsInline = true;
 
     video.addEventListener("loadeddata", () => {
-      video.currentTime = 0;
+      video.currentTime = 0.1;
     });
 
     video.addEventListener("seeked", () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageUrl = canvas.toDataURL("image/png");
-      resolve(imageUrl);
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/png"));
+      } catch (e) {
+        reject(e);
+      }
     });
 
     video.addEventListener("error", (e) => {
-      reject("썸네일 생성 실패", e);
+      reject(e);
     });
   });
 };
@@ -40,7 +45,10 @@ const getVideoThumbnail = (videoSrc) => {
 const CommunityVideo = () => {
   const navigate = useNavigate();
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [videoThumbnail, setVideoThumbnail] = useState(null);
+  const [videoThumbnails, setVideoThumbnails] = useState({});
+  const [videos, setVideos] = useState([]);
+  const [userMap, setUserMap] = useState({});
+  const userId = localStorage.getItem("id");
 
   const handleImageClick = () => {
     navigate("/Community/image");
@@ -57,10 +65,48 @@ const CommunityVideo = () => {
   };
 
   useEffect(() => {
-    getVideoThumbnail(dummyVideo).then((thumb) => {
-      setVideoThumbnail(thumb);
-    });
-  }, []);
+    const fetchData = async () => {
+      if (!userId) return;
+
+      // 1. 비디오 조회
+      const otherVideos = await fetchOtherVideos(userId);
+      setVideos(otherVideos);
+
+      // 2. 썸네일 생성
+      const thumbMap = {};
+      for (const video of otherVideos) {
+        try {
+          const thumb = await getVideoThumbnail(video.finalVideo);
+          thumbMap[video.id] = thumb;
+        } catch {
+          thumbMap[video.id] = video.finalVideo; // fallback
+        }
+      }
+      setVideoThumbnails(thumbMap);
+
+      // 3. 사용자 정보 및 로컬 이미지
+      const localProfileImages = JSON.parse(
+        localStorage.getItem("userProfileImages") || "{}"
+      );
+      const userIds = [...new Set(otherVideos.map((v) => v.userId))];
+      const map = {};
+
+      await Promise.all(
+        userIds.map(async (id) => {
+          const userInfo = await fetchUserInfoById(id);
+          const email = userInfo?.email;
+          map[id] = {
+            profileName: userInfo?.name || `User ${id}`,
+            profileImage: localProfileImages[email] || userIcon,
+          };
+        })
+      );
+
+      setUserMap(map);
+    };
+
+    fetchData();
+  }, [userId]);
 
   return (
     <section className="communityVideoPage">
@@ -98,59 +144,31 @@ const CommunityVideo = () => {
           Contents
         </span>
         <div className="communityVideoPage__contents__image">
-          {videoThumbnail && (
-            <Box
-              width={400}
-              height={215}
-              title="장난감"
-              userImage={userIcon}
-              username="Chill guy"
-              dataImage={videoThumbnail} // 썸네일
-              onClick={() =>
-                handleBoxClick({
-                  dataImage: dummyVideo,
-                  title: "장난감",
-                  username: "Chill guy",
-                })
-              }
-            />
-          )}
-          {/* Other boxes omitted for brevity */}
-          <Box
-            width={400}
-            height={215}
-            title="Video 2"
-            userImage="https://via.placeholder.com/50"
-            username="User2"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 3"
-            userImage="https://via.placeholder.com/50"
-            username="User3"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 4"
-            userImage="https://via.placeholder.com/50"
-            username="User4"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 5"
-            userImage="https://via.placeholder.com/50"
-            username="User5"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Video 6"
-            userImage="https://via.placeholder.com/50"
-            username="User6"
-          />
+          {videos.map((video, idx) => {
+            const profileName =
+              userMap[video.userId]?.profileName || `User ${video.userId}`;
+            const profileImage =
+              userMap[video.userId]?.profileImage || userIcon;
+
+            return (
+              <Box
+                key={video.id}
+                width={400}
+                height={215}
+                title={video.name || `커뮤니티 비디오 ${idx + 1}`}
+                userImage={profileImage}
+                username={profileName}
+                dataImage={videoThumbnails[video.id]}
+                onClick={() =>
+                  handleBoxClick({
+                    dataImage: video.finalVideo,
+                    title: video.name || `커뮤니티 비디오 ${idx + 1}`,
+                    username: profileName,
+                  })
+                }
+              />
+            );
+          })}
         </div>
       </div>
 

@@ -12,22 +12,20 @@ function Login() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    password: ""
+    password: "",
   });
   const [error, setError] = useState("");
-  const { setProfileName, setEmail, setProfileImage, setId } = useContext(ProfileContext);
+  const { setProfileName, setEmail, setProfileImage, setId } =
+    useContext(ProfileContext);
+
 
   const handleToggle = () => setIsSignIn((prev) => !prev);
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") navigate("/home");
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -35,9 +33,9 @@ function Login() {
     e.preventDefault();
     try {
       const response = await registerUser({
-        name: formData.username,  
+        name: formData.username,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
       });
       console.log("Registration successful:", response);
       setIsSignIn(true);
@@ -55,12 +53,13 @@ function Login() {
         password: formData.password,
       };
 
-      const response = await loginUser(userData);
+      const response = await loginUser(userData); // { id, name, email }
 
-      setId(response.id);
+      setId(response.id); // 🔹 ID 저장
       setProfileName(response.name);
       setEmail(response.email);
 
+      // 이메일별 저장된 이미지 로드
       const storedImages = JSON.parse(
         localStorage.getItem("userProfileImages") || "{}"
       );
@@ -144,7 +143,6 @@ function Login() {
           className="login__normal login__input"
           value={formData.email}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
         />
         <br />
 
@@ -155,7 +153,6 @@ function Login() {
           className="login__normal login__input"
           value={formData.password}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
         />
         <br />
 
@@ -165,7 +162,7 @@ function Login() {
           <p className="login__normal login__forgot">Forgot your password?</p>
         )}
 
-        <button 
+        <button
           className="b-button login__normal"
           onClick={isSignIn ? handleSignIn : handleSignUp}
         >
@@ -173,7 +170,8 @@ function Login() {
         </button>
       </div>
     );
-  }, [isSignIn, formData, error, handleInputChange, handleKeyDown, handleSignUp, handleSignIn]);
+  }, [isSignIn, formData, error, handleInputChange, handleSignUp]);
+
 
   return (
     <article className="loginPage">

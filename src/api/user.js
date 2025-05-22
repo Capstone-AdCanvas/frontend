@@ -32,3 +32,13 @@ export const loginUser = async (credentials) => {
     }
   }
 };
+
+export const fetchUserInfoById = async (userId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/${userId}`);
+    return response.data; // { id, name, email, ... }
+  } catch (error) {
+    console.error(`유저 정보 가져오기 실패 (id: ${userId})`, error);
+    return null;
+  }
+};

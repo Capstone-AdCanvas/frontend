@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyCreativesImage.css";
 import imagePicture from "../../assets/mycreatives-image-1.png";
 import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
-import dummyImage from "../../assets/dummyimage.png";
 import ModalImage from "../../components/ModalImage/ModalImage";
+import { fetchUserImages } from "../../api/checkimage";
+import { fetchUserInfoById } from "../../api/user";
 
 const MyCreativesImage = () => {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [userImages, setUserImages] = useState([]);
+  const [profileName, setProfileName] = useState("");
+  const [profileImage, setProfileImage] = useState(userIcon);
+  const userId = localStorage.getItem("id");
 
   const handleVideoClick = () => {
     navigate("/MyCreatives/video");
@@ -39,6 +44,26 @@ const MyCreativesImage = () => {
     setSelectedImage(null);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userId) {
+        const userInfo = await fetchUserInfoById(userId);
+        const images = await fetchUserImages(userId);
+
+        setUserImages(images);
+        setProfileName(userInfo?.name || `User ${userId}`);
+
+        const profileImageMap = JSON.parse(
+          localStorage.getItem("userProfileImages") || "{}"
+        );
+        const image = profileImageMap[userInfo?.email] || userIcon;
+        setProfileImage(image);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
   return (
     <section className="mycreativesImagePage">
       <header className="mycreativesImagePage__header">
@@ -65,56 +90,23 @@ const MyCreativesImage = () => {
           My AI Images
         </span>
         <div className="mycreativesImagePage__contents__image">
-          <Box
-            width={400}
-            height={215}
-            title="향수병"
-            userImage={userIcon}
-            username="Chill guy"
-            dataImage={dummyImage}
-            onClick={() =>
-              handleBoxClick({
-                dataImage: dummyImage,
-                title: "향수병",
-              })
-            }
-          />
-          {/* Other boxes omitted for brevity */}
-          <Box
-            width={400}
-            height={215}
-            title="Image 2"
-            userImage="https://via.placeholder.com/50"
-            username="User2"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 3"
-            userImage="https://via.placeholder.com/50"
-            username="User3"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 4"
-            userImage="https://via.placeholder.com/50"
-            username="User4"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 5"
-            userImage="https://via.placeholder.com/50"
-            username="User5"
-          />
-          <Box
-            width={400}
-            height={215}
-            title="Image 6"
-            userImage="https://via.placeholder.com/50"
-            username="User6"
-          />
+          {userImages.map((img, idx) => (
+            <Box
+              key={idx}
+              width={400}
+              height={215}
+              title={img.name || `나의 이미지 ${idx + 1}`}
+              userImage={profileImage} // ✅ 로컬스토리지 기반
+              username={profileName} // ✅ API 기반 이름
+              dataImage={img.finalImage || img.originalImage}
+              onClick={() =>
+                handleBoxClick({
+                  dataImage: img.finalImage || img.originalImage,
+                  title: img.name || `나의 이미지 ${idx + 1}`,
+                })
+              }
+            />
+          ))}
         </div>
       </div>
 
