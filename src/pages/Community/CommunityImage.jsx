@@ -14,6 +14,7 @@ const CommunityImage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [allImages, setAllImages] = useState([]);
   const [userMap, setUserMap] = useState({});
+  const [userId, setUserId] = useState(localStorage.getItem("id")); // ✅ 현재 로그인한 유저 ID
 
   const handleVideoClick = () => {
     navigate("/Community/video");
@@ -40,14 +41,19 @@ const CommunityImage = () => {
 
   useEffect(() => {
     fetchAllImages().then(async (images) => {
-      setAllImages(images);
+      const filteredImages = images.filter(
+        (img) => img.userId !== Number(userId) // ✅ 현재 유저 제외
+      );
+      setAllImages(filteredImages);
 
       const localProfileImages = JSON.parse(
         localStorage.getItem("userProfileImages") || "{}"
       );
 
       const localUserMap = {};
-      const uniqueUserIds = [...new Set(images.map((img) => img.userId))];
+      const uniqueUserIds = [
+        ...new Set(filteredImages.map((img) => img.userId)),
+      ];
 
       await Promise.all(
         uniqueUserIds.map(async (userId) => {
@@ -63,7 +69,7 @@ const CommunityImage = () => {
 
       setUserMap(localUserMap);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <section className="communityImagePage">
