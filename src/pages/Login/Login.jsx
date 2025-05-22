@@ -18,6 +18,7 @@ function Login() {
   const { setProfileName, setEmail, setProfileImage, setId } =
     useContext(ProfileContext);
 
+
   const handleToggle = () => setIsSignIn((prev) => !prev);
 
   const handleInputChange = (e) => {
@@ -170,6 +171,7 @@ function Login() {
       </div>
     );
   }, [isSignIn, formData, error, handleInputChange, handleSignUp]);
+
 
   return (
     <article className="loginPage">

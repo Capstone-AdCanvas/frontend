@@ -27,6 +27,7 @@ function AiVideos() {
   const [showTextScriptResult, setShowTextScriptResult] = useState(false);
   const [selectedTextVoiceIndex, setSelectedTextVoiceIndex] = useState(null);
   const [selectedTextMusic, setSelectedTextMusic] = useState(null);
+  const [mergedVideoUrl, setMergedVideoUrl] = useState(null);
 
   useEffect(() => {
     if (isGenerating) {
@@ -51,14 +52,11 @@ function AiVideos() {
     }
   }, [isMerging]);
 
-  const handleGenerate = () => {
-    if (!isReadyToGenerate) return;
-    setIsGenerating(true);
-    setShowVideoText(false);
-    setShowVideoImage(false);
-    setShowMergedVideo(false);
-    setShowScriptEditor(false);
-    setShowScriptResult(false);
+  const handleGenerate = (videoUrl) => {
+    if (videoUrl) {
+      setMergedVideoUrl(videoUrl);
+      setShowVideoText(true);
+    }
   };
 
   const handleTabChange = (tab) => {
@@ -255,6 +253,7 @@ function AiVideos() {
             showVideoText={showVideoText}
             showVideoImage={showVideoImage}
             showMergedVideo={showMergedVideo}
+            mergedVideoUrl={mergedVideoUrl}
             onBackgroundMusicSelect={activeTab === "text" ? handleTextBackgroundMusicSelect : handleBackgroundMusicSelect}
           />
         </div>

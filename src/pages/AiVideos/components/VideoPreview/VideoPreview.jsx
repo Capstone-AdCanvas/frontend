@@ -10,6 +10,7 @@ function VideoPreview({
   showVideoText,
   showVideoImage,
   showMergedVideo,
+  mergedVideoUrl,
   onBackgroundMusicSelect,
   activeTab
 }) {
@@ -37,20 +38,14 @@ function VideoPreview({
         <div className="AiVideo_preview__loading">
           <div className="AiVideo_spinner"></div>
         </div>
-      ) : showVideoText ? (
+      ) : showVideoText || showVideoImage ? (
         <div className="AiVideo_preview__videoBox">
-          <video width="940" height="600" controls>
-            <source src={dummyVideo} type="video/mp4" />
-          </video>
-          <button className="AiVideo_script-add-button" onClick={onBackgroundMusicSelect}>
-            대본 만들기
-          </button>
-        </div>
-      ) : showVideoImage ? (
-        <div className="AiVideo_preview__videoBox">
-          <video width="940" height="600" controls>
-            <source src={dummyVideo} type="video/mp4" />
-          </video>
+          <video
+            src={mergedVideoUrl}
+            controls
+            autoPlay
+            style={{ width: "940px", height: "600px", borderRadius: "10px" }}
+          />
           <button className="AiVideo_script-add-button" onClick={onBackgroundMusicSelect}>
             대본 만들기
           </button>
