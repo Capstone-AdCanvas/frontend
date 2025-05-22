@@ -40,26 +40,23 @@ const CommunityImage = () => {
   const closeModal = () => setSelectedImage(null);
 
   useEffect(() => {
-    fetchAllImages().then(async (images) => {
-      const filteredImages = images.filter(
-        (img) => img.userId !== Number(userId) // ✅ 현재 유저 제외
-      );
-      setAllImages(filteredImages);
+    const fetchData = async () => {
+      if (!userId) return;
+
+      const images = await fetchAllImages(userId); // ✅ userId 전달
+      setAllImages(images);
 
       const localProfileImages = JSON.parse(
         localStorage.getItem("userProfileImages") || "{}"
       );
 
       const localUserMap = {};
-      const uniqueUserIds = [
-        ...new Set(filteredImages.map((img) => img.userId)),
-      ];
+      const uniqueUserIds = [...new Set(images.map((img) => img.userId))];
 
       await Promise.all(
         uniqueUserIds.map(async (userId) => {
           const userInfo = await fetchUserInfoById(userId);
           const emailKey = userInfo?.email;
-
           localUserMap[userId] = {
             profileName: userInfo?.name || `User ${userId}`,
             profileImage: localProfileImages[emailKey] || userIcon,
@@ -68,7 +65,9 @@ const CommunityImage = () => {
       );
 
       setUserMap(localUserMap);
-    });
+    };
+
+    fetchData();
   }, [userId]);
 
   return (
@@ -111,20 +110,20 @@ const CommunityImage = () => {
             const profileName =
               userMap[img.userId]?.profileName || `User ${img.userId}`;
             const profileImage = userMap[img.userId]?.profileImage || userIcon;
-
+            console.log(img);
             return (
               <Box
                 key={idx}
                 width={400}
                 height={215}
-                title={`커뮤니티 이미지 ${idx + 1}`}
+                title={img.name || `커뮤니티 이미지 ${idx + 1}`}
                 userImage={profileImage}
                 username={profileName}
                 dataImage={img.finalImage || img.originalImage}
                 onClick={() =>
                   handleBoxClick({
                     dataImage: img.finalImage || img.originalImage,
-                    title: `커뮤니티 이미지 ${idx + 1}`,
+                    title: img.name || `커뮤니티 이미지 ${idx + 1}`,
                     username: profileName,
                   })
                 }

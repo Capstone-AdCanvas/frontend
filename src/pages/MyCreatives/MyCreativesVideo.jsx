@@ -135,14 +135,14 @@ const MyCreativesVideo = () => {
               key={video.id}
               width={400}
               height={215}
-              title={`나의 비디오 ${idx + 1}`}
+              title={video.name || `나의 비디오 ${idx + 1}`}
               userImage={profileImage}
               username={profileName}
               dataImage={videoThumbnails[video.id]} // ✅ 썸네일 또는 fallback
               onClick={() =>
                 handleBoxClick({
                   dataImage: video.finalVideo,
-                  title: `나의 비디오 ${idx + 1}`,
+                  title: video.name || `나의 비디오 ${idx + 1}`,
                   username: profileName,
                 })
               }

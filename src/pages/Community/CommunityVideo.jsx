@@ -155,14 +155,14 @@ const CommunityVideo = () => {
                 key={video.id}
                 width={400}
                 height={215}
-                title={`커뮤니티 비디오 ${idx + 1}`}
+                title={video.name || `커뮤니티 비디오 ${idx + 1}`}
                 userImage={profileImage}
                 username={profileName}
                 dataImage={videoThumbnails[video.id]}
                 onClick={() =>
                   handleBoxClick({
                     dataImage: video.finalVideo,
-                    title: `커뮤니티 비디오 ${idx + 1}`,
+                    title: video.name || `커뮤니티 비디오 ${idx + 1}`,
                     username: profileName,
                   })
                 }

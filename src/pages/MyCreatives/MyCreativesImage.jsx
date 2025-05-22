@@ -95,14 +95,14 @@ const MyCreativesImage = () => {
               key={idx}
               width={400}
               height={215}
-              title={`나의 이미지 ${idx + 1}`}
+              title={img.name || `나의 이미지 ${idx + 1}`}
               userImage={profileImage} // ✅ 로컬스토리지 기반
               username={profileName} // ✅ API 기반 이름
               dataImage={img.finalImage || img.originalImage}
               onClick={() =>
                 handleBoxClick({
                   dataImage: img.finalImage || img.originalImage,
-                  title: `나의 이미지 ${idx + 1}`,
+                  title: img.name || `나의 이미지 ${idx + 1}`,
                 })
               }
             />
