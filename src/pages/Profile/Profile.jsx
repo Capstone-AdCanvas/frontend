@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import editIcon from "../../assets/profile-edit-btn-1.png";
@@ -9,6 +9,8 @@ import GradientBox from "../../components/GradientBox/GradientBox";
 import imageIcon from "../../assets/AI Images.png";
 import uploadIcon from "../../assets/uploadIcon.png";
 import { ProfileContext } from "../../context/ProfileContext";
+import { fetchUserImages } from "../../api/checkimage";
+import { fetchUserVideos } from "../../api/checkvideo";
 
 function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -18,6 +20,8 @@ function Profile() {
   const navigate = useNavigate();
   const { profileImage, setProfileImage, profileName } =
     useContext(ProfileContext);
+  const [imageCount, setImageCount] = useState(0);
+  const [videoCount, setVideoCount] = useState(0);
 
   const toggleEditMode = () => setIsEditMode((prev) => !prev);
 
@@ -49,6 +53,27 @@ function Profile() {
   const handleVideoClick = () => {
     navigate("/MyCreatives/video");
   };
+
+  useEffect(() => {
+    const userId = localStorage.getItem("id");
+
+    const fetchCounts = async () => {
+      try {
+        const [images, videos] = await Promise.all([
+          fetchUserImages(userId),
+          fetchUserVideos(userId),
+        ]);
+        setImageCount(images.length);
+        setVideoCount(videos.length);
+      } catch (error) {
+        console.error("이미지/비디오 개수 조회 실패:", error);
+      }
+    };
+
+    if (userId) {
+      fetchCounts();
+    }
+  }, []);
 
   return (
     <section className="profilePage">
@@ -133,13 +158,13 @@ function Profile() {
               className="profilePage__content__info__btn__image"
               onClick={handleImageClick}
             >
-              Image <span>3</span>
+              Image <span>{imageCount}</span>
             </button>
             <button
               className="profilePage__content__info__btn__video"
               onClick={handleVideoClick}
             >
-              Video <span>2</span>
+              Video <span>{videoCount}</span>
             </button>
           </div>
 
