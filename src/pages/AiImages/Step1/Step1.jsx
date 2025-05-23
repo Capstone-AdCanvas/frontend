@@ -55,7 +55,7 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
       setProcessedImage(result.processedImage);
       setIsComplete(true);
       setError(null);
-      setBgRemovedImage(`http://localhost:8080${result.processedImage}`);
+      setBgRemovedImage(result.processedImage);
     } catch (err) {
       setError(err.message || '배경 제거에 실패했습니다.');
       setIsLoading(false);
@@ -166,7 +166,7 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
             <div className="image-transition-wrapper">
               <div className="image-blend-container">
                 <img
-                  src={`http://localhost:8080${processedImage}`}
+                  src={processedImage}
                   alt="After"
                   className="image-half"
                   style={{
@@ -193,7 +193,7 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
             <div className="final-screen">
               <div className={`final-image-container ${animateExit ? "exit-animation" : ""}`}>
                 <img
-                  src={`http://localhost:8080${processedImage}`}
+                  src={processedImage}
                   alt="Final"
                   className="final-image-move"
                 />

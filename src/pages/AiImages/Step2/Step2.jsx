@@ -89,8 +89,8 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
   // 최종 배경이미지 선택 API 호출
   const handleChoose = async () => {
     if (!selectedImage) return;
-    // 파일명 추출
-    const fileName = selectedImage.split('/').pop();
+    // 전체 GCS URL 사용
+    const fileName = selectedImage;
     console.log("최종 선택 fileName:", fileName);
     // 배경제거된 이미지의 id 추출
     const imageId = bgRemovedImage.split('/').pop().replace('processed_', '').replace('.png', '');
