@@ -17,6 +17,8 @@ import img4_1 from "../../../assets/onboardingPage1-img4-1.png";
 import img4_2 from "../../../assets/onboardingPage1-img4-2.png";
 import img5_1 from "../../../assets/onboardingPage1-img5-1.png";
 import img5_2 from "../../../assets/onboardingPage1-img5-2.png";
+import img6_1 from "../../../assets/onboardingPage1-img6-1.png";
+import img6_2 from "../../../assets/onboardingPage1-img6-2.png";
 
 const slides = [
   { img1: img1_1, img2: img1_2 },
@@ -24,6 +26,7 @@ const slides = [
   { img1: img3_1, img2: img3_2 },
   { img1: img4_1, img2: img4_2 },
   { img1: img5_1, img2: img5_2 },
+  { img1: img6_1, img2: img6_2 },
 ];
 
 const OnBoardingPage1 = () => {

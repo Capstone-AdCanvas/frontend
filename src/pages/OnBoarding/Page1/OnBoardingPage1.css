@@ -74,14 +74,32 @@
   perspective: 1200px;
   transform-style: preserve-3d;
 }
+.tv-frame::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 150, 255, 0.15),
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  filter: blur(40px);
+}
 /* TV 외곽 이미지 */
 .tv-frame__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.6),
-    0px 10px 30px rgba(0, 0, 0, 0.7); /* 안쪽 + 바깥 그림자 */
   position: relative;
+  border-radius: 16px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(0, 0, 0, 0.7),
+    0 -5px 15px rgba(255, 255, 255, 0.05),
+    inset 0 0 4px rgba(255, 255, 255, 0.1);
 }
 .tv-frame__image::before {
   content: "";
@@ -90,12 +108,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 16px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0) 60%
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.03) 60%,
+    rgba(255, 255, 255, 0) 100%
   );
+  mix-blend-mode: screen;
   pointer-events: none;
   z-index: 5;
 }
