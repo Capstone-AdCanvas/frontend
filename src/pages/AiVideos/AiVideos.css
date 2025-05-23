@@ -111,7 +111,7 @@
   position: absolute;
   bottom: -53px;
   right: 4px;
-  background: white;
+  background: var(--gradient-text);
   color: #0d1116;
   font-size: 15px;
   padding: 10px 20px;
@@ -119,6 +119,10 @@
   border-radius: 8px;
   cursor: pointer;
   z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
 
 /* 대본 생성 프롬프트 */
@@ -269,4 +273,26 @@
   background-color: white ;
   border-radius: 4px;
   min-height: 30px;
+}
+
+.AiVideo_test-button {
+  width: 200px;
+  height: 40px;
+  background: var(--gradient-text);
+  color: #0d1116;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.AiVideo_test-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

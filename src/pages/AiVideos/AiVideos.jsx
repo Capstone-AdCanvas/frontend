@@ -9,6 +9,8 @@ import BackgroundMusic from "./components/BackgroundMusic/BackgroundMusic";
 import ScriptEditor from "./components/ScriptEditor/ScriptEditor";
 import VideoPreview from "./components/VideoPreview/VideoPreview";
 import TextScriptEditor from "./components/TextScriptEditor/TextScriptEditor";
+import { voiceList } from "./speechmodel";
+import { previewTTS } from "../../api/tts";
 
 function AiVideos() {
   const [activeTab, setActiveTab] = useState("text");
@@ -28,6 +30,9 @@ function AiVideos() {
   const [selectedTextVoiceIndex, setSelectedTextVoiceIndex] = useState(null);
   const [selectedTextMusic, setSelectedTextMusic] = useState(null);
   const [mergedVideoUrl, setMergedVideoUrl] = useState(null);
+  const [currentAudio, setCurrentAudio] = useState(null);
+  const [previewAudioUrl, setPreviewAudioUrl] = useState(null);
+  const [generatedScript, setGeneratedScript] = useState('');
 
   useEffect(() => {
     if (isGenerating) {
@@ -69,8 +74,9 @@ function AiVideos() {
     setShowScriptResult(false);
   };
 
-  const handleScriptGenerate = () => {
+  const handleScriptGenerate = (previewResponse) => {
     setShowScriptResult(true);
+    setPreviewAudioUrl(previewResponse.ttsPath);
   };
 
   const handleVoiceSelect = (index) => {
@@ -96,12 +102,29 @@ function AiVideos() {
     setShowScriptEditor(true);
   };
 
-  const handleTextScriptGenerate = () => {
+  const handleTextScriptGenerate = (response) => {
     setShowTextScriptResult(true);
+    setPreviewAudioUrl(response.ttsPath);
+    setGeneratedScript(response.text);
   };
 
-  const handleTextVoiceSelect = (index) => {
+  const handleTextVoiceSelect = async (index) => {
     setSelectedTextVoiceIndex(index);
+    
+    // 선택된 보이스로 새로운 TTS 미리듣기 생성
+    if (generatedScript) {
+      try {
+        const previewResponse = await previewTTS({
+          speaker: voiceList[index].code,
+          text: generatedScript,
+          emotion: 1,
+          emotionStrength: 2
+        });
+        setPreviewAudioUrl(previewResponse.ttsPath);
+      } catch (error) {
+        console.error('Error generating TTS preview:', error);
+      }
+    }
   };
 
   const handleTextMusicSelect = (musicId) => {
@@ -116,6 +139,60 @@ function AiVideos() {
   const handleTextBackgroundMusicSelect = () => {
     setShowBackgroundMusic(true);
     setShowTextScriptEditor(false);
+  };
+
+  const handleStartScriptGeneration = () => {
+    if (activeTab === "text") {
+      setShowTextScriptEditor(true);
+    } else {
+      setShowScriptEditor(true);
+    }
+  };
+
+  const handleTestScriptGeneration = () => {
+    if (activeTab === "text") {
+      setShowTextScriptEditor(true);
+      setShowTextScriptResult(true);
+    } else {
+      setShowScriptEditor(true);
+      setShowScriptResult(true);
+    }
+  };
+
+  const handleVoicePlay = async (voiceIndex) => {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+
+    if (generatedScript) {
+      try {
+        // 선택된 보이스의 정보로 새로운 TTS 미리듣기 생성
+        const previewResponse = await previewTTS({
+          speaker: voiceList[voiceIndex].code,
+          text: generatedScript,
+          emotion: 1,
+          emotionStrength: 2
+        });
+
+        const baseUrl = 'http://localhost:8080';
+        const audioUrl = `${baseUrl}${previewResponse.ttsPath}`;
+        
+        const audio = new Audio();
+        audio.src = audioUrl;
+        audio.onerror = (e) => {
+          console.error('Audio playback error:', e);
+          console.error('Attempted to play:', audioUrl);
+        };
+        audio.play().catch(error => {
+          console.error('Error playing audio:', error);
+          console.error('Attempted to play:', audioUrl);
+        });
+        setCurrentAudio(audio);
+      } catch (error) {
+        console.error('Error generating TTS preview:', error);
+      }
+    }
   };
 
   const shouldShowPreviewBox =
@@ -139,6 +216,9 @@ function AiVideos() {
                 setIsReadyToGenerate={setIsReadyToGenerate}
                 handleGenerate={handleGenerate}
               />
+              <button className="AiVideo_test-button" onClick={handleTestScriptGeneration}>
+                TTS 테스트하기
+              </button>
             </>
           ) : showBackgroundMusic ? (
             <GradientBox width={"550px"} height={"560px"}>
@@ -170,18 +250,26 @@ function AiVideos() {
                         Deep 워터, 당신의 하루를 깨우는 물.
                       </div>
                       <div className="AiVideo_voice-list">
-                        {[...Array(6)].map((_, index) => (
+                        {voiceList.map((voice, index) => (
                           <div
                             className={`AiVideo_voice-item ${selectedVoiceIndex === index ? "selected" : ""}`}
                             key={index}
                             onClick={() => handleVoiceSelect(index)}
                           >
-                            <img src="https://placehold.co/45x45" alt="voice" />
+                            <img src={voice.image} alt={voice.name} />
                             <div className="AiVideo_voice-info">
-                              <div className="AiVideo_voice-name">Voice {index + 1}</div>
-                              <div className="AiVideo_voice-details">30세 - 남성(KR)</div>
+                              <div className="AiVideo_voice-name">{voice.name}</div>
+                              <div className="AiVideo_voice-details">{voice.gender}</div>
                             </div>
-                            <button className="AiVideo_voice-play">▶</button>
+                            <button 
+                              className="AiVideo_voice-play" 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleVoicePlay(index);
+                              }}
+                            >
+                              ▶
+                            </button>
                           </div>
                         ))}
                       </div>
@@ -204,6 +292,7 @@ function AiVideos() {
                   onScriptGenerate={handleTextScriptGenerate}
                   onVoiceSelect={handleTextVoiceSelect}
                   onMerge={handleMerge}
+                  voiceList={voiceList}
                 />
               </GradientBox>
               {showTextScriptResult && (
@@ -212,23 +301,29 @@ function AiVideos() {
                     <div className="AiVideo_script-output__box">
                       <div className="AiVideo_text-input__title">생성된 대본</div>
                       <div className="AiVideo_text-input__textarea" style={{ height: "138px", width: "101%" }}>
-                        지친 순간, 내 몸이 먼저 찾는건<br />
-                        맑고 깨끗한 한 모금, 생기를 채우다. <br />
-                        Deep 워터, 당신의 하루를 깨우는 물.
+                        {generatedScript}
                       </div>
                       <div className="AiVideo_voice-list">
-                        {[...Array(6)].map((_, index) => (
+                        {voiceList.map((voice, index) => (
                           <div
                             className={`AiVideo_voice-item ${selectedTextVoiceIndex === index ? "selected" : ""}`}
                             key={index}
                             onClick={() => handleTextVoiceSelect(index)}
                           >
-                            <img src="https://placehold.co/45x45" alt="voice" />
+                            <img src={voice.image} alt={voice.name} />
                             <div className="AiVideo_voice-info">
-                              <div className="AiVideo_voice-name">Voice {index + 1}</div>
-                              <div className="AiVideo_voice-details">30세 - 남성(KR)</div>
+                              <div className="AiVideo_voice-name">{voice.name}</div>
+                              <div className="AiVideo_voice-details">{voice.gender}</div>
                             </div>
-                            <button className="AiVideo_voice-play">▶</button>
+                            <button 
+                              className="AiVideo_voice-play" 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleVoicePlay(index);
+                              }}
+                            >
+                              ▶
+                            </button>
                           </div>
                         ))}
                       </div>
@@ -256,6 +351,11 @@ function AiVideos() {
             mergedVideoUrl={mergedVideoUrl}
             onBackgroundMusicSelect={activeTab === "text" ? handleTextBackgroundMusicSelect : handleBackgroundMusicSelect}
           />
+          {(showVideoText || showVideoImage) && !showScriptEditor && !showTextScriptEditor && (
+            <button className="AiVideo_script-add-button" onClick={handleStartScriptGeneration}>
+              대본 생성하기
+            </button>
+          )}
         </div>
       </main>
     </section>
