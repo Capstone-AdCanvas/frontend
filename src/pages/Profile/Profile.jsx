@@ -9,8 +9,8 @@ import GradientBox from "../../components/GradientBox/GradientBox";
 import imageIcon from "../../assets/AI Images.png";
 import uploadIcon from "../../assets/uploadIcon.png";
 import { ProfileContext } from "../../context/ProfileContext";
-import { fetchUserImages } from "../../api/checkimage";
-import { fetchUserVideos } from "../../api/checkvideo";
+import { fetchUserImages } from "../../api/image";
+import { fetchUserVideos } from "../../api/video";
 
 function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);

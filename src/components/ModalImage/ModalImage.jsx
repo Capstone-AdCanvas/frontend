@@ -4,11 +4,19 @@ import "./ModalImage.css";
 const ModalImage = ({ image, onClose, isCommunity }) => {
   if (!image) return null;
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    const response = await fetch(image.dataImage, { mode: "cors" }); // 중요
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+
     const link = document.createElement("a");
-    link.href = image.dataImage;
+    link.href = blobUrl;
     link.download = `${image.title}.${image.extension}`;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(blobUrl); // 메모리 해제
   };
 
   return (

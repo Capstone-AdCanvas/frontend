@@ -6,8 +6,8 @@ import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import ModalImage from "../../components/ModalImage/ModalImage";
-import { fetchAllImages } from "../../api/checkimage";
 import { fetchUserInfoById } from "../../api/user";
+import { fetchAllImages } from "../../api/image";
 
 const CommunityImage = () => {
   const navigate = useNavigate();

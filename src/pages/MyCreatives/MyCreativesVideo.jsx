@@ -6,8 +6,8 @@ import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import ModalVideo from "../../components/ModalVideo/ModalVideo";
-import { fetchUserVideos } from "../../api/checkvideo";
 import { fetchUserInfoById } from "../../api/user";
+import { fetchUserVideos } from "../../api/video";
 
 // ✅ 썸네일 추출 함수
 const getVideoThumbnail = (videoSrc) => {
