@@ -6,8 +6,8 @@ import videoPicture from "../../assets/mycreatives-video-1.png";
 import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import ModalImage from "../../components/ModalImage/ModalImage";
-import { fetchUserImages } from "../../api/checkimage";
 import { fetchUserInfoById } from "../../api/user";
+import { fetchUserImages } from "../../api/image";
 
 const MyCreativesImage = () => {
   const navigate = useNavigate();

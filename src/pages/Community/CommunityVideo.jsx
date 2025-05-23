@@ -7,8 +7,8 @@ import Box from "../../components/Box/Box";
 import userIcon from "../../assets/profile-icon.png";
 import dummyVideo from "../../assets/dummyvideo.mp4";
 import ModalVideo from "../../components/ModalVideo/ModalVideo";
-import { fetchOtherVideos } from "../../api/checkvideo"; // ✅ 다른 유저 비디오 조회 API
 import { fetchUserInfoById } from "../../api/user"; // ✅ 유저 프로필
+import { fetchOtherVideos } from "../../api/video";
 
 // ✅ 썸네일 추출 함수
 const getVideoThumbnail = (videoSrc) => {
