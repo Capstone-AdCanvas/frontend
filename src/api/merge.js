@@ -2,15 +2,44 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/v1';
 
-export const mergeVideos = async (videoUrls, tema = 'forest') => {
+const normalizeUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('blob:')) return null; // blob URL은 API 요청에 사용하지 않음
+  return url.startsWith('/') ? `http://localhost:8080${url}` : url;
+};
+
+export const mergeVideos = async (videoUrls, tema = null, ttsUrls = []) => {
   try {
     if (!videoUrls || videoUrls.length === 0) {
       throw new Error('영상 URL이 없습니다.');
     }
 
     const params = new URLSearchParams();
-    videoUrls.forEach(url => params.append('videoUrls', url));
-    params.append('tema', tema);
+    
+    // 비디오 URL 처리
+    videoUrls.forEach(url => {
+      const normalizedUrl = normalizeUrl(url);
+      if (normalizedUrl) {
+        params.append('videoUrls', normalizedUrl);
+      }
+    });
+    
+    // 배경음악 처리
+    if (tema) {
+      params.append('tema', tema);
+    }
+    
+    // TTS URL 처리
+    if (ttsUrls && ttsUrls.length > 0) {
+      ttsUrls.forEach(url => {
+        const normalizedUrl = normalizeUrl(url);
+        if (normalizedUrl) {
+          params.append('ttsUrl', normalizedUrl);
+        }
+      });
+    }
+
+    console.log('Merge API 요청 파라미터:', params.toString());
 
     const response = await axios.get(`${API_BASE_URL}/audios/merge`, {
       params,

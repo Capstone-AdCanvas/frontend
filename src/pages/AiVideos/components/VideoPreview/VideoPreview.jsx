@@ -25,20 +25,17 @@ function VideoPreview({
 
   return (
     <div className="AiVideo_aiVideos__preview">
-      {!shouldShowPreviewBox ? (
-        <div className="AiVideo_preview__initial">
-          <img src="/images/video-icon.png" alt="video" />
-          <p>영상을 생성해주세요</p>
-        </div>
-      ) : isGenerating ? (
+      {isGenerating && (
         <div className="AiVideo_preview__loading">
           <div className="AiVideo_spinner"></div>
         </div>
-      ) : isMerging ? (
+      )}
+      {isMerging && (
         <div className="AiVideo_preview__loading">
           <div className="AiVideo_spinner"></div>
         </div>
-      ) : showVideoText || showVideoImage ? (
+      )}
+      {(showVideoText || showVideoImage) && !isGenerating && !isMerging && (
         <div className="AiVideo_preview__videoBox">
           <video
             src={mergedVideoUrl}
@@ -50,13 +47,17 @@ function VideoPreview({
             대본 만들기
           </button>
         </div>
-      ) : showMergedVideo ? (
+      )}
+      {showMergedVideo && !isGenerating && !isMerging && (
         <div className="AiVideo_preview__videoBox">
-          <video width="940" height="600" controls>
-            <source src={dummyVideo} type="video/mp4" />
-          </video>
+          <video
+            src={mergedVideoUrl}
+            controls
+            autoPlay
+            style={{ width: "940px", height: "600px", borderRadius: "10px" }}
+          />
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

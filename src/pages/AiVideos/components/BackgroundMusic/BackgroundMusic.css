@@ -1,119 +1,126 @@
 .AiVideo_background-music__container {
-  padding: 0px;
+  padding: 20px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.AiVideo_background-music__header {
+.AiVideo_background-music__grid {
   display: grid;
-  grid-template-columns: 80px 60px 1fr 200px 100px;
-  padding: 10px 0;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
-  color: white;
-}
-
-.AiVideo_background-music__header .header-item {
-  text-align: center;
-  padding: 0 10px;
-}
-
-.AiVideo_background-music__header .header-item:nth-child(4) {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 30px;
   margin-left: -30px;
 }
 
-.AiVideo_background-music__list {
-  margin-top: 10px;
+/* 마지막 두 개의 박스를 아래로 이동 */
+.AiVideo_background-music__grid > div:nth-last-child(-n+2) {
+  grid-column: span 1;
 }
 
-.music-item {
-  display: grid;
-  grid-template-columns: 80px 60px 1fr 200px 100px;
-  padding: 15px 0;
-  border-bottom: 1px solid #eee;
+.AiVideo_background-music__grid > div:nth-last-child(2) {
+  grid-column: 1;
+}
+
+.AiVideo_background-music__grid > div:nth-last-child(1) {
+  grid-column: 2;
+}
+
+.music-box {
+  background-color: #1f2429;
+  border-radius: 15px;
+  overflow: hidden;
   cursor: pointer;
-  transition: background-color 0.2s;
-  color: white;
-  align-items: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
-.music-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.music-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.music-item.selected {
-  background-color: rgba(255, 255, 255, 0.2);
+.music-box.selected {
+  border-color: var(--gradient-text);
 }
 
-.music-album {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.music-album img {
-  width: 50px;
-  height: 50px;
-  border-radius: 4px;
-}
-
-.music-play {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.music-play button {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-}
-
-.music-play button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.music-title {
-  font-weight: 500;
-  padding-left: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.music-waveform {
-  padding-left: 30px;
-}
-
-.waveform-visualization {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  height: 40px;
-}
-
-.wave-bar {
-  width: 3px;
-  background-color: #4a90e2;
-  border-radius: 2px;
-}
-
-.music-info {
+.music-box-content {
+  position: relative;
+  width: 100%;
+  height: 200px;
   display: flex;
   flex-direction: column;
-  font-size: 12px;
-  color: #888;
-  padding-left: 10px;
 }
 
-.AiVideo_merge-button {
+.music-box-image {
+  width: 100%;
+  height: 70%;
+  background-color: #2d333b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.music-box-placeholder {
+  width: 80%;
+  height: 80%;
+  background-color: #3b4249;
+  border-radius: 10px;
+}
+
+.music-box-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  background: linear-gradient(to top, rgba(31, 36, 41, 0.9), transparent);
+  color: white;
+}
+
+.music-description {
+  font-size: 14px;
+  margin: 0;
+  color: #ccc;
+}
+
+.music-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0 0 0;
+}
+
+.music-play-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #0d1116;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.music-play-button:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.music-play-button.playing {
+  background: var(--gradient-text);
+  color: black;
+}
+
+.AiVideo_background-music__container .AiVideo_merge-button {
   width: 490px;
   height: 50px;
   background: var(--gradient-text);
@@ -122,10 +129,16 @@
   border-radius: 15px;
   font-size: 18px;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: -4px;
+  margin-left: -30px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.2s ease;
+}
 
+.AiVideo_background-music__container .AiVideo_merge-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

@@ -48,7 +48,11 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
           console.log('모든 비디오가 생성되었습니다:', videoStatuses);
           try {
             // videoUrl만 추출
-            const videoUrls = videoStatuses.map(status => status.videoUrl);
+            const videoUrls = videoStatuses.map(status => {
+              // 상대 경로를 전체 URL로 변환
+              const baseUrl = 'http://localhost:8080';
+              return status.videoUrl.startsWith('http') ? status.videoUrl : `${baseUrl}${status.videoUrl}`;
+            });
             console.log('합성할 비디오 URLs:', videoUrls);
             
             // 영상 합성 API 호출
@@ -63,7 +67,7 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
             if (id) {
               try {
                 const savedVideo = await saveVideo(id, {
-                  videoUrl: firstVideoUrl, // 첫 번째 비디오 URL 사용
+                  videoUrl: firstVideoUrl,
                   aspectRatio: ratio,
                   duration: parseInt(videoLength.replace('s', '')),
                   createdAt: new Date().toISOString()
@@ -71,12 +75,11 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
                 console.log('영상이 저장되었습니다:', savedVideo);
               } catch (saveError) {
                 console.error('영상 저장 중 오류 발생:', saveError);
-                // 저장 실패는 전체 프로세스를 중단시키지 않음
               }
             }
             
-            // 상위 컴포넌트에 합성된 영상 URL 전달
-            handleGenerate(mergedVideoUrl);
+            // 상위 컴포넌트에 원본 비디오 URL들 전달
+            handleGenerate(videoUrls);
             setIsGenerating(false);
           } catch (mergeError) {
             console.error('영상 합성 중 오류 발생:', mergeError);
