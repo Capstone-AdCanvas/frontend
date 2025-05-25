@@ -2,6 +2,12 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/v1';
 
+const normalizeUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('blob:')) return null; // blob URL은 API 요청에 사용하지 않음
+  return url.startsWith('/') ? `http://localhost:8080${url}` : url;
+};
+
 export const mergeVideos = async (videoUrls, tema = null, ttsUrls = []) => {
   try {
     if (!videoUrls || videoUrls.length === 0) {
@@ -9,17 +15,27 @@ export const mergeVideos = async (videoUrls, tema = null, ttsUrls = []) => {
     }
 
     const params = new URLSearchParams();
-    videoUrls.forEach(url => params.append('videoUrls', url));
     
+    // 비디오 URL 처리
+    videoUrls.forEach(url => {
+      const normalizedUrl = normalizeUrl(url);
+      if (normalizedUrl) {
+        params.append('videoUrls', normalizedUrl);
+      }
+    });
+    
+    // 배경음악 처리
     if (tema) {
       params.append('tema', tema);
     }
     
+    // TTS URL 처리
     if (ttsUrls && ttsUrls.length > 0) {
       ttsUrls.forEach(url => {
-        // URL이 상대 경로인 경우 전체 경로로 변환
-        const fullUrl = url.startsWith('/') ? `http://localhost:8080${url}` : url;
-        params.append('ttsUrls', fullUrl);
+        const normalizedUrl = normalizeUrl(url);
+        if (normalizedUrl) {
+          params.append('ttsUrl', normalizedUrl);
+        }
       });
     }
 

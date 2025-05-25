@@ -61,24 +61,79 @@ function AiVideos() {
     }
   }, [isMerging]);
 
-  const handleGenerate = (videoUrl) => {
-    if (videoUrl) {
-      console.log('Original video URL received:', videoUrl);
-      
-      // blob URL인 경우 원본 URL을 사용
-      const originalVideoUrl = videoUrl.startsWith('blob:') 
-        ? videoUrls[videoUrls.length - 1] // 마지막으로 저장된 원본 URL 사용
-        : videoUrl;
-      
-      console.log('Processed video URL:', originalVideoUrl);
-      setVideoUrls(prev => {
-        const newUrls = [...prev, originalVideoUrl];
-        console.log('Updated videoUrls array:', newUrls);
-        return newUrls;
-      });
-      setMergedVideoUrl(videoUrl); // 미리보기용 blob URL
-      setShowVideoText(true);
+  const handleScriptGenerate = (previewResponse) => {
+    if (!previewResponse) {
+      console.error('Invalid preview response');
+      return;
     }
+
+    console.log('=== 스크립트 생성 응답 (AiVideos) ===');
+    console.log('전체 응답 데이터:', previewResponse);
+    console.log('응답 타입:', typeof previewResponse);
+    console.log('배열 여부:', Array.isArray(previewResponse));
+    console.log('========================');
+    
+    // TTS 경로 추출
+    let ttsPaths = [];
+    if (previewResponse.ttsPaths) {
+      ttsPaths = previewResponse.ttsPaths;
+    } else if (Array.isArray(previewResponse)) {
+      ttsPaths = previewResponse.map(item => item.ttsPath);
+    } else if (previewResponse.ttsPath) {
+      ttsPaths = [previewResponse.ttsPath];
+    }
+    
+    console.log('추출된 TTS 경로 목록:', ttsPaths);
+    console.log('========================');
+
+    setShowScriptResult(true);
+    setPreviewAudioUrl(previewResponse.ttsPath);
+    
+    // TTS 경로가 있는 경우에만 저장
+    if (ttsPaths.length > 0) {
+      console.log('TTS 경로 저장:', ttsPaths);
+      setTtsUrls(ttsPaths);
+    }
+
+    console.log('=== TTS URL 상태 업데이트 ===');
+    console.log('저장된 TTS 경로 목록:', ttsPaths);
+    console.log('==========================');
+  };
+
+  const handleGenerate = (videoUrl) => {
+    if (!videoUrl) {
+      console.error('Invalid video URL received');
+      return;
+    }
+
+    console.log('=== 비디오 URL 처리 시작 ===');
+    console.log('받은 videoUrl:', videoUrl);
+    
+    // videoUrl이 배열인 경우 (원본 URL들)
+    if (Array.isArray(videoUrl)) {
+      console.log('원본 비디오 URL들:', videoUrl);
+      setVideoUrls(videoUrl); // 원본 URL들 저장
+      
+      // 모든 URL을 사용하여 영상 합성
+      const params = new URLSearchParams();
+      videoUrl.forEach(url => params.append('videoUrls', url));
+      
+      // 영상 합성 API 호출
+      mergeVideos(videoUrl, null, []).then(mergedUrl => {
+        console.log('초기 영상 합성 완료:', mergedUrl);
+        setMergedVideoUrl(mergedUrl);
+      }).catch(error => {
+        console.error('초기 영상 합성 실패:', error);
+      });
+    } 
+    // videoUrl이 문자열인 경우 (blob URL)
+    else {
+      console.log('Blob URL:', videoUrl);
+      setMergedVideoUrl(videoUrl); // 미리보기용 blob URL 저장
+    }
+    
+    setShowVideoText(true);
+    console.log('=== 비디오 URL 처리 완료 ===');
   };
 
   const handleTabChange = (tab) => {
@@ -91,26 +146,11 @@ function AiVideos() {
     setShowScriptResult(false);
   };
 
-  const handleScriptGenerate = (previewResponse) => {
-    console.log('=== 스크립트 생성 응답 ===');
-    console.log('전체 응답 데이터:', previewResponse);
-    console.log('TTS 경로 목록:', previewResponse.ttsPaths);
-    console.log('========================');
-
-    setShowScriptResult(true);
-    setPreviewAudioUrl(previewResponse.ttsPath);
-    setTtsUrls(previewResponse.ttsPaths); // 모든 TTS 경로 저장
-
-    console.log('=== TTS URL 상태 업데이트 ===');
-    console.log('저장된 TTS URL 목록:', previewResponse.ttsPaths);
-    console.log('==========================');
-  };
-
   const handleVoiceSelect = (index) => {
     setSelectedVoiceIndex(index);
   };
 
-  const handleMerge = async () => {
+  const handleMerge = async (currentTtsUrls = ttsUrls) => {
     setIsMerging(true);
     setShowMergedVideo(false);
 
@@ -118,18 +158,48 @@ function AiVideos() {
       const selectedMusic = activeTab === "text" ? selectedTextMusic : selectedMusic;
       const tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
 
-      console.log('=== 영상 통합 API 요청 데이터 ===');
-      console.log('비디오 URL 목록:', videoUrls);
-      console.log('선택된 배경음악:', tema);
-      console.log('TTS URL 목록:', ttsUrls);
-      console.log('===========================');
-
-      if (!videoUrls || videoUrls.length === 0) {
-        throw new Error('비디오 URL이 없습니다.');
+      console.log('=== 영상 통합 API 요청 데이터 상세 ===');
+      console.log('원본 videoUrls 배열:', videoUrls);
+      console.log('videoUrls 배열 길이:', videoUrls.length);
+      console.log('videoUrls 배열 타입:', typeof videoUrls);
+      console.log('videoUrls 배열 내용:', JSON.stringify(videoUrls, null, 2));
+      
+      // videoUrls 배열에서 undefined와 blob URL 제거
+      const validVideoUrls = videoUrls.filter(url => url && !url.startsWith('blob:'));
+      
+      console.log('필터링된 validVideoUrls:', validVideoUrls);
+      console.log('validVideoUrls 길이:', validVideoUrls.length);
+      
+      if (validVideoUrls.length === 0) {
+        throw new Error('유효한 비디오 URL이 없습니다.');
       }
 
+      console.log('=== TTS URL 처리 상세 ===');
+      console.log('원본 ttsUrls:', currentTtsUrls);
+      console.log('TTS URL 개수:', currentTtsUrls.length);
+      console.log('========================');
+
+      // API 요청 파라미터 구성
+      const params = new URLSearchParams();
+      validVideoUrls.forEach(url => params.append('videoUrls', url));
+      if (tema) params.append('tema', tema);
+      currentTtsUrls.forEach(url => params.append('ttsUrls', url));
+      
+      console.log('=== 최종 API 요청 파라미터 ===');
+      console.log('비디오 URL 목록:', validVideoUrls);
+      console.log('TTS URL 목록:', currentTtsUrls);
+      console.log('배경음악:', tema);
+      console.log('전체 파라미터:', params.toString());
+      console.log('===========================');
+
+      console.log('=== mergeVideos 함수 호출 파라미터 ===');
+      console.log('videoUrls:', validVideoUrls);
+      console.log('tema:', tema);
+      console.log('ttsUrls:', currentTtsUrls);
+      console.log('===========================');
+
       // 모든 비디오 URL과 TTS URL 사용
-      const mergedVideoUrl = await mergeVideos(videoUrls, tema, ttsUrls);
+      const mergedVideoUrl = await mergeVideos(validVideoUrls, tema, currentTtsUrls);
       console.log('Merge successful, new video URL:', mergedVideoUrl);
       
       setMergedVideoUrl(mergedVideoUrl);
@@ -145,7 +215,7 @@ function AiVideos() {
         status: error.response?.status,
         videoUrls,
         tema: selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null,
-        ttsUrls
+        ttsUrls: currentTtsUrls
       });
       setIsMerging(false);
     }
@@ -169,6 +239,13 @@ function AiVideos() {
     setShowTextScriptResult(true);
     setPreviewAudioUrl(response.ttsPath);
     setGeneratedScript(response.text);
+    
+    // TTS 경로 처리 추가
+    if (response.ttsPaths && response.ttsPaths.length > 0) {
+      console.log('=== TTS 경로 저장 (handleTextScriptGenerate) ===');
+      console.log('TTS 경로 목록:', response.ttsPaths);
+      setTtsUrls(response.ttsPaths);
+    }
   };
 
   const handleTextVoiceSelect = async (index) => {
@@ -338,7 +415,7 @@ function AiVideos() {
                         ))}
                       </div>
                       {selectedVoiceIndex !== null && (
-                        <button className="AiVideo_merge-button" onClick={handleMerge}>
+                        <button className="AiVideo_merge-button" onClick={() => handleMerge()}>
                           음성 입히기
                         </button>
                       )}
@@ -392,7 +469,7 @@ function AiVideos() {
                         ))}
                       </div>
                       {selectedTextVoiceIndex !== null && (
-                        <button className="AiVideo_merge-button" onClick={handleMerge}>
+                        <button className="AiVideo_merge-button" onClick={() => handleMerge()}>
                           음성 입히기
                         </button>
                       )}
