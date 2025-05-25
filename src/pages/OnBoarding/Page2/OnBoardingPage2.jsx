@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { animation } from "../../../styles/motion";
 import "./OnBoardingPage2.css";
+import sampleImg from "../../../assets/onboardingPage2-sample-img.png";
 
 const OnBoardingPage2 = () => {
   return (
@@ -14,7 +15,11 @@ const OnBoardingPage2 = () => {
     >
       <div className="onboardingPage2__content">
         <div className="onboardingPage2__content__screen">
-          (이미지 제작 보여주는 화면)
+          <img
+            className="onboardingPage2__content__screen__img"
+            src={sampleImg}
+            alt=""
+          />
         </div>
         <h2>
           몇 번의 클릭으로
