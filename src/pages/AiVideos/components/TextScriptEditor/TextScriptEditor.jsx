@@ -29,6 +29,10 @@ function TextScriptEditor({
         second: 10 // 고정값
       });
 
+      console.log('=== TTS 변환 API 응답 ===');
+      console.log('TTS 응답 데이터:', ttsResponse);
+      console.log('========================');
+
       // 응답에서 text 추출하여 배열로 저장하고 따옴표 제거
       const texts = ttsResponse.map(item => item.text.replace(/"/g, ''));
       setGeneratedTexts(texts);
@@ -47,11 +51,23 @@ function TextScriptEditor({
         emotionStrength: 2
       });
 
+      console.log('=== TTS 미리듣기 API 응답 ===');
+      console.log('미리듣기 응답:', previewResponse);
+      console.log('==========================');
+
+      // TTS 변환 API의 ttsPath만 수집
+      const ttsPaths = ttsResponse.map(item => item.ttsPath).filter(Boolean);
+
+      console.log('=== 영상 통합용 TTS 경로 ===');
+      console.log('TTS 경로 목록:', ttsPaths);
+      console.log('==========================');
+
       // 부모 컴포넌트에 결과 전달
       onScriptGenerate({
-        ttsPath: previewResponse.ttsPath,
+        ttsPath: previewResponse.ttsPath, // 미리듣기용
         text: texts.join('\n\n'), // 각 문장을 줄바꿈으로 구분
-        texts: texts
+        texts: texts,
+        ttsPaths: ttsPaths // 영상 통합용 TTS 경로만 전달
       });
     } catch (err) {
       setError(err.message || 'TTS 변환 중 오류가 발생했습니다.');

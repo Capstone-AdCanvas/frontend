@@ -11,6 +11,8 @@ import VideoPreview from "./components/VideoPreview/VideoPreview";
 import TextScriptEditor from "./components/TextScriptEditor/TextScriptEditor";
 import { voiceList } from "./speechmodel";
 import { previewTTS } from "../../api/tts";
+import { mergeVideos } from "../../api/merge";
+import { backgroundMusicList } from "./components/BackgroundMusic/BackgroundMusic";
 
 function AiVideos() {
   const [activeTab, setActiveTab] = useState("text");
@@ -33,6 +35,8 @@ function AiVideos() {
   const [currentAudio, setCurrentAudio] = useState(null);
   const [previewAudioUrl, setPreviewAudioUrl] = useState(null);
   const [generatedScript, setGeneratedScript] = useState('');
+  const [videoUrls, setVideoUrls] = useState([]);
+  const [ttsUrls, setTtsUrls] = useState([]);
 
   useEffect(() => {
     if (isGenerating) {
@@ -59,7 +63,20 @@ function AiVideos() {
 
   const handleGenerate = (videoUrl) => {
     if (videoUrl) {
-      setMergedVideoUrl(videoUrl);
+      console.log('Original video URL received:', videoUrl);
+      
+      // blob URL인 경우 원본 URL을 사용
+      const originalVideoUrl = videoUrl.startsWith('blob:') 
+        ? videoUrls[videoUrls.length - 1] // 마지막으로 저장된 원본 URL 사용
+        : videoUrl;
+      
+      console.log('Processed video URL:', originalVideoUrl);
+      setVideoUrls(prev => {
+        const newUrls = [...prev, originalVideoUrl];
+        console.log('Updated videoUrls array:', newUrls);
+        return newUrls;
+      });
+      setMergedVideoUrl(videoUrl); // 미리보기용 blob URL
       setShowVideoText(true);
     }
   };
@@ -75,17 +92,63 @@ function AiVideos() {
   };
 
   const handleScriptGenerate = (previewResponse) => {
+    console.log('=== 스크립트 생성 응답 ===');
+    console.log('전체 응답 데이터:', previewResponse);
+    console.log('TTS 경로 목록:', previewResponse.ttsPaths);
+    console.log('========================');
+
     setShowScriptResult(true);
     setPreviewAudioUrl(previewResponse.ttsPath);
+    setTtsUrls(previewResponse.ttsPaths); // 모든 TTS 경로 저장
+
+    console.log('=== TTS URL 상태 업데이트 ===');
+    console.log('저장된 TTS URL 목록:', previewResponse.ttsPaths);
+    console.log('==========================');
   };
 
   const handleVoiceSelect = (index) => {
     setSelectedVoiceIndex(index);
   };
 
-  const handleMerge = () => {
+  const handleMerge = async () => {
     setIsMerging(true);
     setShowMergedVideo(false);
+
+    try {
+      const selectedMusic = activeTab === "text" ? selectedTextMusic : selectedMusic;
+      const tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
+
+      console.log('=== 영상 통합 API 요청 데이터 ===');
+      console.log('비디오 URL 목록:', videoUrls);
+      console.log('선택된 배경음악:', tema);
+      console.log('TTS URL 목록:', ttsUrls);
+      console.log('===========================');
+
+      if (!videoUrls || videoUrls.length === 0) {
+        throw new Error('비디오 URL이 없습니다.');
+      }
+
+      // 모든 비디오 URL과 TTS URL 사용
+      const mergedVideoUrl = await mergeVideos(videoUrls, tema, ttsUrls);
+      console.log('Merge successful, new video URL:', mergedVideoUrl);
+      
+      setMergedVideoUrl(mergedVideoUrl);
+      setIsMerging(false);
+      setShowMergedVideo(true);
+      setShowVideoText(false);
+      setShowVideoImage(false);
+    } catch (error) {
+      console.error('Error merging videos:', error);
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        videoUrls,
+        tema: selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null,
+        ttsUrls
+      });
+      setIsMerging(false);
+    }
   };
 
   const handleBackgroundMusicSelect = () => {
@@ -111,7 +174,6 @@ function AiVideos() {
   const handleTextVoiceSelect = async (index) => {
     setSelectedTextVoiceIndex(index);
     
-    // 선택된 보이스로 새로운 TTS 미리듣기 생성
     if (generatedScript) {
       try {
         const previewResponse = await previewTTS({
@@ -167,7 +229,6 @@ function AiVideos() {
 
     if (generatedScript) {
       try {
-        // 선택된 보이스의 정보로 새로운 TTS 미리듣기 생성
         const previewResponse = await previewTTS({
           speaker: voiceList[voiceIndex].code,
           text: generatedScript,
@@ -218,6 +279,9 @@ function AiVideos() {
               />
               <button className="AiVideo_test-button" onClick={handleTestScriptGeneration}>
                 TTS 테스트하기
+              </button>
+              <button className="AiVideo_test-button" onClick={() => setShowBackgroundMusic(true)}>
+                배경음악 테스트하기
               </button>
             </>
           ) : showBackgroundMusic ? (
