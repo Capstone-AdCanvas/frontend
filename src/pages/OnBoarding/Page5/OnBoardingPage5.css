@@ -13,7 +13,7 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  color: #00b0c7;
+  color: #8e59fd;
 }
 .onboardingPage5__content__introduce > span {
   font-size: 45px;
@@ -36,36 +36,26 @@
   font-size: 40px;
   font-weight: bold;
   border-radius: 30px;
-  border: 2px solid #8389c7;
-  background: linear-gradient(
-      0deg,
-      rgba(80, 82, 133, 0.3) 0%,
-      rgba(88, 94, 146, 0.3) 12%,
-      rgba(101, 104, 159, 0.3) 25%,
-      rgba(116, 116, 176, 0.3) 37%,
-      rgba(126, 126, 187, 0.3) 50%,
-      rgba(131, 137, 199, 0.3) 62%,
-      rgba(151, 149, 212, 0.3) 75%,
-      rgba(162, 161, 220, 0.3) 87%,
-      rgba(181, 174, 228, 0.3) 100%
-    ),
-    url("../../../assets/onboarding-button.jpg");
+  background: transparent;
+  color: white;
+  border: 2px solid transparent;
   background-size: cover;
   cursor: pointer;
-  transform: all 0.4s;
+  transition: all 0.5s;
   box-shadow: rgba(0, 0, 0, 0.46) 0px 22px 70px 4px;
+
+  /* gradient border trick using background-origin */
+  background-image: linear-gradient(#0d1116, #0d1116), var(--gradient-text);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 .onboardingPage5__button:hover {
-  transform: scale(1.05);
+  background: var(--gradient-text);
+  color: black;
   box-shadow: 0 0 10px 0 #8389c7 inset, 0 0 10px 4px #8389c7;
 }
 
 .onboardingPage5__button > span {
   font-weight: normal;
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* 일부 브라우저 호환용 */
-  color: transparent; /* 혹시 모를 fallback */
 }

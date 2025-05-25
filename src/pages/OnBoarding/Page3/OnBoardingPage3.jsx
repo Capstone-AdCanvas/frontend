@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { animation } from "../../../styles/motion";
 import "./OnBoardingPage3.css";
+import sampleImg from "../../../assets/onboardingPage3-sample-img.png";
 
 const OnBoardingPage3 = () => {
   return (
@@ -19,7 +20,11 @@ const OnBoardingPage3 = () => {
           문구만 입력하여 자동 생성
         </h2>
         <div className="onboardingPage3__content__screen">
-          (영상 제작 보여주는 화면)
+          <img
+            className="onboardingPage3__content__screen__img"
+            src={sampleImg}
+            alt=""
+          />
         </div>
       </div>
     </motion.article>
