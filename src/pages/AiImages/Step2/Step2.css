@@ -12,7 +12,7 @@
 .step2__container {
   width: 1200px;
   height: 700px;
-  background-color: #1F2429;
+  background-color: #1f2429;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -22,7 +22,7 @@
 }
 
 .step2__container.generated {
-  background-color: #0D1116;
+  background-color: #0d1116;
 }
 
 .step2__top {
@@ -35,7 +35,7 @@
 .step2__image {
   width: 400px;
   height: 100%;
-  background-color: #1F2429;
+  background-color: #1f2429;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,18 +131,66 @@
   margin-left: -20px;
 }
 
+/* Carousel 전체 wrapper */
+.theme__carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: visible;
+}
+
+/* box-group에 가로 스크롤 적용 */
 .theme__box-group {
   display: flex;
-  gap: 80px;
-  margin-left: 30px;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+/* 스크롤 숨기기 */
+.theme__box-group::-webkit-scrollbar {
+  display: none;
+}
+.theme__box-group {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* 좌우 화살표 버튼 */
+.theme__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #191d21;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.theme__arrow.left {
+  left: -15px;
+}
+
+.theme__arrow.right {
+  right: -15px;
 }
 
 .theme__box {
+  flex: 0 0 auto;
   width: 150px;
   height: 150px;
   background-color: #273038;
   border-radius: 10px;
   display: flex;
+  flex-direction: column; /* 이미지와 텍스트 세로 정렬 */
   justify-content: center;
   align-items: center;
   color: white;
@@ -150,6 +198,21 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.theme__image {
+  width: 120px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 8px;
+  border-radius: 10px;
+}
+
+.theme__label {
+  font-size: 14px;
+  text-align: center;
 }
 
 .theme__box:hover {
@@ -183,7 +246,7 @@
 .generate__button:hover,
 .generate__button:active {
   background: var(--gradient-bg);
-  color: #0D1116;
+  color: #0d1116;
 }
 
 .loading__indicator {
@@ -206,8 +269,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .result__section {
@@ -262,7 +329,7 @@
 
 .result__right {
   flex: 2;
-  background-color: #0D1116;
+  background-color: #0d1116;
   border-radius: 15px;
   padding: 20px;
   display: flex;
@@ -316,7 +383,7 @@
 .download__button:focus,
 .choose__button:focus {
   background: var(--gradient-bg);
-  color: #0D1116;
+  color: #0d1116;
   outline: none;
   box-shadow: none;
 }
@@ -332,8 +399,8 @@
   top: 500px;
   width: 50px;
   height: 50px;
-  background-color: #0D1116;
-  color: #514D4D;
+  background-color: #0d1116;
+  color: #514d4d;
   font-size: 142px;
   font-weight: bold;
   border: none;
