@@ -191,3 +191,24 @@ export const fetchAllImages = async (userId) => {
     return [];
   }
 };
+
+export const combineImage = async (baseImage, overlays) => {
+  try {
+    const requestBody = {
+      baseImage,
+      overlays
+    };
+
+    console.log('combineImage API 호출:', {
+      url: `${API_BASE_URL}/combine`,
+      method: 'POST',
+      requestBody
+    });
+
+    const response = await axios.post(`${API_BASE_URL}/combine`, requestBody);
+    return response.data;
+  } catch (error) {
+    console.error('Error Response:', error.response?.data);
+    throw error.response?.data || error;
+  }
+};

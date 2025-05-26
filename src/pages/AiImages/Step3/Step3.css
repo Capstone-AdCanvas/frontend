@@ -31,6 +31,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .step3__image img {
@@ -38,7 +40,6 @@
   height: 100%;
   object-fit: cover;
   margin-right: 10px;
-
 }
 
 .step3__right {
@@ -49,7 +50,6 @@
     flex-direction: column;   
     justify-content: center;
     align-items: center;
-    
 }
 
 .step3__upload {
@@ -59,4 +59,43 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* 로고 드래그 앤 드롭 관련 스타일 */
+.step3__image {
+  cursor: move;
+  user-select: none;
+}
+
+.step3__image img[alt="Selected Logo"] {
+  pointer-events: none;
+  transition: transform 0.1s ease;
+}
+
+.step3__image img[alt="Selected Logo"]:hover {
+  filter: brightness(1.2);
+}
+
+.next-step-button {
+  position: fixed;
+  right: 100px;
+  top: 500px;
+  width: 50px;
+  height: 50px;
+  background-color: #0D1116;
+  color: #514D4D;
+  font-size: 142px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeInArrow 0.5s forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes fadeInArrow {
+  to {
+    opacity: 1;
+  }
 }

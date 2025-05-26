@@ -46,16 +46,20 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
     
     try {
       setIsLoading(true);
-      // 1. 먼저 이미지 업로드
       const uploadResult = await uploadImage(selectedFile);
       setImageId(uploadResult.id);
       
-      // 2. 배경 제거 요청
       const result = await removeBackground(uploadResult.id);
       setProcessedImage(result.processedImage);
       setIsComplete(true);
       setError(null);
       setBgRemovedImage(result.processedImage);
+
+      // 배경 제거된 이미지 URL 출력
+      console.log('=== 배경 제거된 이미지 URL ===');
+      console.log('상대 경로:', result.processedImage);
+      console.log('전체 URL:', result.processedImage);
+      console.log('===========================');
     } catch (err) {
       setError(err.message || '배경 제거에 실패했습니다.');
       setIsLoading(false);
