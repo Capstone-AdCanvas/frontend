@@ -1,7 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Step2.css";
 import regenerateIcon from "../../../assets/regenerate.png";
-import { generateBackground, generateCustomBackground, selectFinalImage } from "../../../api/image";
+import {
+  generateBackground,
+  generateCustomBackground,
+  selectFinalImage,
+} from "../../../api/image";
+import AutoImage from "../../../assets/aiimage-step2-auto.png";
+import StudioImage from "../../../assets/aiimage-step2-studio.png";
+import OfficeImage from "../../../assets/aiimage-step2-office.png";
+import CityImage from "../../../assets/aiimage-step2-city.png";
+import SpringImage from "../../../assets/aiimage-step2-spring.png";
+import SummerImage from "../../../assets/aiimage-step2-summer.png";
+import FallImage from "../../../assets/aiimage-step2-fall.png";
+import WinterImage from "../../../assets/aiimage-step2-winter.png";
+import SimpleImage from "../../../assets/aiimage-step2-simple.png";
+import WithplantImage from "../../../assets/aiimage-step2-withplant.png";
+import TableImage from "../../../assets/aiimage-step2-table.png";
+import MinialismImage from "../../../assets/aiimage-step2-minialism.png";
 
 function Step2({ setCurrentStep, bgRemovedImage }) {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -13,12 +29,27 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
   const [generatedImages, setGeneratedImages] = useState([]);
   const [isCustomPrompt, setIsCustomPrompt] = useState(false);
 
-  const themes = ["AUTO", "STUDIO", "OFFICE", "CITY", "SPRING"];
+  const themes = [
+    { name: "AUTO", image: AutoImage },
+    { name: "STUDIO", image: StudioImage },
+    { name: "OFFICE", image: OfficeImage },
+    { name: "CITY", image: CityImage },
+    { name: "SPRING", image: SpringImage },
+    { name: "SUMMER", image: SummerImage },
+    { name: "FALL", image: FallImage },
+    { name: "WINTER", image: WinterImage },
+    { name: "SIMPLE", image: SimpleImage },
+    { name: "WITH_PLANT", image: WithplantImage },
+    { name: "TABLE", image: TableImage },
+    { name: "MINIMALISM", image: MinialismImage },
+  ];
+
+  const themeScrollRef = useRef(null);
 
   // localhost로만 이미지 URL 생성
   const getImageUrl = (path) => {
-    if (!path) return '';
-    if (path.startsWith('http')) return path;
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
     return `http://localhost:8080${path}`;
   };
 
@@ -40,7 +71,7 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
 
   const handleGenerate = async () => {
     if (!bgRemovedImage) return;
-    
+
     setIsGenerating(true);
     setIsGenerated(false);
     setSelectedImage(null);
@@ -48,8 +79,12 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
 
     try {
       // Extract image ID from the URL
-      const imageId = bgRemovedImage.split('/').pop().replace('processed_', '').replace('.png', '');
-      
+      const imageId = bgRemovedImage
+        .split("/")
+        .pop()
+        .replace("processed_", "")
+        .replace(".png", "");
+
       let result;
       if (isCustomPrompt && customPrompt.trim() !== "") {
         result = await generateCustomBackground(imageId, customPrompt);
@@ -60,14 +95,14 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
       } else {
         throw new Error("Please select a theme or enter a prompt");
       }
-      
+
       // Check if result is an array and has items
       if (Array.isArray(result) && result.length > 0) {
         setGeneratedImages(result);
       } else {
         throw new Error("No images were generated");
       }
-      
+
       setIsGenerating(false);
       setIsGenerated(true);
     } catch (error) {
@@ -93,7 +128,11 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
     const fileName = selectedImage;
     console.log("최종 선택 fileName:", fileName);
     // 배경제거된 이미지의 id 추출
-    const imageId = bgRemovedImage.split('/').pop().replace('processed_', '').replace('.png', '');
+    const imageId = bgRemovedImage
+      .split("/")
+      .pop()
+      .replace("processed_", "")
+      .replace(".png", "");
     try {
       await selectFinalImage(imageId, fileName);
       setShowNextStepButton(true);
@@ -104,6 +143,16 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
 
   const handleNextStep = () => {
     setCurrentStep(3);
+  };
+
+  const scrollTheme = (direction) => {
+    if (themeScrollRef.current) {
+      const scrollAmount = 200; // 스크롤 이동 거리
+      themeScrollRef.current.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -121,7 +170,11 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
                   <div className="prompt__divider" />
                   <textarea
                     className="prompt__textarea"
-                    placeholder={selectedTheme ? "Theme selected. Enter prompt to use custom generation." : "Enter your custom prompt"}
+                    placeholder={
+                      selectedTheme
+                        ? "Theme selected. Enter prompt to use custom generation."
+                        : "Enter your custom prompt"
+                    }
                     value={customPrompt}
                     onChange={handlePromptChange}
                     disabled={selectedTheme !== null}
@@ -135,23 +188,46 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
                 <div className="theme__inner">
                   <div className="theme__title">Theme</div>
                   <div className="theme__divider" />
-                  <div className="theme__box-group">
-                    {themes.map((theme, i) => (
-                      <div
-                        key={i}
-                        className={`theme__box ${selectedTheme === theme ? 'selected' : ''}`}
-                        onClick={() => handleThemeSelect(theme)}
-                      >
-                        {theme}
-                      </div>
-                    ))}
+                  <div className="theme__carousel-wrapper">
+                    <button
+                      className="theme__arrow left"
+                      onClick={() => scrollTheme(-1)}
+                    >
+                      {"<"}
+                    </button>
+
+                    <div className="theme__box-group" ref={themeScrollRef}>
+                      {themes.map((theme, i) => (
+                        <div
+                          key={i}
+                          className={`theme__box ${
+                            selectedTheme === theme.name ? "selected" : ""
+                          }`}
+                          onClick={() => handleThemeSelect(theme.name)}
+                        >
+                          <img
+                            src={theme.image}
+                            alt={theme.name}
+                            className="theme__image"
+                          />
+                          <span className="theme__label">{theme.name}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      className="theme__arrow right"
+                      onClick={() => scrollTheme(1)}
+                    >
+                      {">"}
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <button 
-              className="generate__button" 
+            <button
+              className="generate__button"
               onClick={handleGenerate}
               disabled={!selectedTheme && !customPrompt.trim()}
             >
@@ -182,7 +258,10 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
                     />
                   ))}
                 </div>
-                <button className="regenerate__button-fixed" onClick={handleRegenerate}>
+                <button
+                  className="regenerate__button-fixed"
+                  onClick={handleRegenerate}
+                >
                   <img src={regenerateIcon} alt="Regenerate" />
                 </button>
               </div>
@@ -200,7 +279,12 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
                         <button className="download__button">다운로드</button>
                       </div>
                       <div className="button-row">
-                        <button className="choose__button" onClick={handleChoose}>선택</button>
+                        <button
+                          className="choose__button"
+                          onClick={handleChoose}
+                        >
+                          선택
+                        </button>
                       </div>
                     </div>
                   </>
