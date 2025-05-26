@@ -1,14 +1,10 @@
 .MiniSideMeuBar_miniSideMenuBar {
   width: 90px; /* 아이콘만 표시하기 위한 너비 */
-  height: 100%;
+  height: 954px;
   background-color: #0d1116;
   padding: 20px 0;
   box-sizing: border-box;
   margin-left: 10px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .MiniSideMeuBar_miniSideMenuBar ul {
@@ -58,11 +54,4 @@
 .MiniSideMeuBar_menu-icon {
   width: 20px;
   height: 20px;
-}
-
-.MiniSideMeuBar_help-panel {
-  position: absolute;
-  left: 100px; /* 사이드바 너비보다 조금 더 오른쪽에 위치 */
-  bottom: 120px;
-  z-index: 999;
 }
