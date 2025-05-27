@@ -37,6 +37,7 @@ function AiVideos() {
   const [generatedScript, setGeneratedScript] = useState('');
   const [videoUrls, setVideoUrls] = useState([]);
   const [ttsUrls, setTtsUrls] = useState([]);
+  const [showTtsTest, setShowTtsTest] = useState(false);
 
   useEffect(() => {
     if (isGenerating) {
@@ -333,6 +334,12 @@ function AiVideos() {
     }
   };
 
+  const handleTtsTest = () => {
+    setShowTtsTest(true);
+    setShowScriptEditor(false);
+    setShowTextScriptEditor(true);
+  };
+
   const shouldShowPreviewBox =
     isGenerating || showVideoText || showVideoImage || isMerging || showMergedVideo;
 
@@ -354,6 +361,11 @@ function AiVideos() {
                 setIsReadyToGenerate={setIsReadyToGenerate}
                 handleGenerate={handleGenerate}
               />
+              {activeTab === "text" && (
+                <button className="AiVideo_tts-test-button" onClick={handleTtsTest}>
+                  TTS 테스트하기
+                </button>
+              )}
             </>
           ) : showBackgroundMusic ? (
             <GradientBox width={"550px"} height={"560px"}>

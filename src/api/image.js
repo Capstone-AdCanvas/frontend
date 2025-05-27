@@ -212,3 +212,40 @@ export const combineImage = async (baseImage, overlays) => {
     throw error.response?.data || error;
   }
 };
+
+// 이미지 이름 설정 API
+export const setImageName = async (imageId, name) => {
+  try {
+    const formData = new FormData();
+    formData.append("imageId", imageId);
+    formData.append("name", name);
+
+    console.log('setImageName API 호출:', {
+      url: `${API_BASE_URL}/name`,
+      method: 'POST',
+      formData: {
+        imageId,
+        name
+      }
+    });
+
+    const response = await axios.post(
+      `${API_BASE_URL}/name`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("Error Response:", error.response.data);
+      throw error.response.data;
+    } else {
+      console.error("Network or Unknown Error:", error);
+      throw { message: "서버와 연결할 수 없습니다." };
+    }
+  }
+};
