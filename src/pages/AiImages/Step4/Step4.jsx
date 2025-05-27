@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Step4.css";
 import GradientBox from "../../../components/GradientBox/GradientBox";
-import { combineImage } from "../../../api/image";
+import { combineImage, setImageName } from "../../../api/image";
 import ArialCombo from '../../../assets/font-combos/Arial_545454_25.png';
 import CourierCombo from '../../../assets/font-combos/Courier_38b6ff_25.png';
 import DialogCombo from '../../../assets/font-combos/Dialog_b49efe_25.png';
@@ -25,6 +25,8 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
   const imageRef = useRef(null);
   const [imgNaturalSize, setImgNaturalSize] = useState({ width: 0, height: 0 });
   const [renderedSize, setRenderedSize] = useState({ width: 1, height: 1 });
+  const [imageId, setImageId] = useState(null);
+  const [downloadName, setDownloadName] = useState('최종 이미지');
 
   const fonts = ["Arial", "Courier", "Serif", "SansSerif", "Monospaced", "Dialog"];
 
@@ -169,6 +171,7 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
       console.log('텍스트 합성 API 응답:', result);
 
       setCurrentImage(result.finalImage); // 최종 합성 이미지를 다운로드 화면에 표시
+      setImageId(result.id); // imageId 저장
       setShowFinalDownloadOnly(true);
       setHideStepBar(true);
     } catch (error) {
@@ -176,6 +179,19 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
       alert('텍스트 합성에 실패했습니다.');
     }
   };
+
+  // 다운로드 버튼 클릭 시: 이름 설정 API 호출만 수행
+  const handleDownload = async () => {
+    if (!currentImage || !imageId || !downloadName.trim()) return;
+    try {
+      await setImageName(imageId, downloadName);
+      alert('이미지 이름이 저장되었습니다.');
+    } catch (err) {
+      alert(err.message || '이미지 이름 저장에 실패했습니다.');
+    }
+  };
+
+  const isAddButtonActive = textInput.trim().length > 0;
 
   return (
     <div className="step4">
@@ -274,8 +290,9 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
                       </div>
                     </div>
                     <button 
-                      className="text-input__button"
+                      className={`text-input__button${isAddButtonActive ? ' active' : ''}`}
                       onClick={handleAddText}
+                      disabled={!isAddButtonActive}
                     >
                       추가하기
                     </button>
@@ -307,9 +324,15 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
           <div className="step4-download-box fade-in">
             {currentImage && <img src={currentImage} alt="Final" className="step4-final-image" />}
             <div className="step4-download-info">
-              <div className="step4-image-name">최종 이미지.jpg</div>
+              <input
+                className="step4-image-name"
+                value={downloadName}
+                onChange={e => setDownloadName(e.target.value)}
+                placeholder="이미지 이름을 입력하세요"
+                style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 10, width: 300, border: 'none', background: 'transparent', color: 'white', outline: 'none', textAlign: 'center' }}
+              />
               <div className="step4-image-size">사이즈: 400 × 400</div>
-              <button className="step4-download-button">다운로드</button>
+              <button className="step4-download-button" onClick={handleDownload} disabled={!downloadName.trim()}>다운로드</button>
             </div>
           </div>
         </div>
