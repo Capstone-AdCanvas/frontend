@@ -15,7 +15,8 @@ const ImageUploadBox = ({
   supportText = "Support JPG/PNG Files",
   showMyLogoBox = false,
   onFileUpload,
-  logos = []
+  logos = [],
+  onLogoSelect
 }) => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const fileInputRef = useRef(null);
@@ -60,15 +61,15 @@ const ImageUploadBox = ({
   };
 
   const getFullImageUrl = (imageUrl) => {
-    console.log('원본 이미지 URL:', imageUrl);  // 원본 URL 로깅
     if (!imageUrl) return '';
     if (imageUrl.startsWith('http')) return imageUrl;
-    
-    // URL에서 파일명만 추출
-    const fileName = imageUrl.split('/').pop();
-    const fullUrl = `http://localhost:8080/uploads/logo/${fileName}`;
-    console.log('변환된 이미지 URL:', fullUrl);  // 변환된 URL 로깅
-    return fullUrl;
+    return `http://localhost:8080/uploads/logo/${imageUrl.split('/').pop()}`;
+  };
+
+  const handleLogoClick = (logo) => {
+    if (onLogoSelect) {
+      onLogoSelect(logo);
+    }
   };
 
   return (
@@ -115,8 +116,15 @@ const ImageUploadBox = ({
             {logos.length > 0 ? (
               <div className="mylogo-grid">
                 {logos.map((logo, index) => (
-                  <div key={index} className="mylogo-item">
-                    <img src={getFullImageUrl(logo.logoImage)} alt={`Logo ${index + 1}`} />
+                  <div 
+                    key={index} 
+                    className="mylogo-item"
+                    onClick={() => handleLogoClick(logo)}
+                  >
+                    <img 
+                      src={getFullImageUrl(logo.logoImage)} 
+                      alt={`Logo ${index + 1}`} 
+                    />
                   </div>
                 ))}
               </div>

@@ -10,24 +10,43 @@ function AiImages() {
   const [currentStep, setCurrentStep] = useState(1);
   const [hideStepBar, setHideStepBar] = useState(false); //StepBar 표시 여부 제어
   const [bgRemovedImage, setBgRemovedImage] = useState(null);
+  const [finalImageUrl, setFinalImageUrl] = useState(null);
+
+  const handleStepChange = (step, data) => {
+    if (data && data.selectedImage) {
+      setFinalImageUrl(data.selectedImage);
+    }
+    setCurrentStep(step);
+  };
 
   return (
     <div className="aiImages">
       {!hideStepBar && <StepBar currentStep={currentStep} />}
       {currentStep === 1 && (
         <Step1 
-          setCurrentStep={setCurrentStep} 
+          setCurrentStep={handleStepChange} 
           setBgRemovedImage={setBgRemovedImage} 
         />
       )}
       {currentStep === 2 && (
         <Step2 
-          setCurrentStep={setCurrentStep} 
+          setCurrentStep={handleStepChange} 
           bgRemovedImage={bgRemovedImage}
         />
       )}
-      {currentStep === 3 && <Step3 setCurrentStep={setCurrentStep} />}
-      {currentStep === 4 && <Step4 setCurrentStep={setCurrentStep} setHideStepBar={setHideStepBar} />}
+      {currentStep === 3 && (
+        <Step3 
+          setCurrentStep={handleStepChange}
+          selectedImage={finalImageUrl}
+        />
+      )}
+      {currentStep === 4 && (
+        <Step4 
+          setCurrentStep={handleStepChange} 
+          setHideStepBar={setHideStepBar}
+          selectedImage={finalImageUrl}
+        />
+      )}
     </div>
   );
 }

@@ -28,6 +28,7 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
   const [customPrompt, setCustomPrompt] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]);
   const [isCustomPrompt, setIsCustomPrompt] = useState(false);
+  const [finalImageUrl, setFinalImageUrl] = useState(null);
 
   const themes = [
     { name: "AUTO", image: AutoImage },
@@ -134,15 +135,22 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
       .replace("processed_", "")
       .replace(".png", "");
     try {
-      await selectFinalImage(imageId, fileName);
+      const response = await selectFinalImage(imageId, fileName);
+      console.log('최종 배경 이미지 선택 API 응답:', response);
       setShowNextStepButton(true);
+      // finalImage URL을 별도 상태로 저장
+      setFinalImageUrl(response.finalImage);
     } catch (error) {
       alert(error.message || "최종 이미지 선택에 실패했습니다.");
     }
   };
 
   const handleNextStep = () => {
-    setCurrentStep(3);
+    if (finalImageUrl) {
+      setCurrentStep(3, { selectedImage: finalImageUrl });
+    } else {
+      setCurrentStep(3);
+    }
   };
 
   const scrollTheme = (direction) => {
