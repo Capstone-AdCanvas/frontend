@@ -354,12 +354,6 @@ function AiVideos() {
                 setIsReadyToGenerate={setIsReadyToGenerate}
                 handleGenerate={handleGenerate}
               />
-              <button className="AiVideo_test-button" onClick={handleTestScriptGeneration}>
-                TTS 테스트하기
-              </button>
-              <button className="AiVideo_test-button" onClick={() => setShowBackgroundMusic(true)}>
-                배경음악 테스트하기
-              </button>
             </>
           ) : showBackgroundMusic ? (
             <GradientBox width={"550px"} height={"560px"}>
