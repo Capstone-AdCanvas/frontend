@@ -23,6 +23,8 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [imageBox, setImageBox] = useState(null);
   const imageRef = useRef(null);
+  const [imgNaturalSize, setImgNaturalSize] = useState({ width: 0, height: 0 });
+  const [renderedSize, setRenderedSize] = useState({ width: 1, height: 1 });
 
   const fonts = ["Arial", "Courier", "Serif", "SansSerif", "Monospaced", "Dialog"];
 
@@ -76,13 +78,14 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
   };
 
   const handleMouseDown = (e, textId) => {
+    if (!imageBox) return;
     const text = addedTexts.find(t => t.id === textId);
     if (!text) return;
 
     setDraggedText(textId);
     setDragStart({
-      x: e.clientX - text.position.x,
-      y: e.clientY - text.position.y
+      x: e.clientX - imageBox.left - text.position.x,
+      y: e.clientY - imageBox.top - text.position.y
     });
   };
 
@@ -125,6 +128,19 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
     return `rgb(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255})`;
   }
 
+  // 이미지 로드 시 실제 크기 저장
+  const imageOnLoad = (e) => {
+    setImgNaturalSize({
+      width: e.target.naturalWidth,
+      height: e.target.naturalHeight
+    });
+    // 렌더링된 크기도 저장
+    setRenderedSize({
+      width: e.target.offsetWidth,
+      height: e.target.offsetHeight
+    });
+  };
+
   const handleNextStep = async () => {
     if (!currentImage) {
       alert('기본 이미지가 없습니다.');
@@ -132,15 +148,20 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
     }
 
     try {
-      const overlays = addedTexts.map(text => ({
-        type: 'text',
-        x: Math.round(text.position.x),
-        y: Math.round(text.position.y),
-        text: text.content,
-        font: text.style.font,
-        size: text.style.size,
-        color: text.style.color
-      }));
+      const overlays = addedTexts.map(text => {
+        // 화면 좌표 → 실제 이미지 좌표 변환
+        const x = Math.round((text.position.x / renderedSize.width) * imgNaturalSize.width);
+        const y = Math.round((text.position.y / renderedSize.height) * imgNaturalSize.height);
+        return {
+          type: 'text',
+          x,
+          y,
+          text: text.content,
+          font: text.style.font,
+          size: text.style.size,
+          color: text.style.color
+        };
+      });
 
       console.log('텍스트 합성 API 요청 데이터:', { baseImage: currentImage, overlays });
 
@@ -171,7 +192,7 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseUp}
                   >
-                    {currentImage && <img src={currentImage} alt="Selected" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />}
+                    {currentImage && <img src={currentImage} alt="Selected" style={{ width: '100%', height: '100%', objectFit: 'contain' }} onLoad={imageOnLoad} />}
                     {addedTexts.map(text => (
                       <div
                         key={text.id}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Step3.css";
 import ImageUploadBox from "../../../components/ImageUploadBox/ImageUploadBox";
 import { uploadLogo, getLogos, combineImage } from "../../../api/image";
@@ -11,6 +11,9 @@ function Step3({ setCurrentStep, selectedImage }) {
   const [logoScale, setLogoScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [imgNaturalSize, setImgNaturalSize] = useState({ width: 0, height: 0 });
+  const [renderedSize, setRenderedSize] = useState({ width: 1, height: 1 });
+  const imageRef = useRef(null);
 
   useEffect(() => {
     fetchLogos();
@@ -78,6 +81,17 @@ function Step3({ setCurrentStep, selectedImage }) {
     setLogoScale(prev => Math.max(0.1, Math.min(2, prev + delta)));
   };
 
+  const imageOnLoad = (e) => {
+    setImgNaturalSize({
+      width: e.target.naturalWidth,
+      height: e.target.naturalHeight
+    });
+    setRenderedSize({
+      width: e.target.offsetWidth,
+      height: e.target.offsetHeight
+    });
+  };
+
   const handleNextStep = async () => {
     if (!selectedLogo) {
       alert('로고를 선택해주세요.');
@@ -90,10 +104,12 @@ function Step3({ setCurrentStep, selectedImage }) {
     }
 
     try {
+      const x = Math.round((logoPosition.x / renderedSize.width) * imgNaturalSize.width);
+      const y = Math.round((logoPosition.y / renderedSize.height) * imgNaturalSize.height);
       const overlays = [{
         type: 'logo',
-        x: Math.round(logoPosition.x),
-        y: Math.round(logoPosition.y),
+        x,
+        y,
         imageUrl: selectedLogo,
         scale: parseFloat(logoScale.toFixed(2))
       }];
@@ -122,7 +138,7 @@ function Step3({ setCurrentStep, selectedImage }) {
             onMouseLeave={handleMouseUp}
             onWheel={handleWheel}
           >
-            {currentImage && <img src={currentImage} alt="Selected" />}
+            {currentImage && <img src={currentImage} alt="Selected" ref={imageRef} onLoad={imageOnLoad} />}
             {selectedLogo && (
               <img
                 src={selectedLogo}
