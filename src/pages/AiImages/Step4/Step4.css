@@ -1,7 +1,7 @@
 .step4 {
   width: 100%;
   height: 100%;
-  background-color: #0D1116;
+  background-color: #0d1116;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
 .step4__container {
   width: 1200px;
   height: 700px;
-  background-color: #0D1116;
+  background-color: #0d1116;
   display: flex;
   flex-direction: row;
   gap: 30px;
@@ -126,7 +126,7 @@
 .style-control select,
 .style-control input[type="color"] {
   padding: 5px;
-  border: 1px solid #1F2429;
+  border: 1px solid #1f2429;
   border-radius: 4px;
   background-color: #000000;
   color: white;
@@ -145,7 +145,7 @@
 
 .text-input__button {
   background: var(--gradient-text);
-  color: #0D1116;
+  color: #0d1116;
   padding: 4px 25px;
   display: flex;
   border: none;
@@ -197,7 +197,7 @@
 .font-combo__item {
   width: 120px;
   height: 120px;
-  background-color: #1F2429;
+  background-color: #1f2429;
   border-radius: 10px;
 }
 
@@ -207,8 +207,8 @@
   top: 500px;
   width: 50px;
   height: 50px;
-  background-color: #0D1116;
-  color: #514D4D;
+  background-color: #0d1116;
+  color: #514d4d;
   font-size: 142px;
   font-weight: bold;
   border: none;
@@ -228,7 +228,7 @@
 .step4__download-only {
   width: 100%;
   height: 100vh;
-  background-color: #0D1116;
+  background-color: #0d1116;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,20 +263,24 @@
 }
 
 .step4-download-info {
+  height: 100%;
   color: white;
   text-align: start;
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .step4-image-name {
   font-size: 24px;
   font-weight: bold;
+  margin-top: 25px;
 }
 
 .step4-image-size {
   font-size: 18px;
   margin-top: 20px;
-  margin-bottom: 320px;
+  margin-bottom: 270px;
 }
 
 .step4-download-button {
@@ -288,6 +292,5 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: -100px;
+  margin-bottom: 70px;
 }
-  

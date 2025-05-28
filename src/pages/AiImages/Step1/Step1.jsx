@@ -43,12 +43,12 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
 
   const handleBackgroundRemove = async () => {
     if (!selectedFile) return;
-    
+
     try {
       setIsLoading(true);
       const uploadResult = await uploadImage(selectedFile);
       setImageId(uploadResult.id);
-      
+
       const result = await removeBackground(uploadResult.id);
       setProcessedImage(result.processedImage);
       setIsComplete(true);
@@ -56,13 +56,33 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
       setBgRemovedImage(result.processedImage);
 
       // 배경 제거된 이미지 URL 출력
-      console.log('=== 배경 제거된 이미지 URL ===');
-      console.log('상대 경로:', result.processedImage);
-      console.log('전체 URL:', result.processedImage);
-      console.log('===========================');
+      console.log("=== 배경 제거된 이미지 URL ===");
+      console.log("상대 경로:", result.processedImage);
+      console.log("전체 URL:", result.processedImage);
+      console.log("===========================");
     } catch (err) {
-      setError(err.message || '배경 제거에 실패했습니다.');
+      setError(err.message || "배경 제거에 실패했습니다.");
       setIsLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!processedImage) return;
+
+    try {
+      const response = await fetch(processedImage, { mode: "cors" }); // 외부 URL이면 CORS 허용 필요
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "배경제거_이미지.jpg"; // 파일 이름 지정
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl); // 메모리 해제
+    } catch (err) {
+      console.error("다운로드 실패:", err);
     }
   };
 
@@ -124,7 +144,11 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
                 onDragOver={(e) => e.preventDefault()}
               >
                 <div className="upload-content">
-                  <img src={uploadIcon} alt="Upload Icon" className="upload-icon" />
+                  <img
+                    src={uploadIcon}
+                    alt="Upload Icon"
+                    className="upload-icon"
+                  />
                   <span>Click to Upload or drag and drop</span>
                 </div>
                 <div className="upload-support">Support JPG/PNG Files</div>
@@ -152,7 +176,11 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
                     ×
                   </button>
                 )}
-                <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
+                <img
+                  src={uploadedImage}
+                  alt="Uploaded"
+                  className="uploaded-image"
+                />
               </div>
               <button
                 className="background-remove-btn"
@@ -195,7 +223,11 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
             </div>
           ) : (
             <div className="final-screen">
-              <div className={`final-image-container ${animateExit ? "exit-animation" : ""}`}>
+              <div
+                className={`final-image-container ${
+                  animateExit ? "exit-animation" : ""
+                }`}
+              >
                 <img
                   src={processedImage}
                   alt="Final"
@@ -207,7 +239,12 @@ function Step1({ setCurrentStep, setBgRemovedImage }) {
                   <div className="download-info">
                     <div className="image-name">배경제거_이미지.jpg</div>
                     <div className="image-size">사이즈: 400 × 400</div>
-                    <button className="download-button">다운로드</button>
+                    <button
+                      className="download-button"
+                      onClick={handleDownload}
+                    >
+                      다운로드
+                    </button>
                   </div>
                 </div>
               )}
