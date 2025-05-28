@@ -3,8 +3,18 @@ import "./Home.css";
 import Box from "../../components/Box/Box";
 import imagePicture from "../../assets/home-aiimage.png";
 import videoPicture from "../../assets/home-aivideo.png";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
+  const handleAiImageClick = () => {
+    navigate("/AiImages");
+  };
+  const handleAiVideoClick = () => {
+    navigate("/AiVideos");
+  };
+
   return (
     <div className="homePage">
       <div className="homePage__title">
@@ -12,18 +22,18 @@ function Home() {
         <h3 className="home-title">Personal AI Creative Studio</h3>
       </div>
       <div className="AI_buttons">
-        <button className="AI_buttons__image">
+        <button className="AI_buttons__image" onClick={handleAiImageClick}>
           <div className="AI_buttons__image--inner">
-            <h3>AI Image</h3>
+            <h3>Create AI Image</h3>
             <p>Turn Ideas into image</p>
             <div className="AI_buttons__image--inner__image">
               <img src={imagePicture} alt="" />
             </div>
           </div>
         </button>
-        <button className="AI_buttons__video">
+        <button className="AI_buttons__video" onClick={handleAiVideoClick}>
           <div className="AI_buttons__video--inner">
-            <h3>AI Video</h3>
+            <h3>Create AI Video</h3>
             <p>Turn Ideas into Video</p>
             <div className="AI_buttons__video--inner__image">
               <img src={videoPicture} alt="" />

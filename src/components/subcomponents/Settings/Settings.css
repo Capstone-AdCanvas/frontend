@@ -31,6 +31,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 .settings__screen__main > div > span {
@@ -41,23 +42,28 @@
 }
 .settings__screen__main > div > div {
   width: 60%;
-  display: flex;
 }
-.settings__screen__main > div > div > button {
+.settings__screen__main > div > div > div {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 30px;
+}
+.settings__screen__main > div > div > div > button {
+  width: 50px;
   position: relative;
   border: none;
   font-size: 15px;
   padding-left: 20px;
   background-color: transparent;
   color: #ffffff;
-  margin-right: 30px;
   transition: all 0.5s;
   cursor: pointer;
 }
-.settings__screen__main > div > div > button:hover {
+.settings__screen__main > div > div > div > button:hover {
   transform: scale(1.05);
 }
-.settings__screen__main > div > div > button::before {
+.settings__screen__main > div > div > div > button::before {
   content: "";
   position: absolute;
   left: 5px; /* 왼쪽 위치 */
@@ -68,7 +74,7 @@
   border: 1px solid white;
   border-radius: 999px;
 }
-.settings__screen__main > div > div > button.active::before {
+.settings__screen__main > div > div > div > button.active::before {
   background-color: white;
 }
 /* 공통 비율 박스 스타일 */

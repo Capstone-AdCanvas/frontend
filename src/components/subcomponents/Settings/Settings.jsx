@@ -24,7 +24,7 @@ const Settings = ({
           <span>영상 길이 조절</span>
           <div className="settings__screen__main__option1__btn">
             {activeTab === "text" ? (
-              <>
+              <div>
                 <button
                   className={videoLength === "10s" ? "active" : ""}
                   onClick={() => setVideoLength("10s")}
@@ -43,9 +43,9 @@ const Settings = ({
                 >
                   20s
                 </button>
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 <button
                   className={videoLength === "5s" ? "active" : ""}
                   onClick={() => setVideoLength("5s")}
@@ -58,32 +58,34 @@ const Settings = ({
                 >
                   10s
                 </button>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div className="settings__screen__main__option2">
           <span>배경음악</span>
           <div className="settings__screen__main__option2__btn">
-            <button
-              className={bgm === "on" ? "active" : ""}
-              onClick={() => setBgm("on")}
-            >
-              On
-            </button>
-            <button
-              className={bgm === "off" ? "active" : ""}
-              onClick={() => setBgm("off")}
-            >
-              Off
-            </button>
+            <div>
+              <button
+                className={bgm === "on" ? "active" : ""}
+                onClick={() => setBgm("on")}
+              >
+                On
+              </button>
+              <button
+                className={bgm === "off" ? "active" : ""}
+                onClick={() => setBgm("off")}
+              >
+                Off
+              </button>
+            </div>
           </div>
         </div>
         <div className="settings__screen__main__option3">
           <span>영상크기</span>
           <div className="settings__screen__main__option3__btn">
             {activeTab === "text" ? (
-              <>
+              <div>
                 <button
                   className={ratio === "16:9" ? "active" : ""}
                   onClick={() => setRatio("16:9")}
@@ -98,9 +100,9 @@ const Settings = ({
                   <div className="ratio-box ratio-1by1" />
                   1:1
                 </button>
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 <button
                   className={ratio === "4:3" ? "active" : ""}
                   onClick={() => setRatio("4:3")}
@@ -115,25 +117,27 @@ const Settings = ({
                   <div className="ratio-box ratio-1by1" />
                   1:1
                 </button>
-              </>
+              </div>
             )}
           </div>
         </div>
         <div className="settings__screen__main__option4">
           <span>음성 합성</span>
           <div className="settings__screen__main__option4__btn">
-            <button
-              className={script === "on" ? "active" : ""}
-              onClick={() => setScript("on")}
-            >
-              On
-            </button>
-            <button
-              className={script === "off" ? "active" : ""}
-              onClick={() => setScript("off")}
-            >
-              Off
-            </button>
+            <div>
+              <button
+                className={script === "on" ? "active" : ""}
+                onClick={() => setScript("on")}
+              >
+                On
+              </button>
+              <button
+                className={script === "off" ? "active" : ""}
+                onClick={() => setScript("off")}
+              >
+                Off
+              </button>
+            </div>
           </div>
         </div>
       </div>

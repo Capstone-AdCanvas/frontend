@@ -136,7 +136,7 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
       .replace(".png", "");
     try {
       const response = await selectFinalImage(imageId, fileName);
-      console.log('최종 배경 이미지 선택 API 응답:', response);
+      console.log("최종 배경 이미지 선택 API 응답:", response);
       setShowNextStepButton(true);
       // finalImage URL을 별도 상태로 저장
       setFinalImageUrl(response.finalImage);
@@ -150,6 +150,32 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
       setCurrentStep(3, { selectedImage: finalImageUrl });
     } else {
       setCurrentStep(3);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!selectedImage) return;
+
+    try {
+      const response = await fetch(selectedImage, { mode: "cors" });
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+
+      // 이미지 파일 이름 추출
+      const fileName =
+        selectedImage.split("/").pop()?.split("?")[0] || "image.png";
+      link.download = fileName;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl); // 메모리 해제
+    } catch (err) {
+      alert("이미지 다운로드에 실패했습니다.");
+      console.error("다운로드 오류:", err);
     }
   };
 
@@ -284,7 +310,12 @@ function Step2({ setCurrentStep, bgRemovedImage }) {
                     />
                     <div className="action__buttons">
                       <div className="button-row">
-                        <button className="download__button">다운로드</button>
+                        <button
+                          className="download__button"
+                          onClick={handleDownload}
+                        >
+                          다운로드
+                        </button>
                       </div>
                       <div className="button-row">
                         <button
