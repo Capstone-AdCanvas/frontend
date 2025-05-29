@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import Box from "../../components/Box/Box";
 import imagePicture from "../../assets/home-aiimage.png";
 import videoPicture from "../../assets/home-aivideo.png";
 import { useNavigate } from "react-router-dom";
+import userIcon from "../../assets/profile-icon.png";
 
 import sampleImg1 from "../../assets/sample/sample-images/샘플이미지1.jpg";
 import sampleImg2 from "../../assets/sample/sample-images/샘플이미지2.jpg";
@@ -14,9 +15,43 @@ import sampleVideo1 from "../../assets/sample/sample-videos/샘플영상1.mp4";
 import sampleVideo5 from "../../assets/sample/sample-videos/샘플영상5.mp4";
 import sampleVideo3 from "../../assets/sample/sample-videos/샘플영상3.mp4";
 import sampleVideo4 from "../../assets/sample/sample-videos/샘플영상4.mp4";
+import ModalImage from "../../components/ModalImage/ModalImage";
+import ModalVideo from "../../components/ModalVideo/ModalVideo";
+
+// 해당 비디오 0초(시작타이밍)에 썸네일 장면으로 나오게 하는 함수
+const getVideoThumbnail = (videoSrc) => {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    video.src = videoSrc;
+    video.crossOrigin = "anonymous"; // CORS 방지용
+
+    video.addEventListener("loadeddata", () => {
+      video.currentTime = 0;
+    });
+
+    video.addEventListener("seeked", () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageUrl = canvas.toDataURL("image/png");
+      resolve(imageUrl);
+    });
+
+    video.addEventListener("error", (e) => {
+      reject("썸네일 생성 실패", e);
+    });
+  });
+};
 
 function Home() {
   const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videoThumbnails, setVideoThumbnails] = useState({});
 
   const handleAiImageClick = () => {
     navigate("/AiImages");
@@ -24,6 +59,70 @@ function Home() {
   const handleAiVideoClick = () => {
     navigate("/AiVideos");
   };
+
+  const handleImageBoxClick = (imageData) => {
+    const img = new Image();
+    img.src = imageData.dataImage;
+
+    img.onload = () => {
+      const width = img.naturalWidth;
+      const height = img.naturalHeight;
+      const extension = imageData.dataImage.split(".").pop().split("?")[0];
+
+      setSelectedImage({
+        ...imageData,
+        size: `${width} x ${height}`,
+        extension,
+      });
+    };
+  };
+
+  const handleVideoBoxClick = (videoData) => {
+    const extension = videoData.dataImage.split(".").pop().split("?")[0];
+
+    setSelectedVideo({
+      ...videoData,
+      extension,
+      size: "1920 x 1080", // 고정 또는 추후 video metadata로 설정 가능
+    });
+  };
+
+  useEffect(() => {
+    const loadThumbnails = async () => {
+      const thumbs = {};
+
+      try {
+        const thumb1 = await getVideoThumbnail(sampleVideo1);
+        thumbs[sampleVideo1] = thumb1;
+      } catch (e) {
+        console.error("썸네일 생성 실패:", e);
+      }
+
+      try {
+        const thumb2 = await getVideoThumbnail(sampleVideo5);
+        thumbs[sampleVideo5] = thumb2;
+      } catch (e) {
+        console.error("썸네일 생성 실패:", e);
+      }
+
+      try {
+        const thumb3 = await getVideoThumbnail(sampleVideo3);
+        thumbs[sampleVideo3] = thumb3;
+      } catch (e) {
+        console.error("썸네일 생성 실패:", e);
+      }
+
+      try {
+        const thumb4 = await getVideoThumbnail(sampleVideo4);
+        thumbs[sampleVideo4] = thumb4;
+      } catch (e) {
+        console.error("썸네일 생성 실패:", e);
+      }
+
+      setVideoThumbnails(thumbs);
+    };
+    loadThumbnails();
+  }, []);
 
   return (
     <div className="homePage">
@@ -55,38 +154,138 @@ function Home() {
         <div className="others__image">
           <p>Images from Others</p>
           <div className="others__box">
-            <Box width={310} height={204} title="Image 1" username="User1">
-              <img src={sampleImg1} alt="샘플이미지1" style={{ width: "100%", height: "100%", objectFit: "cover", background: "#222" }} />
-            </Box>
-            <Box width={310} height={204} title="Image 2" username="User2">
-              <img src={sampleImg2} alt="샘플이미지2" style={{ width: "100%", height: "100%", objectFit: "cover", background: "#222" }} />
-            </Box>
-            <Box width={310} height={204} title="Image 3" username="User3">
-              <img src={sampleImg3} alt="샘플이미지3" style={{ width: "100%", height: "100%", objectFit: "cover", background: "#222" }} />
-            </Box>
-            <Box width={310} height={204} title="Image 4" username="User4">
-              <img src={sampleImg4} alt="샘플이미지4" style={{ width: "100%", height: "100%", objectFit: "cover", background: "#222" }} />
-            </Box>
+            <Box
+              width={310}
+              height={204}
+              title="Image 1"
+              userImage={userIcon}
+              username="User1"
+              dataImage={sampleImg1}
+              onClick={() =>
+                handleImageBoxClick({
+                  dataImage: sampleImg1,
+                  title: "Image 1",
+                })
+              }
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Image 2"
+              userImage={userIcon}
+              username="User2"
+              dataImage={sampleImg2}
+              onClick={() =>
+                handleImageBoxClick({
+                  dataImage: sampleImg2,
+                  title: "Image 2",
+                })
+              }
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Image 3"
+              userImage={userIcon}
+              username="User3"
+              dataImage={sampleImg3}
+              onClick={() =>
+                handleImageBoxClick({
+                  dataImage: sampleImg3,
+                  title: "Image 3",
+                })
+              }
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Image 4"
+              userImage={userIcon}
+              username="User4"
+              dataImage={sampleImg4}
+              onClick={() =>
+                handleImageBoxClick({
+                  dataImage: sampleImg4,
+                  title: "Image 4",
+                })
+              }
+            />
           </div>
         </div>
         <div className="others__video">
           <p>Videos from others</p>
           <div className="others__box">
-            <Box width={310} height={204} title="Video 1" username="User1">
-              <video src={sampleVideo1} width="100%" height="100%" controls />
-            </Box>
-            <Box width={310} height={204} title="Video 2" username="User2">
-              <video src={sampleVideo5} width="100%" height="100%" controls />
-            </Box>
-            <Box width={310} height={204} title="Video 3" username="User3">
-              <video src={sampleVideo3} width="100%" height="100%" controls />
-            </Box>
-            <Box width={310} height={204} title="Video 4" username="User4">
-              <video src={sampleVideo4} width="100%" height="100%" controls />
-            </Box>
+            <Box
+              width={310}
+              height={204}
+              title="Video 1"
+              userImage={userIcon}
+              username="User1"
+              dataImage={videoThumbnails[sampleVideo1]}
+              onClick={() =>
+                handleVideoBoxClick({
+                  dataImage: sampleVideo1,
+                  title: "Video 1",
+                })
+              }
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Video 2"
+              userImage={userIcon}
+              username="User2"
+              dataImage={videoThumbnails[sampleVideo5]}
+              onClick={() =>
+                handleVideoBoxClick({
+                  dataImage: sampleVideo5,
+                  title: "Video 2",
+                })
+              }
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Video 3"
+              userImage={userIcon}
+              username="User3"
+              dataImage={videoThumbnails[sampleVideo3]}
+              onClick={() =>
+                handleVideoBoxClick({
+                  dataImage: sampleVideo3,
+                  title: "Video 3",
+                })
+              }
+            />
+            <Box
+              width={310}
+              height={204}
+              title="Video 4"
+              userImage={userIcon}
+              username="User4"
+              dataImage={videoThumbnails[sampleVideo4]}
+              onClick={() =>
+                handleVideoBoxClick({
+                  dataImage: sampleVideo4,
+                  title: "Video 4",
+                })
+              }
+            />
           </div>
         </div>
       </div>
+
+      <ModalImage
+        image={selectedImage}
+        onClose={() => setSelectedImage(null)}
+        isCommunity={false}
+      />
+
+      <ModalVideo
+        video={selectedVideo}
+        onClose={() => setSelectedVideo(null)}
+        isCommunity={false}
+      />
     </div>
   );
 }
