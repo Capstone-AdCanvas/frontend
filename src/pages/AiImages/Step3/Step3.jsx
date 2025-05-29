@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Step3.css";
 import ImageUploadBox from "../../../components/ImageUploadBox/ImageUploadBox";
 import { uploadLogo, getLogos, combineImage } from "../../../api/image";
+import GradientBox from '../../../components/GradientBox/GradientBox';
 
 function Step3({ setCurrentStep, selectedImage }) {
   const [logos, setLogos] = useState([]);
@@ -130,31 +131,35 @@ function Step3({ setCurrentStep, selectedImage }) {
     <div className="step3">
       <div className="step3__container">
         <div className="step3__left">
-          <div 
-            className="step3__image"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onWheel={handleWheel}
-          >
-            {currentImage && <img src={currentImage} alt="Selected" ref={imageRef} onLoad={imageOnLoad} />}
-            {selectedLogo && (
-              <img
-                src={selectedLogo}
-                alt="Selected Logo"
-                style={{
-                  position: 'absolute',
-                  left: logoPosition.x,
-                  top: logoPosition.y,
-                  transform: `scale(${logoScale})`,
-                  cursor: 'move',
-                  maxWidth: '100px',
-                  maxHeight: '100px'
-                }}
-              />
-            )}
-          </div>
+          <GradientBox width={"550px"} height={"700px"}>
+            <div className="step4__content">
+              <div 
+                className="step3__image"
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onWheel={handleWheel}
+              >
+                {currentImage && <img src={currentImage} alt="Selected" ref={imageRef} onLoad={imageOnLoad} />}
+                {selectedLogo && (
+                  <img
+                    src={selectedLogo}
+                    alt="Selected Logo"
+                    style={{
+                      position: 'absolute',
+                      left: logoPosition.x,
+                      top: logoPosition.y,
+                      transform: `scale(${logoScale})`,
+                      cursor: 'move',
+                      maxWidth: '100px',
+                      maxHeight: '100px'
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </GradientBox>
         </div>
         <div className="step3__right">
           <div className="step3__upload">

@@ -135,18 +135,18 @@ function Home() {
           <div className="AI_buttons__image--inner">
             <h3>Create AI Image</h3>
             <p>Turn Ideas into image</p>
-            <div className="AI_buttons__image--inner__image">
+            {/* <div className="AI_buttons__image--inner__image">
               <img src={imagePicture} alt="" />
-            </div>
+            </div> */}
           </div>
         </button>
         <button className="AI_buttons__video" onClick={handleAiVideoClick}>
           <div className="AI_buttons__video--inner">
             <h3>Create AI Video</h3>
             <p>Turn Ideas into Video</p>
-            <div className="AI_buttons__video--inner__image">
+            {/* <div className="AI_buttons__video--inner__image">
               <img src={videoPicture} alt="" />
-            </div>
+            </div> */}
           </div>
         </button>
       </div>
