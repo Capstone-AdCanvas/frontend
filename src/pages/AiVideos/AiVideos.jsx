@@ -107,6 +107,12 @@ function AiVideos() {
       return;
     }
 
+    // 상태 초기화
+    setShowVideoText(false);
+    setShowVideoImage(false);
+    setShowMergedVideo(false);
+    setMergedVideoUrl(null);
+
     console.log('=== 비디오 URL 처리 시작 ===');
     console.log('받은 videoUrl:', videoUrl);
     
@@ -143,8 +149,10 @@ function AiVideos() {
     // activeTab에 따라 미리보기 상태를 다르게 설정
     if (activeTab === 'text') {
       setShowVideoText(true);
+      setShowVideoImage(false);
     } else if (activeTab === 'image') {
       setShowVideoImage(true);
+      setShowVideoText(false);
     }
     console.log('=== 비디오 URL 처리 완료 ===');
   };
