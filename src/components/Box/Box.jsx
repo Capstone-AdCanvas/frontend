@@ -9,6 +9,7 @@ function Box({
   username,
   dataImage,
   onClick,
+  children,
 }) {
   return (
     <div
@@ -19,7 +20,9 @@ function Box({
       <div
         className="box__content"
         style={{ backgroundImage: dataImage ? `url(${dataImage})` : "none" }}
-      />
+      >
+        {children}
+      </div>
       <div className="box__info">
         <span className="box__title">{title}</span>
         <div className="box__user">

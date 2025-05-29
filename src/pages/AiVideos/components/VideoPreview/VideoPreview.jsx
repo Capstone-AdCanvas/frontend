@@ -44,7 +44,7 @@ function VideoPreview({
             style={{ width: "940px", height: "600px", borderRadius: "10px" }}
           />
           <button className="AiVideo_script-add-button" onClick={onBackgroundMusicSelect}>
-            대본 만들기
+            영상 합성
           </button>
         </div>
       )}
