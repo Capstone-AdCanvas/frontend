@@ -157,56 +157,52 @@ function Home() {
             <Box
               width={310}
               height={204}
-              title="Image 1"
-              userImage={userIcon}
-              username="User1"
+              title="Ramen"
+              username="Alice"
               dataImage={sampleImg1}
               onClick={() =>
                 handleImageBoxClick({
                   dataImage: sampleImg1,
-                  title: "Image 1",
+                  title: "Ramen",
                 })
               }
             />
             <Box
               width={310}
               height={204}
-              title="Image 2"
-              userImage={userIcon}
-              username="User2"
+              title="Car"
+              username="Bob"
               dataImage={sampleImg2}
               onClick={() =>
                 handleImageBoxClick({
                   dataImage: sampleImg2,
-                  title: "Image 2",
+                  title: "Car",
                 })
               }
             />
             <Box
               width={310}
               height={204}
-              title="Image 3"
-              userImage={userIcon}
-              username="User3"
+              title="Coke"
+              username="Carol"
               dataImage={sampleImg3}
               onClick={() =>
                 handleImageBoxClick({
                   dataImage: sampleImg3,
-                  title: "Image 3",
+                  title: "Coke",
                 })
               }
             />
             <Box
               width={310}
               height={204}
-              title="Image 4"
-              userImage={userIcon}
-              username="User4"
+              title="Cosmetic"
+              username="Dave"
               dataImage={sampleImg4}
               onClick={() =>
                 handleImageBoxClick({
                   dataImage: sampleImg4,
-                  title: "Image 4",
+                  title: "Cosmetic",
                 })
               }
             />
@@ -218,56 +214,52 @@ function Home() {
             <Box
               width={310}
               height={204}
-              title="Video 1"
-              userImage={userIcon}
-              username="User1"
+              title="Girl with Coke"
+              username="Emma"
               dataImage={videoThumbnails[sampleVideo1]}
               onClick={() =>
                 handleVideoBoxClick({
                   dataImage: sampleVideo1,
-                  title: "Video 1",
+                  title: "Girl with Coke",
                 })
               }
             />
             <Box
               width={310}
               height={204}
-              title="Video 2"
-              userImage={userIcon}
-              username="User2"
+              title="Alone"
+              username="Frank"
               dataImage={videoThumbnails[sampleVideo5]}
               onClick={() =>
                 handleVideoBoxClick({
                   dataImage: sampleVideo5,
-                  title: "Video 2",
+                  title: "Alone",
                 })
               }
             />
             <Box
               width={310}
               height={204}
-              title="Video 3"
-              userImage={userIcon}
-              username="User3"
+              title="Help people"
+              username="Grace"
               dataImage={videoThumbnails[sampleVideo3]}
               onClick={() =>
                 handleVideoBoxClick({
                   dataImage: sampleVideo3,
-                  title: "Video 3",
+                  title: "Help people",
                 })
               }
             />
             <Box
               width={310}
               height={204}
-              title="Video 4"
-              userImage={userIcon}
-              username="User4"
+              title="Toy Play"
+              username="Henry"
               dataImage={videoThumbnails[sampleVideo4]}
               onClick={() =>
                 handleVideoBoxClick({
                   dataImage: sampleVideo4,
-                  title: "Video 4",
+                  title: "Toy Play",
                 })
               }
             />

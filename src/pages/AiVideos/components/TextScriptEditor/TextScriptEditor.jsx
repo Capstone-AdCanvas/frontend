@@ -8,7 +8,8 @@ function TextScriptEditor({
   onScriptGenerate, 
   onVoiceSelect, 
   onMerge,
-  voiceList = []
+  voiceList = [],
+  second = 10
 }) {
   const [prompt, setPrompt] = useState('');
   const [generatedTexts, setGeneratedTexts] = useState([]);

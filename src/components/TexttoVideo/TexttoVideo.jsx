@@ -7,7 +7,7 @@ import { createTextToVideo, pollTextVideoStatus, saveVideo } from "../../api/vid
 import { mergeVideos } from "../../api/merge";
 import { ProfileContext } from "../../context/ProfileContext";
 
-const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate }) => {
+const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate, onExhibitionButtonClick }) => {
   const { id } = useContext(ProfileContext);
   const [prompt, setPrompt] = useState("");
   const [videoLength, setVideoLength] = useState("");
@@ -145,6 +145,16 @@ const TexttoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGene
             {isGenerating ? "생성 중..." : "생성하기"}
           </button>
         </GradientBox>
+        <div style={{ marginTop: '24px', width: 400, display: 'flex', justifyContent: 'center' }}>
+          <button
+            className="texttovideo__exhibition"
+            type="button"
+            onClick={onExhibitionButtonClick}
+            style={{ width: '100%', height: '48px', fontSize: '18px', fontWeight: 'bold', borderRadius: '12px' }}
+          >
+            전시용 버튼
+          </button>
+        </div>
       </div>
     </article>
   );

@@ -173,13 +173,17 @@ function Step4({ setCurrentStep, setHideStepBar, selectedImage }) {
         const y = Math.round(
           (text.position.y / renderedSize.height) * imgNaturalSize.height
         );
+        // 폰트 크기도 비율 변환
+        const fontSize = Math.round(
+          (text.style.size / renderedSize.width) * imgNaturalSize.width
+        );
         return {
           type: "text",
           x,
           y,
           text: text.content,
           font: text.style.font,
-          size: text.style.size,
+          size: fontSize,
           color: text.style.color,
         };
       });

@@ -7,7 +7,7 @@ import Settings from "../subcomponents/Settings/Settings";
 import ImageUpload from "../subcomponents/ImageUpload/ImageUpload";
 import { createImageToVideo, convertImageToUrl, pollVideoStatus } from "../../api/video";
 
-const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate }) => {
+const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGenerate, onExhibitionButtonClick }) => {
   const [prompt, setPrompt] = useState("");
   const [videoLength, setVideoLength] = useState("");
   const [bgm, setBgm] = useState("");
@@ -84,6 +84,16 @@ const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGen
           >
             {isGenerating ? "생성 중..." : "생성하기"}
           </button>
+          <div style={{ marginTop: '24px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <button
+              className="imagetovideo__exhibition"
+              type="button"
+              onClick={onExhibitionButtonClick}
+              style={{ width: '100%', height: '48px', fontSize: '18px', fontWeight: 'bold', borderRadius: '12px' }}
+            >
+              전시용 버튼
+            </button>
+          </div>
         </div>
       </GradientBox>
     </article>

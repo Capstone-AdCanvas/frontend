@@ -38,6 +38,12 @@ function AiVideos() {
   const [videoUrls, setVideoUrls] = useState([]);
   const [ttsUrls, setTtsUrls] = useState([]);
   const [showTtsTest, setShowTtsTest] = useState(false);
+  const [isExhibitionMode, setIsExhibitionMode] = useState(false);
+  const [isImageExhibitionMode, setIsImageExhibitionMode] = useState(false);
+
+  // 전시용 영상 경로 분리
+  const exhibitionTextVideoUrl = 'http://localhost:8080/videos/water_silence.mp4';
+  const exhibitionImageVideoUrl = 'http://localhost:8080/videos/toriden_silence.mp4';
 
   useEffect(() => {
     if (isGenerating) {
@@ -171,58 +177,66 @@ function AiVideos() {
     setSelectedVoiceIndex(index);
   };
 
+  const handleExhibitionButtonClick = () => {
+    setIsExhibitionMode(true);
+    setVideoUrls([exhibitionTextVideoUrl]);
+    setMergedVideoUrl(exhibitionTextVideoUrl);
+    setShowVideoText(true);
+    setShowVideoImage(false);
+    setShowMergedVideo(false);
+  };
+
+  const handleImageExhibitionButtonClick = () => {
+    setIsImageExhibitionMode(true);
+    setVideoUrls([exhibitionImageVideoUrl]);
+    setMergedVideoUrl(exhibitionImageVideoUrl);
+    setShowVideoImage(true);
+    setShowVideoText(false);
+    setShowMergedVideo(false);
+  };
+
   const handleMerge = async (currentTtsUrls = ttsUrls) => {
     setIsMerging(true);
     setShowMergedVideo(false);
 
     try {
-      // image to video 탭일 때 고정값 사용
       let validVideoUrls;
       let tema;
-      if (activeTab === 'image') {
-        validVideoUrls = ['http://localhost:8080/videos/시연화장품 영상.mp4'];
-        tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
-        currentTtsUrls = [];
+      if (activeTab === 'image' && isImageExhibitionMode) {
+        validVideoUrls = [exhibitionImageVideoUrl];
+        const musicIndex = selectedMusic;
+        tema = musicIndex !== null ? backgroundMusicList[musicIndex]?.id : null;
+        const mergedUrl = await mergeVideos(validVideoUrls, tema, []);
+        setMergedVideoUrl(mergedUrl);
+        setIsMerging(false);
+        setShowMergedVideo(true);
+        setShowVideoText(false);
+        setShowVideoImage(false);
+        setIsImageExhibitionMode(false);
+        return;
+      } else if (activeTab === 'image' || isExhibitionMode) {
+        validVideoUrls = [exhibitionTextVideoUrl];
+        const musicIndex = activeTab === 'text' ? selectedTextMusic : selectedMusic;
+        tema = musicIndex !== null ? backgroundMusicList[musicIndex]?.id : null;
+        const mergedUrl = await mergeVideos(validVideoUrls, tema, currentTtsUrls);
+        setMergedVideoUrl(mergedUrl);
+        setIsMerging(false);
+        setShowMergedVideo(true);
+        setShowVideoText(false);
+        setShowVideoImage(false);
+        setIsExhibitionMode(false);
+        return;
       } else {
         const selectedMusic = activeTab === "text" ? selectedTextMusic : selectedMusic;
         tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
-        // videoUrls 배열에서 undefined와 blob URL 제거
         validVideoUrls = videoUrls.filter(url => url && !url.startsWith('blob:'));
       }
-
-      console.log('=== 영상 통합 API 요청 데이터 상세 ===');
-      console.log('원본 videoUrls 배열:', videoUrls);
-      console.log('videoUrls 배열 길이:', videoUrls.length);
-      console.log('videoUrls 배열 타입:', typeof videoUrls);
-      console.log('videoUrls 배열 내용:', JSON.stringify(videoUrls, null, 2));
-      console.log('필터링된 validVideoUrls:', validVideoUrls);
-      console.log('validVideoUrls 길이:', validVideoUrls.length);
-      if (validVideoUrls.length === 0) {
-        throw new Error('유효한 비디오 URL이 없습니다.');
-      }
-      console.log('=== TTS URL 처리 상세 ===');
-      console.log('원본 ttsUrls:', currentTtsUrls);
-      console.log('TTS URL 개수:', currentTtsUrls.length);
-      console.log('========================');
-      // API 요청 파라미터 구성
+      // 기존 플로우
       const params = new URLSearchParams();
       validVideoUrls.forEach(url => params.append('videoUrls', url));
       if (tema) params.append('tema', tema);
       currentTtsUrls.forEach(url => params.append('ttsUrls', url));
-      console.log('=== 최종 API 요청 파라미터 ===');
-      console.log('비디오 URL 목록:', validVideoUrls);
-      console.log('TTS URL 목록:', currentTtsUrls);
-      console.log('배경음악:', tema);
-      console.log('전체 파라미터:', params.toString());
-      console.log('===========================');
-      console.log('=== mergeVideos 함수 호출 파라미터 ===');
-      console.log('videoUrls:', validVideoUrls);
-      console.log('tema:', tema);
-      console.log('ttsUrls:', currentTtsUrls);
-      console.log('===========================');
-      // 모든 비디오 URL과 TTS URL 사용
       const mergedVideoUrl = await mergeVideos(validVideoUrls, tema, currentTtsUrls);
-      console.log('Merge successful, new video URL:', mergedVideoUrl);
       setMergedVideoUrl(mergedVideoUrl);
       setIsMerging(false);
       setShowMergedVideo(true);
@@ -374,12 +388,14 @@ function AiVideos() {
                 setActiveTab={handleTabChange}
                 setIsReadyToGenerate={setIsReadyToGenerate}
                 handleGenerate={handleGenerate}
+                onExhibitionButtonClick={handleExhibitionButtonClick}
               />
               <ImagetoVideo
                 activeTab={activeTab}
                 setActiveTab={handleTabChange}
                 setIsReadyToGenerate={setIsReadyToGenerate}
                 handleGenerate={handleGenerate}
+                onExhibitionButtonClick={handleImageExhibitionButtonClick}
               />
             </>
           ) : showBackgroundMusic ? (
