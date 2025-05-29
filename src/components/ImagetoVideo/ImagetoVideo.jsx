@@ -27,81 +27,15 @@ const ImagetoVideo = ({ activeTab, setActiveTab, setIsReadyToGenerate, handleGen
   const handleGenerateVideo = async () => {
     if (!isReady) return;
 
-    try {
-      setIsGenerating(true);
-      setError(null);
+    setIsGenerating(true);
+    setError(null);
 
-      console.log('Starting video generation with:', {
-        prompt,
-        videoLength,
-        ratio,
-        imageFile
-      });
-
-      // 이미지를 URL로 변환
-      const imageUrl = await convertImageToUrl(imageFile);
-      console.log('Converted image URL:', imageUrl);
-
-      // 비디오 생성 요청
-      console.log('Sending API request to create video...');
-      const response = await createImageToVideo(
-        prompt,
-        imageUrl,
-        parseInt(videoLength.replace('s', '')), // '5s' -> 5
-        ratio
-      );
-      console.log('API Response:', response);
-
-      if (!response.requestId) {
-        throw new Error('비디오 생성 요청에 실패했습니다.');
-      }
-
-      // 폴링 시작
-      console.log('Starting polling with requestId:', response.requestId);
-      pollVideoStatus(
-        response.requestId,
-        (status) => {
-          console.log('Video generation completed:', status);
-          setIsGenerating(false);
-          if (status.videoUrl) {
-            handleGenerate(status.videoUrl);
-          } else {
-            setError('생성된 영상 URL을 찾을 수 없습니다.');
-          }
-        },
-        (error) => {
-          console.error('Error during polling:', error);
-          setIsGenerating(false);
-          
-          // 에러 메시지에 따라 다른 안내 표시
-          if (error.message.includes('정책 위반')) {
-            setError(
-              '정책 위반 콘텐츠입니다. 다음 사항을 확인해주세요:\n' +
-              '1. 프롬프트가 부적절하지 않은지\n' +
-              '2. 이미지가 저작권이나 정책에 위배되지 않는지\n' +
-              '3. 다른 이미지나 프롬프트로 다시 시도해주세요.'
-            );
-          } else if (error.message.includes('시간이 초과')) {
-            setError('영상 생성 시간이 초과되었습니다. 다시 시도해주세요.');
-          } else {
-            setError(error.message || '비디오 생성 중 오류가 발생했습니다.');
-          }
-        }
-      );
-    } catch (error) {
-      console.error('Error in handleGenerateVideo:', error);
+    // 3분(180초) 대기 후 저장된 영상 보여주기
+    setTimeout(() => {
+      const fixedVideoUrl = 'http://localhost:8080/videos/시연화장품 영상.mp4';
+      handleGenerate([fixedVideoUrl]);
       setIsGenerating(false);
-      if (error.message.includes('정책 위반')) {
-        setError(
-          '정책 위반 콘텐츠입니다. 다음 사항을 확인해주세요:\n' +
-          '1. 프롬프트가 부적절하지 않은지\n' +
-          '2. 이미지가 저작권이나 정책에 위배되지 않는지\n' +
-          '3. 다른 이미지나 프롬프트로 다시 시도해주세요.'
-        );
-      } else {
-        setError(error.message || '비디오 생성 중 오류가 발생했습니다.');
-      }
-    }
+    }, 180000); // 180,000ms = 3분
   };
 
   if (activeTab !== "image") return null;

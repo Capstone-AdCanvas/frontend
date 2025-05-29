@@ -118,13 +118,20 @@ function AiVideos() {
       // 모든 URL을 사용하여 영상 합성
       const params = new URLSearchParams();
       videoUrl.forEach(url => params.append('videoUrls', url));
+      console.log('=== 영상 합성 API 요청 데이터 상세 (image to video) ===');
+      console.log('videoUrls 배열:', videoUrl);
+      console.log('videoUrls 배열 길이:', videoUrl.length);
+      console.log('videoUrls 배열 타입:', typeof videoUrl);
+      console.log('videoUrls 배열 내용:', JSON.stringify(videoUrl, null, 2));
+      console.log('전체 파라미터:', params.toString());
+      console.log('===========================');
       
       // 영상 합성 API 호출
       mergeVideos(videoUrl, null, []).then(mergedUrl => {
-        console.log('초기 영상 합성 완료:', mergedUrl);
+        console.log('초기 영상 합성 완료 (image to video):', mergedUrl);
         setMergedVideoUrl(mergedUrl);
       }).catch(error => {
-        console.error('초기 영상 합성 실패:', error);
+        console.error('초기 영상 합성 실패 (image to video):', error);
       });
     } 
     // videoUrl이 문자열인 경우 (blob URL)
@@ -133,7 +140,12 @@ function AiVideos() {
       setMergedVideoUrl(videoUrl); // 미리보기용 blob URL 저장
     }
     
-    setShowVideoText(true);
+    // activeTab에 따라 미리보기 상태를 다르게 설정
+    if (activeTab === 'text') {
+      setShowVideoText(true);
+    } else if (activeTab === 'image') {
+      setShowVideoImage(true);
+    }
     console.log('=== 비디오 URL 처리 완료 ===');
   };
 
@@ -156,53 +168,53 @@ function AiVideos() {
     setShowMergedVideo(false);
 
     try {
-      const selectedMusic = activeTab === "text" ? selectedTextMusic : selectedMusic;
-      const tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
+      // image to video 탭일 때 고정값 사용
+      let validVideoUrls;
+      let tema;
+      if (activeTab === 'image') {
+        validVideoUrls = ['http://localhost:8080/videos/시연화장품 영상.mp4'];
+        tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
+        currentTtsUrls = [];
+      } else {
+        const selectedMusic = activeTab === "text" ? selectedTextMusic : selectedMusic;
+        tema = selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null;
+        // videoUrls 배열에서 undefined와 blob URL 제거
+        validVideoUrls = videoUrls.filter(url => url && !url.startsWith('blob:'));
+      }
 
       console.log('=== 영상 통합 API 요청 데이터 상세 ===');
       console.log('원본 videoUrls 배열:', videoUrls);
       console.log('videoUrls 배열 길이:', videoUrls.length);
       console.log('videoUrls 배열 타입:', typeof videoUrls);
       console.log('videoUrls 배열 내용:', JSON.stringify(videoUrls, null, 2));
-      
-      // videoUrls 배열에서 undefined와 blob URL 제거
-      const validVideoUrls = videoUrls.filter(url => url && !url.startsWith('blob:'));
-      
       console.log('필터링된 validVideoUrls:', validVideoUrls);
       console.log('validVideoUrls 길이:', validVideoUrls.length);
-      
       if (validVideoUrls.length === 0) {
         throw new Error('유효한 비디오 URL이 없습니다.');
       }
-
       console.log('=== TTS URL 처리 상세 ===');
       console.log('원본 ttsUrls:', currentTtsUrls);
       console.log('TTS URL 개수:', currentTtsUrls.length);
       console.log('========================');
-
       // API 요청 파라미터 구성
       const params = new URLSearchParams();
       validVideoUrls.forEach(url => params.append('videoUrls', url));
       if (tema) params.append('tema', tema);
       currentTtsUrls.forEach(url => params.append('ttsUrls', url));
-      
       console.log('=== 최종 API 요청 파라미터 ===');
       console.log('비디오 URL 목록:', validVideoUrls);
       console.log('TTS URL 목록:', currentTtsUrls);
       console.log('배경음악:', tema);
       console.log('전체 파라미터:', params.toString());
       console.log('===========================');
-
       console.log('=== mergeVideos 함수 호출 파라미터 ===');
       console.log('videoUrls:', validVideoUrls);
       console.log('tema:', tema);
       console.log('ttsUrls:', currentTtsUrls);
       console.log('===========================');
-
       // 모든 비디오 URL과 TTS URL 사용
       const mergedVideoUrl = await mergeVideos(validVideoUrls, tema, currentTtsUrls);
       console.log('Merge successful, new video URL:', mergedVideoUrl);
-      
       setMergedVideoUrl(mergedVideoUrl);
       setIsMerging(false);
       setShowMergedVideo(true);
@@ -210,14 +222,6 @@ function AiVideos() {
       setShowVideoImage(false);
     } catch (error) {
       console.error('Error merging videos:', error);
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        videoUrls,
-        tema: selectedMusic !== null ? backgroundMusicList[selectedMusic]?.id : null,
-        ttsUrls: currentTtsUrls
-      });
       setIsMerging(false);
     }
   };
@@ -232,8 +236,14 @@ function AiVideos() {
   };
 
   const handleProceedToScript = () => {
-    setShowBackgroundMusic(false);
-    setShowScriptEditor(true);
+    // image to video 탭에서는 배경음악 확정 시 바로 영상 합성
+    if (activeTab === 'image') {
+      handleMerge([]); // ttsUrls는 빈 배열로 전달
+      setShowBackgroundMusic(false);
+    } else {
+      setShowBackgroundMusic(false);
+      setShowScriptEditor(true);
+    }
   };
 
   const handleTextScriptGenerate = (response) => {
@@ -285,7 +295,9 @@ function AiVideos() {
     if (activeTab === "text") {
       setShowTextScriptEditor(true);
     } else {
-      setShowScriptEditor(true);
+      setShowBackgroundMusic(true);
+      setShowScriptEditor(false);
+      setShowTextScriptEditor(false);
     }
   };
 
@@ -334,10 +346,10 @@ function AiVideos() {
     }
   };
 
-  const handleTtsTest = () => {
-    setShowTtsTest(true);
+  const handleMusicTest = () => {
+    setShowBackgroundMusic(true);
     setShowScriptEditor(false);
-    setShowTextScriptEditor(true);
+    setShowTextScriptEditor(false);
   };
 
   const shouldShowPreviewBox =
@@ -361,11 +373,6 @@ function AiVideos() {
                 setIsReadyToGenerate={setIsReadyToGenerate}
                 handleGenerate={handleGenerate}
               />
-              {activeTab === "text" && (
-                <button className="AiVideo_tts-test-button" onClick={handleTtsTest}>
-                  TTS 테스트하기
-                </button>
-              )}
             </>
           ) : showBackgroundMusic ? (
             <GradientBox width={"550px"} height={"560px"}>

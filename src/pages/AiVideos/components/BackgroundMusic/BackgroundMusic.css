@@ -15,17 +15,21 @@
   margin-left: -30px;
 }
 
-/* 마지막 두 개의 박스를 아래로 이동 */
-.AiVideo_background-music__grid > div:nth-last-child(-n+2) {
+/* 마지막 세 개의 박스를 아래로 이동 */
+.AiVideo_background-music__grid > div:nth-last-child(-n+3) {
   grid-column: span 1;
 }
 
-.AiVideo_background-music__grid > div:nth-last-child(2) {
+.AiVideo_background-music__grid > div:nth-last-child(3) {
   grid-column: 1;
 }
 
-.AiVideo_background-music__grid > div:nth-last-child(1) {
+.AiVideo_background-music__grid > div:nth-last-child(2) {
   grid-column: 2;
+}
+
+.AiVideo_background-music__grid > div:nth-last-child(1) {
+  grid-column: 3;
 }
 
 .music-box {
@@ -76,8 +80,9 @@
   left: 0;
   right: 0;
   padding: 15px;
-  background: linear-gradient(to top, rgba(31, 36, 41, 0.9), transparent);
+  background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1) 80%, transparent);
   color: white;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 }
 
 .music-description {
